@@ -1,0 +1,6 @@
+version: "Apple Swift version 3.1 (swiftlang-802.0.53 clang-802.0.42)"
+options: "1fb17346a96d83f9df62172325c505fb"
+build_time: [552028450, 526192000]
+inputs:
+  "/Users/fujiokazuhiro/Dropbox/workspace/iOS_app/schfes_app_iOS/schfes_app_iOS/ViewController.swift": [552028450, 0]
+  "/Users/fujiokazuhiro/Dropbox/workspace/iOS_app/schfes_app_iOS/schfes_app_iOS/AppDelegate.swift": [550988688, 0]

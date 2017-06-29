@@ -1,0 +1,18 @@
+var stalls = [{
+    "id":id,
+    "stname":"stallNameGoesHere", // 店の名前
+    "slname":"salerNameGoesHere", // 出店してる人の名前
+    "picture":"pictureUrl", // 店やってる団体のロゴとか
+    "detail":"oneline",
+    "location":"location",
+    "menu":[{
+        {
+            "pname":"productNameGoesHere", // 商品の名前
+            "price":price // 値段(単位は円)
+        },
+        {
+            "pname":"productNameGoesHere",
+            "price":price
+        }]
+    }
+}];
