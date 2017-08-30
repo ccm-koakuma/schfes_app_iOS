@@ -1,9 +1,6 @@
 version: "Apple Swift version 3.1 (swiftlang-802.0.53 clang-802.0.42)"
-options: "343b76f216b5a6e53c6224c17c5289fc"
-build_time: [557342904, 732595000]
+options: "1fb17346a96d83f9df62172325c505fb"
+build_time: [552028450, 526192000]
 inputs:
-  "/Users/fujiokazuhiro/schfes_app_iOS/schfes_app_iOS/StallVC.swift": [557340528, 0]
-  "/Users/fujiokazuhiro/schfes_app_iOS/HttpDelegate.swift": [553843204, 0]
-  "/Users/fujiokazuhiro/schfes_app_iOS/schfes_app_iOS/ViewController.swift": [557340629, 0]
-  "/Users/fujiokazuhiro/schfes_app_iOS/Feed.swift": [557213050, 0]
-  "/Users/fujiokazuhiro/schfes_app_iOS/schfes_app_iOS/AppDelegate.swift": [557340712, 0]
+  "/Users/fujiokazuhiro/Dropbox/workspace/iOS_app/schfes_app_iOS/schfes_app_iOS/ViewController.swift": [552028450, 0]
+  "/Users/fujiokazuhiro/Dropbox/workspace/iOS_app/schfes_app_iOS/schfes_app_iOS/AppDelegate.swift": [550988688, 0]

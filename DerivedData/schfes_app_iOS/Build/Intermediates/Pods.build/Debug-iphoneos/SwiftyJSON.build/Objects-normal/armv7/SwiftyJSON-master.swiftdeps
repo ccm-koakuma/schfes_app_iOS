@@ -1,5 +1,5 @@
 version: "Apple Swift version 3.1 (swiftlang-802.0.53 clang-802.0.42)"
-options: "665da333ddf7eaf1130e322c7c870b09"
-build_time: [557208837, 146892000]
+options: "efdebf606a211273c2f6fa2b9b03ea51"
+build_time: [551005848, 440808000]
 inputs:
-  "/Users/fujiokazuhiro/schfes_app_iOS/Pods/SwiftyJSON/Source/SwiftyJSON.swift": [550989493, 0]
+  "/Users/fujiokazuhiro/Dropbox/workspace/iOS_app/schfes_app_iOS/Pods/SwiftyJSON/Source/SwiftyJSON.swift": [550989493, 0]

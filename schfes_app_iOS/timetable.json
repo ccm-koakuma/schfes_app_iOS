@@ -1,4 +1,4 @@
-[{
+{
     "id":1,
     "title":"titleGoesHere",
     "time":"ddHHmm",
@@ -6,4 +6,4 @@
     "genre":"someGenre",
     "detail":"oneline",
     "location":"somewhere"
-}]
+}
