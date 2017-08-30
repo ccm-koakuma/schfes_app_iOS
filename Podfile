@@ -5,6 +5,7 @@ target 'schfes_app_iOS' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
   use_frameworks!
   pod "SwiftyJSON"
+  pod 'Alamofire', '~> 4.4'
 
   # Pods for schfes_app_iOS
 
