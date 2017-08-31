@@ -1,9 +1,14 @@
 version: "Apple Swift version 3.1 (swiftlang-802.0.53 clang-802.0.42)"
 options: "aa24f4d796e6bfa26370d64f6c82ba0e"
-build_time: [557399297, 82808000]
+build_time: [557495416, 410011000]
 inputs:
-  "/Users/fujiokazuhiro/schfes_app_iOS/schfes_app_iOS/StallVC.swift": [557340528, 0]
+  "/Users/fujiokazuhiro/schfes_app_iOS/schfes_app_iOS/ShopVC.swift": [557494732, 0]
   "/Users/fujiokazuhiro/schfes_app_iOS/HttpDelegate.swift": [553843204, 0]
-  "/Users/fujiokazuhiro/schfes_app_iOS/schfes_app_iOS/ViewController.swift": [557399296, 0]
+  "/Users/fujiokazuhiro/schfes_app_iOS/schfes_app_iOS/ViewController.swift": [557491664, 0]
+  "/Users/fujiokazuhiro/schfes_app_iOS/schfes_app_iOS/ShopDetailVC.swift": [557493702, 0]
   "/Users/fujiokazuhiro/schfes_app_iOS/Feed.swift": [557213050, 0]
-  "/Users/fujiokazuhiro/schfes_app_iOS/schfes_app_iOS/AppDelegate.swift": [557340712, 0]
+  "/Users/fujiokazuhiro/schfes_app_iOS/schfes_app_iOS/ScheduleVC.swift": [557492413, 0]
+  "/Users/fujiokazuhiro/schfes_app_iOS/schfes_app_iOS/MapVC.swift": [557493702, 0]
+  "/Users/fujiokazuhiro/schfes_app_iOS/schfes_app_iOS/TopVC.swift": [557495415, 0]
+  "/Users/fujiokazuhiro/schfes_app_iOS/schfes_app_iOS/AppDelegate.swift": [557493492, 0]
+  "/Users/fujiokazuhiro/schfes_app_iOS/schfes_app_iOS/NewsVC.swift": [557494904, 0]

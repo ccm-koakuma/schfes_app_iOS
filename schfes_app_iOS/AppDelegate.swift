@@ -16,6 +16,42 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        
+        // ページを格納する配列
+        var viewControllers: [UIViewController] = []
+        
+        
+        let MainSB = UIStoryboard(name: "Main", bundle: nil)
+        // 1ページ目になるViewController
+        let firstVC = MainSB.instantiateViewController(withIdentifier: "TopVC") as UIViewController
+        firstVC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 1)
+        viewControllers.append(firstVC)
+        
+        // 2ページ目になるViewController
+        let secondVC = MainSB.instantiateViewController(withIdentifier: "ScheduleVC") as UIViewController
+        secondVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 2)
+        viewControllers.append(secondVC)
+        
+        // 3ページ目になるViewController
+        let thirdVC = MainSB.instantiateViewController(withIdentifier: "ShopVC") as UIViewController
+        thirdVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 3)
+        viewControllers.append(thirdVC)
+        
+        // 4ページ目になるViewController
+        let fourceVC = MainSB.instantiateViewController(withIdentifier: "MapVC") as UIViewController
+        fourceVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 4)
+        viewControllers.append(fourceVC)
+        
+        // ViewControllerをセット
+        let tabBarController = UITabBarController()
+        tabBarController.setViewControllers(viewControllers, animated: false)
+        
+        // rootViewControllerをUITabBarControllerにする
+        window = UIWindow()
+        window?.rootViewController = tabBarController
+        window?.makeKeyAndVisible()
+        
         return true
     }
 

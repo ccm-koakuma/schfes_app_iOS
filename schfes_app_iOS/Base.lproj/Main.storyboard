@@ -9,10 +9,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--TopVC-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="schfes_app_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TopVC" id="BYZ-38-t0r" customClass="TopVC" customModule="schfes_app_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -23,16 +23,70 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <connections>
-                        <segue destination="SRS-dI-1PF" kind="show" identifier="toStall" id="Ta1-oA-GRN"/>
+                        <segue destination="jXe-7r-emk" kind="show" identifier="toNews" id="2Dr-Dd-iyG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
         </scene>
-        <!--StallVC-->
+        <!--NewsVC-->
+        <scene sceneID="pQl-2Q-0p9">
+            <objects>
+                <viewController id="jXe-7r-emk" customClass="NewsVC" customModule="schfes_app_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="lIz-s1-XIk"/>
+                        <viewControllerLayoutGuide type="bottom" id="6gu-Ne-9PB"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="vuW-dW-URv">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Oca-UJ-Lfg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="846" y="38"/>
+        </scene>
+        <!--MapVC-->
+        <scene sceneID="9p6-8I-j2Y">
+            <objects>
+                <viewController storyboardIdentifier="MapVC" id="NIi-Us-lTC" customClass="MapVC" customModule="schfes_app_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="R8M-E0-4C3"/>
+                        <viewControllerLayoutGuide type="bottom" id="WfB-dc-PaE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="3TI-AZ-kvL">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="so8-NZ-K9v" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="846" y="761"/>
+        </scene>
+        <!--ScheduleVC-->
+        <scene sceneID="Hhk-pE-Kk8">
+            <objects>
+                <viewController storyboardIdentifier="ScheduleVC" id="TJ5-Ug-XKp" customClass="ScheduleVC" customModule="schfes_app_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="whP-aj-jXl"/>
+                        <viewControllerLayoutGuide type="bottom" id="26B-br-TPe"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="X3c-Ij-QV7">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pkt-jA-sK2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1630" y="761"/>
+        </scene>
+        <!--ShopVC-->
         <scene sceneID="pGU-Fp-Ish">
             <objects>
-                <viewController storyboardIdentifier="stall" id="SRS-dI-1PF" customClass="StallVC" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ShopVC" id="SRS-dI-1PF" customClass="ShopVC" customModule="schfes_app_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Q73-g8-BKc"/>
                         <viewControllerLayoutGuide type="bottom" id="pDE-dL-qL9"/>
@@ -40,21 +94,33 @@
                     <view key="view" contentMode="scaleToFill" id="lms-9T-6bo">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="ほげほげ" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A1U-V6-vCB">
-                                <rect key="frame" x="152" y="323" width="70" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <segue destination="xgH-xM-SQQ" kind="showDetail" identifier="toShopDetail" id="h1n-Q8-kgR"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8zu-QJ-FrX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="915" y="28"/>
+            <point key="canvasLocation" x="846" y="-693"/>
+        </scene>
+        <!--Shop DetailVC-->
+        <scene sceneID="NCN-ZE-YN3">
+            <objects>
+                <viewController id="xgH-xM-SQQ" customClass="ShopDetailVC" customModule="schfes_app_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="eoa-pO-9Jg"/>
+                        <viewControllerLayoutGuide type="bottom" id="Yrb-nc-ad3"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="5WI-Lu-9hb">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="n6s-qd-NYx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1630" y="-693"/>
         </scene>
     </scenes>
 </document>
