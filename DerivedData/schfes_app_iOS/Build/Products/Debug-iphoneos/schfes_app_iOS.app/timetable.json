@@ -1,9 +1,0 @@
-{
-    "id":1,
-    "title":"titleGoesHere",
-    "time":"ddHHmm",
-    "till":"ddHHmm",
-    "genre":"someGenre",
-    "detail":"oneline",
-    "location":"somewhere"
-}
