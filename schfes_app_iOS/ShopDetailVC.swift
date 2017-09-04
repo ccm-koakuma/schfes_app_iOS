@@ -13,6 +13,8 @@ class ShopDetailVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.title = "模擬店名"
+        
         // ボタンのサイズを定義.
         let bWidth: CGFloat = 200
         let bHeight: CGFloat = 50

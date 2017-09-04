@@ -97,7 +97,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
-                        <segue destination="xgH-xM-SQQ" kind="showDetail" identifier="toShopDetail" id="h1n-Q8-kgR"/>
+                        <segue destination="xgH-xM-SQQ" kind="show" identifier="toShopDetail" id="hwr-td-31N"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8zu-QJ-FrX" userLabel="First Responder" sceneMemberID="firstResponder"/>

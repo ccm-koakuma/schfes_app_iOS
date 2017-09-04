@@ -24,24 +24,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let MainSB = UIStoryboard(name: "Main", bundle: nil)
         // 1ページ目になるViewController
-        let firstVC = MainSB.instantiateViewController(withIdentifier: "TopVC") as UIViewController
-        firstVC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 1)
-        viewControllers.append(firstVC)
+        let topVC = MainSB.instantiateViewController(withIdentifier: "TopVC") as UIViewController
+        topVC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 1)
+        topVC.title = "Top"
+        // Navication Controllerを生成する.
+        let topNaviVC: UINavigationController = UINavigationController(rootViewController: topVC)
+        viewControllers.append(topNaviVC)
         
         // 2ページ目になるViewController
-        let secondVC = MainSB.instantiateViewController(withIdentifier: "ScheduleVC") as UIViewController
-        secondVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 2)
-        viewControllers.append(secondVC)
+        let scheduleVC = MainSB.instantiateViewController(withIdentifier: "ScheduleVC") as UIViewController
+        scheduleVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 2)
+        scheduleVC.title = "Schedule"
+        // Navication Controllerを生成する.
+        let scheduleNaviVC: UINavigationController = UINavigationController(rootViewController: scheduleVC)
+        viewControllers.append(scheduleNaviVC)
         
         // 3ページ目になるViewController
-        let thirdVC = MainSB.instantiateViewController(withIdentifier: "ShopVC") as UIViewController
-        thirdVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 3)
-        viewControllers.append(thirdVC)
+        let shopVC = MainSB.instantiateViewController(withIdentifier: "ShopVC") as UIViewController
+        shopVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 3)
+        shopVC.title = "Shops"
+        // Navication Controllerを生成する.
+        let shopNaviVC: UINavigationController = UINavigationController(rootViewController: shopVC)
+        viewControllers.append(shopNaviVC)
         
         // 4ページ目になるViewController
-        let fourceVC = MainSB.instantiateViewController(withIdentifier: "MapVC") as UIViewController
-        fourceVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 4)
-        viewControllers.append(fourceVC)
+        let mapVC = MainSB.instantiateViewController(withIdentifier: "MapVC") as UIViewController
+        mapVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 4)
+        mapVC.title = "Map"
+        // Navication Controllerを生成する.
+        let mapNaviVC: UINavigationController = UINavigationController(rootViewController: mapVC)
+        viewControllers.append(mapNaviVC)
         
         // ViewControllerをセット
         let tabBarController = UITabBarController()

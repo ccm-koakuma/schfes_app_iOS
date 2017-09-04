@@ -20,6 +20,8 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource  {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.title = "News"
+        
         // TableViewを作成
         let tableView = UITableView()
         tableView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
@@ -28,7 +30,7 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource  {
         self.view.addSubview(tableView)
         
         let toStall = UITapGestureRecognizer(target: self, action: #selector(ViewController.toStall))
-        tableView.addGestureRecognizer(toStall)
+//        tableView.addGestureRecognizer(toStall)
         
         // QiitaのAPIからデータを取得
                 let listUrl = "http://qiita-stock.info/api.json";

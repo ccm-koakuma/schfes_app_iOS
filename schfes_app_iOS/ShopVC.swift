@@ -29,10 +29,8 @@ class ShopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         let toStall = UITapGestureRecognizer(target: self, action: #selector(self.toStall))
         tableView.addGestureRecognizer(toStall)
         
-        // QiitaのAPIからデータを取得
-        //        let listUrl = "http://qiita-stock.info/api.json";
+        // データを取得
         let listUrl = "http://ytrw3xix.0g0.jp/app2017/timetable";
-        //        let listUrl = "http://133.55.75.10/timetable.json";
         Alamofire.request(listUrl).responseJSON{ response in
             let json = JSON(response.result.value ?? "")
             json.forEach{(_, data) in
