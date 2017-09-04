@@ -29,7 +29,7 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource  {
         tableView.dataSource = self
         self.view.addSubview(tableView)
         
-        let toStall = UITapGestureRecognizer(target: self, action: #selector(ViewController.toStall))
+//        let toStall = UITapGestureRecognizer(target: self, action: #selector(self.toStall))
 //        tableView.addGestureRecognizer(toStall)
         
         // QiitaのAPIからデータを取得
