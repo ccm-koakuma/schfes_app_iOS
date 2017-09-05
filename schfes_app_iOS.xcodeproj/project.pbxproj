@@ -22,6 +22,7 @@
 		276C652F1F5823080018211F /* NewsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276C652E1F5823080018211F /* NewsVC.swift */; };
 		27A309881F1CBD2E00291E5F /* Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A309871F1CBD2E00291E5F /* Feed.swift */; };
 		27BFF5691F2074EE00217397 /* HttpDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27BFF5681F2074EE00217397 /* HttpDelegate.swift */; };
+		27F0B8041F5E8DA8002AD7CD /* menu_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F0B8031F5E8DA8002AD7CD /* menu_icon.png */; };
 		2C2EBF1CEFEF80D390843E17 /* Pods_schfes_app_iOSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC963FEF1DF4D1A8F49A669 /* Pods_schfes_app_iOSUITests.framework */; };
 		5B9518C229C6C788333DCA87 /* Pods_schfes_app_iOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A3DE85772E8A770FD2EF6BB /* Pods_schfes_app_iOSTests.framework */; };
 		5D7F8CCD6D90C7332D397CA1 /* Pods_schfes_app_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADDED153FD161F47791A9726 /* Pods_schfes_app_iOS.framework */; };
@@ -67,6 +68,7 @@
 		276C652E1F5823080018211F /* NewsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsVC.swift; sourceTree = "<group>"; };
 		27A309871F1CBD2E00291E5F /* Feed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feed.swift; sourceTree = "<group>"; };
 		27BFF5681F2074EE00217397 /* HttpDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpDelegate.swift; sourceTree = "<group>"; };
+		27F0B8031F5E8DA8002AD7CD /* menu_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_icon.png; sourceTree = "<group>"; };
 		6D8E08BC937573D382461C0F /* Pods-schfes_app_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schfes_app_iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-schfes_app_iOS/Pods-schfes_app_iOS.release.xcconfig"; sourceTree = "<group>"; };
 		7A3DE85772E8A770FD2EF6BB /* Pods_schfes_app_iOSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schfes_app_iOSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CC963FEF1DF4D1A8F49A669 /* Pods_schfes_app_iOSUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schfes_app_iOSUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -134,6 +136,7 @@
 			children = (
 				271B7B411EF52A250098BB11 /* test.txt */,
 				271B7B0F1EF4E6900098BB11 /* AppDelegate.swift */,
+				27F0B8031F5E8DA8002AD7CD /* menu_icon.png */,
 				271B7B131EF4E6900098BB11 /* Main.storyboard */,
 				271B7B161EF4E6900098BB11 /* Assets.xcassets */,
 				271B7B181EF4E6900098BB11 /* LaunchScreen.storyboard */,
@@ -324,6 +327,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27F0B8041F5E8DA8002AD7CD /* menu_icon.png in Resources */,
 				271B7B1A1EF4E6900098BB11 /* LaunchScreen.storyboard in Resources */,
 				271B7B171EF4E6900098BB11 /* Assets.xcassets in Resources */,
 				271B7B151EF4E6900098BB11 /* Main.storyboard in Resources */,

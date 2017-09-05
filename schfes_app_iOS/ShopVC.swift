@@ -38,7 +38,8 @@ class ShopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 self.items.append(data)
                 
             }
-            tableView.reloadData()        }
+            tableView.reloadData()
+        }
     }
     // Cellが選択された際に呼び出される
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
