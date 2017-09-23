@@ -1,16 +1,17 @@
 //
-//  StallView.swift
+//  AllScheduleVC.swift
 //  schfes_app_iOS
 //
-//  Created by FGO on 2017/08/28.
+//  Created by FGO on 2017/09/23.
 //  Copyright © 2017年 藤尾和裕. All rights reserved.
 //
 
+import Foundation
 import UIKit
 import Alamofire
 import SwiftyJSON
 
-class ShopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class AllScheduleVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     
     // itemsをJSONの配列と定義
@@ -26,15 +27,14 @@ class ShopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         tableView.dataSource = self
         self.view.addSubview(tableView)
         
-        let toStall = UITapGestureRecognizer(target: self, action: #selector(self.toStall))
-        tableView.addGestureRecognizer(toStall)
+        let favo = UITapGestureRecognizer(target: self, action: #selector(self.Favo))
+        tableView.addGestureRecognizer(favo)
         
         // データを取得
-        let listUrl = "http://ytrw3xix.0g0.jp/app2017/stall";
+        let listUrl = "http://ytrw3xix.0g0.jp/app2017/timetable";
         Alamofire.request(listUrl).responseJSON{ response in
             let json = JSON(response.result.value ?? "")
             json.forEach{(_, data) in
-                print(data)
                 self.items.append(data)
                 
             }
@@ -50,8 +50,8 @@ class ShopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     // tableのcellにAPIから受け取ったデータを入れる
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "TableCell")
-        cell.textLabel?.text = items[indexPath.row]["slname"].string
-        cell.detailTextLabel?.text = items[indexPath.row]["stname"].stringValue
+        cell.textLabel?.text = items[indexPath.row]["title"].string
+        cell.detailTextLabel?.text = "開催時刻 : \(items[indexPath.row]["time"].stringValue)"
         //        cell.textLabel?.text = items["timetable"][indexPath.row]["title"].string
         //        cell.detailTextLabel?.text = "投稿日 : \(items[indexPath.row].stringValue)"
         return cell
@@ -62,9 +62,8 @@ class ShopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         return items.count
     }
     
-    func toStall(){
-        self.performSegue(withIdentifier: "toShopDetail", sender: nil)
-//        print("hoge")
+    func Favo(){
+        print("AllScheduleVC")
     }
     
     //    override func prepare(for segue: UIStoryboardSegue, sender: Any?){
@@ -77,4 +76,5 @@ class ShopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+
 }
