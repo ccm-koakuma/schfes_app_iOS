@@ -64,7 +64,7 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource  {
 //        tableView.addGestureRecognizer(toStall)
         
         // データを取得
-        let listUrl = "http://qiita-stock.info/api.json";
+        let listUrl = "http://ytrw3xix.0g0.jp/app2017/feed";
         Alamofire.request(listUrl).responseJSON{ response in
             let json = JSON(response.result.value ?? "")
             json.forEach{(_, data) in
@@ -83,7 +83,7 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource  {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "TableCell")
         cell.textLabel?.text = items[indexPath.row]["title"].string
-        cell.detailTextLabel?.text = "投稿日 : \(items[indexPath.row]["send_date"].stringValue)"
+//        cell.detailTextLabel?.text = "投稿日 : \(items[indexPath.row]["send_date"].stringValue)"
         return cell
     }
     
