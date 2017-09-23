@@ -6,6 +6,7 @@ target 'schfes_app_iOS' do
   use_frameworks!
   pod "SwiftyJSON"
   pod 'Alamofire', '~> 4.4'
+  pod "PagingMenuController"
 
   # Pods for schfes_app_iOS
 

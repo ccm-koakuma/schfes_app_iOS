@@ -65,10 +65,10 @@
             </objects>
             <point key="canvasLocation" x="846" y="761"/>
         </scene>
-        <!--ScheduleVC-->
+        <!--Root ScheduleVC-->
         <scene sceneID="Hhk-pE-Kk8">
             <objects>
-                <viewController storyboardIdentifier="ScheduleVC" id="TJ5-Ug-XKp" customClass="ScheduleVC" customModule="schfes_app_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RootScheduleVC" id="TJ5-Ug-XKp" customClass="RootScheduleVC" customModule="schfes_app_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="whP-aj-jXl"/>
                         <viewControllerLayoutGuide type="bottom" id="26B-br-TPe"/>

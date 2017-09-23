@@ -32,7 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         viewControllers.append(topNaviVC)
         
         // 2ページ目になるViewController
-        let scheduleVC = MainSB.instantiateViewController(withIdentifier: "ScheduleVC") as UIViewController
+        let scheduleVC = MainSB.instantiateViewController(withIdentifier: "RootScheduleVC") as UIViewController
         scheduleVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 2)
         scheduleVC.title = "Schedule"
         // Navication Controllerを生成する.
