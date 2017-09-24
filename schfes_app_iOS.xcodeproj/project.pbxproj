@@ -13,6 +13,8 @@
 		271287011F779FF100E34C62 /* menu_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 271286FD1F779FF100E34C62 /* menu_icon.png */; };
 		271287021F779FF100E34C62 /* shop_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 271286FE1F779FF100E34C62 /* shop_icon.png */; };
 		271287031F779FF100E34C62 /* top_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 271286FF1F779FF100E34C62 /* top_icon.png */; };
+		271287061F77B0FA00E34C62 /* favo.png in Resources */ = {isa = PBXBuildFile; fileRef = 271287041F77B0FA00E34C62 /* favo.png */; };
+		271287071F77B0FA00E34C62 /* no_favo.png in Resources */ = {isa = PBXBuildFile; fileRef = 271287051F77B0FA00E34C62 /* no_favo.png */; };
 		271B7B101EF4E6900098BB11 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271B7B0F1EF4E6900098BB11 /* AppDelegate.swift */; };
 		271B7B151EF4E6900098BB11 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 271B7B131EF4E6900098BB11 /* Main.storyboard */; };
 		271B7B171EF4E6900098BB11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 271B7B161EF4E6900098BB11 /* Assets.xcassets */; };
@@ -58,6 +60,8 @@
 		271286FD1F779FF100E34C62 /* menu_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = menu_icon.png; path = ../../Desktop/menu_icon.png; sourceTree = "<group>"; };
 		271286FE1F779FF100E34C62 /* shop_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = shop_icon.png; path = ../../Desktop/shop_icon.png; sourceTree = "<group>"; };
 		271286FF1F779FF100E34C62 /* top_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = top_icon.png; path = ../../Desktop/top_icon.png; sourceTree = "<group>"; };
+		271287041F77B0FA00E34C62 /* favo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = favo.png; path = ../../Desktop/favo.png; sourceTree = "<group>"; };
+		271287051F77B0FA00E34C62 /* no_favo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = no_favo.png; path = ../../Desktop/no_favo.png; sourceTree = "<group>"; };
 		271B7B0C1EF4E6900098BB11 /* schfes_app_iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = schfes_app_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		271B7B0F1EF4E6900098BB11 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		271B7B141EF4E6900098BB11 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -144,6 +148,8 @@
 		271B7B0E1EF4E6900098BB11 /* schfes_app_iOS */ = {
 			isa = PBXGroup;
 			children = (
+				271287041F77B0FA00E34C62 /* favo.png */,
+				271287051F77B0FA00E34C62 /* no_favo.png */,
 				271286FC1F779FF100E34C62 /* map_icon.png */,
 				271286FD1F779FF100E34C62 /* menu_icon.png */,
 				271286FE1F779FF100E34C62 /* shop_icon.png */,
@@ -344,11 +350,13 @@
 			files = (
 				271287001F779FF100E34C62 /* map_icon.png in Resources */,
 				271B7B1A1EF4E6900098BB11 /* LaunchScreen.storyboard in Resources */,
+				271287061F77B0FA00E34C62 /* favo.png in Resources */,
 				271287031F779FF100E34C62 /* top_icon.png in Resources */,
 				271286F31F77944400E34C62 /* schedule_icon.png in Resources */,
 				271B7B171EF4E6900098BB11 /* Assets.xcassets in Resources */,
 				271B7B151EF4E6900098BB11 /* Main.storyboard in Resources */,
 				271287011F779FF100E34C62 /* menu_icon.png in Resources */,
+				271287071F77B0FA00E34C62 /* no_favo.png in Resources */,
 				271287021F779FF100E34C62 /* shop_icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

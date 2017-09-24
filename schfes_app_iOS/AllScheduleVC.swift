@@ -13,6 +13,8 @@ import SwiftyJSON
 
 class AllScheduleVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    var checkListItem: [String : Bool] = [:]
+    
     
     // itemsをJSONの配列と定義
     var items: [JSON] = []
@@ -27,8 +29,8 @@ class AllScheduleVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         tableView.dataSource = self
         self.view.addSubview(tableView)
         
-        let favo = UITapGestureRecognizer(target: self, action: #selector(self.Favo))
-        tableView.addGestureRecognizer(favo)
+//        let favo = UITapGestureRecognizer(target: self, action: #selector(self.Favo))
+//        tableView.addGestureRecognizer(favo)
         
         // データを取得
         let listUrl = "http://ytrw3xix.0g0.jp/app2017/timetable";
@@ -36,15 +38,26 @@ class AllScheduleVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
             let json = JSON(response.result.value ?? "")
             json.forEach{(_, data) in
                 self.items.append(data)
-                
+                self.checkListItem[data["id"].string!] = false
+                print(self.checkListItem)
             }
             tableView.reloadData()
         }
     }
     // Cellが選択された際に呼び出される
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("Num: \(indexPath.row)")
-        print("Value: \(items[indexPath.row])")
+//        print("Num: \(indexPath.row)")
+//        print("Value: \(items[indexPath.row])")
+        if let cell = tableView.cellForRow(at: indexPath) {
+            if self.checkListItem[items[indexPath.row]["id"].string!] == true {
+                self.checkListItem[items[indexPath.row]["id"].string!] = false
+                cell.imageView?.image = UIImage(named: "no_favo.png")
+            } else {
+                self.checkListItem[items[indexPath.row]["id"].string!] = true
+                cell.imageView?.image = UIImage(named: "favo.png")
+            }
+            cell.isSelected = false
+        }
     }
     
     // tableのcellにAPIから受け取ったデータを入れる
@@ -52,6 +65,12 @@ class AllScheduleVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "TableCell")
         cell.textLabel?.text = items[indexPath.row]["title"].string
         cell.detailTextLabel?.text = "開催時刻 : \(items[indexPath.row]["time"].stringValue)"
+        
+        if self.checkListItem[items[indexPath.row]["id"].string!] == true {
+            cell.imageView?.image = UIImage(named: "favo.png")
+        } else {
+            cell.imageView?.image = UIImage(named: "no_favo.png")
+        }
         //        cell.textLabel?.text = items["timetable"][indexPath.row]["title"].string
         //        cell.detailTextLabel?.text = "投稿日 : \(items[indexPath.row].stringValue)"
         return cell
@@ -62,9 +81,13 @@ class AllScheduleVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         return items.count
     }
     
-    func Favo(){
-        print("AllScheduleVC")
+     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70
     }
+    
+//    func Favo(){
+//        print("AllScheduleVC")
+//    }
     
     //    override func prepare(for segue: UIStoryboardSegue, sender: Any?){
     //        if segue.identifier == "toStall" {
