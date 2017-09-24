@@ -9,10 +9,22 @@
 import UIKit
 
 class TopVC: UIViewController {
+    
+    
     private var myButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // 設定ボタンの追加
+        let button = UIBarButtonItem()
+        button.image = UIImage(named: "menu_icon.png")?.ResizeUIImage(width: 40, height: 40)
+        button.style = UIBarButtonItemStyle.plain
+        button.action = #selector(self.TapMenu)
+        button.target = self
+        self.navigationItem.rightBarButtonItem = button
+        
+        
         
         // ボタンのサイズを定義.
         let bWidth: CGFloat = 200
@@ -73,5 +85,8 @@ class TopVC: UIViewController {
         self.performSegue(withIdentifier: "toNews", sender: nil)
     }
 
+    func TapMenu() {
+        print("メニューがタップされました")
+    }
 }
 

@@ -10,21 +10,6 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 
-extension UIImage{
-    // Resizeするクラスメソッド.
-    func ResizeÜIImage(width : CGFloat, height : CGFloat)-> UIImage!{
-        // 指定された画像の大きさのコンテキストを用意.
-        UIGraphicsBeginImageContext(CGSize(width: width, height: height))
-        // コンテキストに自身に設定された画像を描画する.
-        self.draw(in: CGRect(x: 0, y: 0, width: width, height: height))
-        // コンテキストからUIImageを作る.
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        // コンテキストを閉じる.
-        UIGraphicsEndImageContext()
-        
-        return newImage
-    }
-}
 
 class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource  {
     
@@ -43,12 +28,7 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource  {
 //        let menu = UIBarButtonItem(image: menu_icon, style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.TapMenu))
 //        // ナビゲーションバーにアイコンを追加
         
-        let button = UIBarButtonItem()
-        button.image = UIImage(named: "menu_icon.png")?.ResizeÜIImage(width: 50, height: 50).withRenderingMode(UIImageRenderingMode.alwaysOriginal)
-        button.style = UIBarButtonItemStyle.plain
-        button.action = #selector(self.TapMenu)
-        button.target = self
-        self.navigationItem.rightBarButtonItem = button
+
         
         self.title = "News"
         
@@ -90,10 +70,6 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource  {
     // cellの数を設定
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return items.count
-    }
-    
-    func TapMenu() {
-        print("メニューがタップされました")
     }
     
     override func didReceiveMemoryWarning() {

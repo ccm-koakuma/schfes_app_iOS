@@ -10,6 +10,7 @@ import UIKit
 import PagingMenuController
 
 private struct PagingMenuOptions: PagingMenuControllerCustomizable {
+    
     private let viewController1 = AllScheduleVC()
     private let viewController2 = FavoScheduleVC()
     
@@ -28,16 +29,21 @@ private struct PagingMenuOptions: PagingMenuControllerCustomizable {
         var itemsOptions: [MenuItemViewCustomizable] {
             return [MenuItem1(), MenuItem2()]
         }
+        var focusMode: MenuFocusMode {
+            // ここ後で色変えなきゃね
+            return .underline(height: 3, color: UIColor.orange, horizontalPadding: 0, verticalPadding: 0)
+        }
+
     }
     
     fileprivate struct MenuItem1: MenuItemViewCustomizable {
         var displayMode: MenuItemDisplayMode {
-            return .text(title: MenuItemText(text: "First Menu"))
+            return .text(title: MenuItemText(text: "ALL"))
         }
     }
     fileprivate struct MenuItem2: MenuItemViewCustomizable {
         var displayMode: MenuItemDisplayMode {
-            return .text(title: MenuItemText(text: "Second Menu"))
+            return .text(title: MenuItemText(text: "Favorite"))
         }
     }
 }
