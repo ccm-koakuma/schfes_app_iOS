@@ -8,6 +8,22 @@
 
 import UIKit
 
+extension UIImage{
+    // Resizeするクラスメソッド.
+    func ResizeUIImage(width : CGFloat, height : CGFloat)-> UIImage!{
+        // 指定された画像の大きさのコンテキストを用意.
+        UIGraphicsBeginImageContext(CGSize(width: width, height: height))
+        // コンテキストに自身に設定された画像を描画する.
+        self.draw(in: CGRect(x: 0, y: 0, width: width, height: height))
+        // コンテキストからUIImageを作る.
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        // コンテキストを閉じる.
+        UIGraphicsEndImageContext()
+        
+        return newImage
+    }
+}
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -17,6 +33,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+        // 色は適当だから後で変えなきゃね
+        let orangeColor = UIColor.orange
+        
+        // タブバー選択時の色の指定
+        UITabBar.appearance().tintColor = orangeColor
+        
+        // ナビバー部分の色の変更
+        UINavigationBar.appearance().barTintColor = orangeColor
+        
+        UINavigationBar.appearance().tintColor = UIColor.white
+        
         
         // ページを格納する配列
         var viewControllers: [UIViewController] = []
@@ -25,36 +52,90 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let MainSB = UIStoryboard(name: "Main", bundle: nil)
         // 1ページ目になるViewController
         let topVC = MainSB.instantiateViewController(withIdentifier: "TopVC") as UIViewController
-        topVC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 1)
-        topVC.title = "Top"
+        let topIcon = UIImage(named: "top_icon.png")?.ResizeUIImage(width: 50, height: 40)
+        
+        // タブバーに表示するアイテムの設定
+        let topTabBarItem = UITabBarItem()
+        topTabBarItem.tag = 1
+        topTabBarItem.image = topIcon
+        // 画像の位置を少し下に
+        topTabBarItem.imageInsets = UIEdgeInsetsMake(3, 0, -3, 0)
+    
+        topVC.tabBarItem = topTabBarItem
+        
+        // .titleでタイトル指定するとタブバーにタイトルが表示されてしまうため、.navigationItem.titleに文字列を代入している
+        topVC.navigationItem.title = "県大祭2017"
+        
         // Navication Controllerを生成する.
         let topNaviVC: UINavigationController = UINavigationController(rootViewController: topVC)
         viewControllers.append(topNaviVC)
         
+        
+        //--------------------------------------------------------------------------------------------------
         // 2ページ目になるViewController
-        let scheduleVC = MainSB.instantiateViewController(withIdentifier: "RootScheduleVC") as UIViewController
-        scheduleVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 2)
-        scheduleVC.title = "Schedule"
+        let scheduleVC = MainSB.instantiateViewController(withIdentifier: "ScheduleVC") as UIViewController
+        
+        let scheduleIcon = UIImage(named: "schedule_icon.png")?.ResizeUIImage(width: 50, height: 40)
+        
+        // タブバーに表示するアイテムの設定
+        let scheduleTabBarItem = UITabBarItem()
+        scheduleTabBarItem.tag = 2
+        scheduleTabBarItem.image = scheduleIcon
+        // 画像の位置を少し下に
+        scheduleTabBarItem.imageInsets = UIEdgeInsetsMake(3, 0, -3, 0)
+        
+        scheduleVC.tabBarItem = scheduleTabBarItem
+
+        // .titleでタイトル指定するとタブバーにタイトルが表示されてしまうため、.navigationItem.titleに文字列を代入している
+        scheduleVC.navigationItem.title = "スケジュール"
         // Navication Controllerを生成する.
         let scheduleNaviVC: UINavigationController = UINavigationController(rootViewController: scheduleVC)
         viewControllers.append(scheduleNaviVC)
         
+        
+        //--------------------------------------------------------------------------------------------------
         // 3ページ目になるViewController
         let shopVC = MainSB.instantiateViewController(withIdentifier: "ShopVC") as UIViewController
-        shopVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 3)
-        shopVC.title = "Shops"
+        
+        let shopIcon = UIImage(named: "shop_icon.png")?.ResizeUIImage(width:50, height: 40)
+        
+        // タブバーに表示するアイテムの設定
+        let shopTabBarItem = UITabBarItem()
+        shopTabBarItem.tag = 3
+        shopTabBarItem.image = shopIcon
+        // 画像の位置を少し下に
+        shopTabBarItem.imageInsets = UIEdgeInsetsMake(3, 0, -3, 0)
+        
+        shopVC.tabBarItem = shopTabBarItem
+        // .titleでタイトル指定するとタブバーにタイトルが表示されてしまうため、.navigationItem.titleに文字列を代入している
+        shopVC.navigationItem.title = "模擬店一覧"
         // Navication Controllerを生成する.
         let shopNaviVC: UINavigationController = UINavigationController(rootViewController: shopVC)
         viewControllers.append(shopNaviVC)
         
+        
+        //--------------------------------------------------------------------------------------------------
         // 4ページ目になるViewController
         let mapVC = MainSB.instantiateViewController(withIdentifier: "MapVC") as UIViewController
-        mapVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 4)
-        mapVC.title = "Map"
+        
+        let mapIcon = UIImage(named: "map_icon.png")?.ResizeUIImage(width: 50, height: 40)
+        
+        // タブバーに表示するアイテムの設定
+        let mapTabBarItem = UITabBarItem()
+        mapTabBarItem.tag = 4
+        mapTabBarItem.image = mapIcon
+        // 画像の位置を少し下に
+        mapTabBarItem.imageInsets = UIEdgeInsetsMake(3, 0, -3, 0)
+        
+        mapVC.tabBarItem = mapTabBarItem
+        // .titleでタイトル指定するとタブバーにタイトルが表示されてしまうため、.navigationItem.titleに文字列を代入している
+        mapVC.navigationItem.title = "学内マップ"
         // Navication Controllerを生成する.
         let mapNaviVC: UINavigationController = UINavigationController(rootViewController: mapVC)
         viewControllers.append(mapNaviVC)
         
+        
+        //--------------------------------------------------------------------------------------------------
         // ViewControllerをセット
         let tabBarController = UITabBarController()
         tabBarController.setViewControllers(viewControllers, animated: false)
