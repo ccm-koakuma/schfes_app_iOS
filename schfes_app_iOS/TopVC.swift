@@ -18,7 +18,7 @@ class TopVC: UIViewController {
         
         // 設定ボタンの追加
         let button = UIBarButtonItem()
-        button.image = UIImage(named: "menu_icon.png")?.ResizeUIImage(width: 40, height: 40)
+        button.image = UIImage(named: "images/setting_icon.png")?.ResizeUIImage(width: 40, height: 40)
         button.style = UIBarButtonItemStyle.plain
         button.action = #selector(self.TapMenu)
         button.target = self

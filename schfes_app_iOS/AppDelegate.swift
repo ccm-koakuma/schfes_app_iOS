@@ -42,6 +42,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // ナビバー部分の色の変更
         UINavigationBar.appearance().barTintColor = orangeColor
         
+        UINavigationBar.appearance()
+        
         UINavigationBar.appearance().tintColor = UIColor.white
         
         
@@ -52,14 +54,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let MainSB = UIStoryboard(name: "Main", bundle: nil)
         // 1ページ目になるViewController
         let topVC = MainSB.instantiateViewController(withIdentifier: "TopVC") as UIViewController
-        let topIcon = UIImage(named: "top_icon.png")?.ResizeUIImage(width: 50, height: 40)
+        let topIcon = UIImage(named: "images/top_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
+        let topSelectedIcon = UIImage(named: "images/top_selected_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
         
         // タブバーに表示するアイテムの設定
         let topTabBarItem = UITabBarItem()
         topTabBarItem.tag = 1
         topTabBarItem.image = topIcon
+        topTabBarItem.selectedImage = topSelectedIcon
         // 画像の位置を少し下に
-        topTabBarItem.imageInsets = UIEdgeInsetsMake(3, 0, -3, 0)
+        topTabBarItem.imageInsets = UIEdgeInsetsMake(5, 0, -5, 0)
     
         topVC.tabBarItem = topTabBarItem
         
@@ -75,14 +79,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 2ページ目になるViewController
         let scheduleVC = MainSB.instantiateViewController(withIdentifier: "ScheduleVC") as UIViewController
         
-        let scheduleIcon = UIImage(named: "schedule_icon.png")?.ResizeUIImage(width: 50, height: 40)
+        let scheduleIcon = UIImage(named: "images/schedule_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
+        let scheduleSelectedIcon = UIImage(named: "images/schedule_selected_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
         
         // タブバーに表示するアイテムの設定
         let scheduleTabBarItem = UITabBarItem()
         scheduleTabBarItem.tag = 2
         scheduleTabBarItem.image = scheduleIcon
+        scheduleTabBarItem.selectedImage = scheduleSelectedIcon
         // 画像の位置を少し下に
-        scheduleTabBarItem.imageInsets = UIEdgeInsetsMake(3, 0, -3, 0)
+        scheduleTabBarItem.imageInsets = UIEdgeInsetsMake(5, 0, -5, 0)
         
         scheduleVC.tabBarItem = scheduleTabBarItem
 
@@ -97,14 +103,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 3ページ目になるViewController
         let shopVC = MainSB.instantiateViewController(withIdentifier: "ShopVC") as UIViewController
         
-        let shopIcon = UIImage(named: "shop_icon.png")?.ResizeUIImage(width:50, height: 40)
+        let shopIcon = UIImage(named: "images/shop_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
+        let shopSelectedIcon = UIImage(named: "images/shop_selected_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
         
         // タブバーに表示するアイテムの設定
         let shopTabBarItem = UITabBarItem()
         shopTabBarItem.tag = 3
         shopTabBarItem.image = shopIcon
         // 画像の位置を少し下に
-        shopTabBarItem.imageInsets = UIEdgeInsetsMake(3, 0, -3, 0)
+        shopTabBarItem.imageInsets = UIEdgeInsetsMake(5, 0, -5, 0)
         
         shopVC.tabBarItem = shopTabBarItem
         // .titleでタイトル指定するとタブバーにタイトルが表示されてしまうため、.navigationItem.titleに文字列を代入している
@@ -118,14 +125,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 4ページ目になるViewController
         let mapVC = MainSB.instantiateViewController(withIdentifier: "MapVC") as UIViewController
         
-        let mapIcon = UIImage(named: "map_icon.png")?.ResizeUIImage(width: 50, height: 40)
+        let mapIcon = UIImage(named: "images/map_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
+        let mapSelectedIcon = UIImage(named: "images/map_selected_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
         
         // タブバーに表示するアイテムの設定
         let mapTabBarItem = UITabBarItem()
         mapTabBarItem.tag = 4
         mapTabBarItem.image = mapIcon
         // 画像の位置を少し下に
-        mapTabBarItem.imageInsets = UIEdgeInsetsMake(3, 0, -3, 0)
+        mapTabBarItem.imageInsets = UIEdgeInsetsMake(5, 0, -5, 0)
         
         mapVC.tabBarItem = mapTabBarItem
         // .titleでタイトル指定するとタブバーにタイトルが表示されてしまうため、.navigationItem.titleに文字列を代入している

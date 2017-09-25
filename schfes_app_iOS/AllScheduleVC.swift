@@ -15,6 +15,10 @@ class AllScheduleVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     
     var checkListItem: [String : Bool] = [:]
     
+    let favoIcon = UIImage(named: "images/favo_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
+    let noFavoIcon = UIImage(named: "images/no_favo_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
+    
+    
     
     // itemsをJSONの配列と定義
     var items: [JSON] = []
@@ -51,10 +55,10 @@ class AllScheduleVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         if let cell = tableView.cellForRow(at: indexPath) {
             if self.checkListItem[items[indexPath.row]["id"].string!] == true {
                 self.checkListItem[items[indexPath.row]["id"].string!] = false
-                cell.imageView?.image = UIImage(named: "no_favo.png")
+                cell.imageView?.image = noFavoIcon
             } else {
                 self.checkListItem[items[indexPath.row]["id"].string!] = true
-                cell.imageView?.image = UIImage(named: "favo.png")
+                cell.imageView?.image = favoIcon
             }
             cell.isSelected = false
         }
@@ -67,9 +71,9 @@ class AllScheduleVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         cell.detailTextLabel?.text = "開催時刻 : \(items[indexPath.row]["time"].stringValue)"
         
         if self.checkListItem[items[indexPath.row]["id"].string!] == true {
-            cell.imageView?.image = UIImage(named: "favo.png")
+            cell.imageView?.image = favoIcon
         } else {
-            cell.imageView?.image = UIImage(named: "no_favo.png")
+            cell.imageView?.image = noFavoIcon
         }
         //        cell.textLabel?.text = items["timetable"][indexPath.row]["title"].string
         //        cell.detailTextLabel?.text = "投稿日 : \(items[indexPath.row].stringValue)"
