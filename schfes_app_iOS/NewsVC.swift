@@ -8,6 +8,7 @@
 
 import UIKit
 import Alamofire
+import AlamofireImage
 import SwiftyJSON
 
 
@@ -15,20 +16,12 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource  {
     
     // itemsをJSONの配列と定義
     var items: [JSON] = []
+    var images: [UIImage] = []
+    
+    let downloader = ImageDownloader()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // アイコンを追加し、アイコンを押したときに"TapMenu()"が実行されるように指定
-//        let menu: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "menu_icon"), style:UIBarButtonItemStyle.plain, target:self, action:#selector(self.TapMenu))
-//        let menu_icon: UIImage = UIImage(named: "menu_icon")!
-//        menu_icon.withRenderingMode(.alwaysOriginal)
-////        print(menu_icon.renderingMode)
-//        
-//        let menu = UIBarButtonItem(image: menu_icon, style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.TapMenu))
-//        // ナビゲーションバーにアイコンを追加
-        
-
         
         self.title = "News"
         
@@ -39,37 +32,59 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource  {
         tableView.dataSource = self
         self.view.addSubview(tableView)
         
-        
-//        let toStall = UITapGestureRecognizer(target: self, action: #selector(self.toStall))
-//        tableView.addGestureRecognizer(toStall)
-        
-        // データを取得
+        // JSON取得
         let listUrl = "http://ytrw3xix.0g0.jp/app2017/feed";
         Alamofire.request(listUrl).responseJSON{ response in
             let json = JSON(response.result.value ?? "")
             json.forEach{(_, data) in
                 self.items.append(data)
+                // Set Image URL
+                let urlString = data["picture"].string
+                // 画像取得
+                Alamofire.request(urlString!).responseImage { response in
+                    if let image = response.result.value {
+                        self.images.append(image)
+                        print(image)
+                    }
+                    tableView.reloadData()
+                }
             }
             tableView.reloadData()
         }
+
     }
     // Cellが選択された際に呼び出される
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        print("Num: \(indexPath.row)")
-//        print("Value: \(items[indexPath.row])")
+        let cell = tableView.cellForRow(at: indexPath)
+        
+        if let url = NSURL(string: items[indexPath.row]["link"].string!) {
+            UIApplication.shared.openURL(url as URL)
+        }
+        
+        cell?.isSelected = false
     }
     
     // tableのcellにAPIから受け取ったデータを入れる
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "TableCell")
         cell.textLabel?.text = items[indexPath.row]["title"].string
-//        cell.detailTextLabel?.text = "投稿日 : \(items[indexPath.row]["send_date"].stringValue)"
+//        cell.detailTextLabel?.text = "投稿日時 : \(items[indexPath.row]["date"].stringValue)"
+        cell.detailTextLabel?.text = "投稿日時 : 2017/09/24)"
+        // 画像がダウンロードできていれば表示
+        if images.count-1 >= indexPath.row {
+            cell.imageView?.image = images[indexPath.row]
+        }
         return cell
     }
     
     // cellの数を設定
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return items.count
+    }
+    
+    // サイズの指定
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70
     }
     
     override func didReceiveMemoryWarning() {
