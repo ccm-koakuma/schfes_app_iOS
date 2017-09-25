@@ -1,18 +1,22 @@
 PODS:
   - Alamofire (4.5.0)
+  - AlamofireImage (3.2.0):
+    - Alamofire (~> 4.1)
   - PagingMenuController (2.2.0)
   - SwiftyJSON (3.1.4)
 
 DEPENDENCIES:
   - Alamofire (~> 4.4)
+  - AlamofireImage
   - PagingMenuController
   - SwiftyJSON
 
 SPEC CHECKSUMS:
   Alamofire: f28cdffd29de33a7bfa022cbd63ae95a27fae140
+  AlamofireImage: 157ed682cc81d3b9db4fb90c1f12180ac552d93b
   PagingMenuController: 6176618987bb170096664f2da097313e45ed9c31
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
 
-PODFILE CHECKSUM: 08a530b16cc18d7903c972ea5dc56563a9e1346b
+PODFILE CHECKSUM: cb4ebdc366a52a7ada43459db964999c743ab6d3
 
 COCOAPODS: 1.2.1
