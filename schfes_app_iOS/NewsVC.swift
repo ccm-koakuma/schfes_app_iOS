@@ -55,10 +55,13 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource  {
     }
     // Cellが選択された際に呼び出される
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("hogehoge")
+        let cell = tableView.cellForRow(at: indexPath)
+        
         if let url = NSURL(string: items[indexPath.row]["link"].string!) {
             UIApplication.shared.openURL(url as URL)
         }
+        
+        cell?.isSelected = false
     }
     
     // tableのcellにAPIから受け取ったデータを入れる

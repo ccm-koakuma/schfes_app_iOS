@@ -26,8 +26,8 @@ class ShopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         tableView.dataSource = self
         self.view.addSubview(tableView)
         
-        let toStall = UITapGestureRecognizer(target: self, action: #selector(self.toStall))
-        tableView.addGestureRecognizer(toStall)
+//        let toStall = UITapGestureRecognizer(target: self, action: #selector(self.toStall))
+//        tableView.addGestureRecognizer(toStall)
         
         // データを取得
         let listUrl = "http://ytrw3xix.0g0.jp/app2017/stall";
@@ -43,8 +43,11 @@ class ShopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     // Cellが選択された際に呼び出される
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("Num: \(indexPath.row)")
-        print("Value: \(items[indexPath.row])")
+        let cell = tableView.cellForRow(at: indexPath)
+        
+        self.performSegue(withIdentifier: "toShopDetail", sender: nil)
+        
+        cell?.isSelected = false
     }
     
     // tableのcellにAPIから受け取ったデータを入れる

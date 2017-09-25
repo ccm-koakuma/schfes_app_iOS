@@ -33,18 +33,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        // 色は適当だから後で変えなきゃね
-        let orangeColor = UIColor.orange
+        let red = 235
+        let green = 97
+        let blue = 0
+        
+        let orangeColor = UIColor(red: CGFloat(red)/255.0, green: CGFloat(green)/255.0, blue: CGFloat(blue)/255.0, alpha: 1)
         
         // タブバー選択時の色の指定
         UITabBar.appearance().tintColor = orangeColor
-        
         // ナビバー部分の色の変更
         UINavigationBar.appearance().barTintColor = orangeColor
-        
-        UINavigationBar.appearance()
-        
+        // 戻るボタンや歯車アイコンの色変更
         UINavigationBar.appearance().tintColor = UIColor.white
+        // タイトルの文字色変更
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
         
         
         // ページを格納する配列
@@ -54,7 +56,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let MainSB = UIStoryboard(name: "Main", bundle: nil)
         // 1ページ目になるViewController
         let topVC = MainSB.instantiateViewController(withIdentifier: "TopVC") as UIViewController
-        let topIcon = UIImage(named: "images/top_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
+        let topIcon = UIImage(named: "images/top_icon.png")?.ResizeUIImage(width: 45, height: 45)
         let topSelectedIcon = UIImage(named: "images/top_selected_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
         
         // タブバーに表示するアイテムの設定
@@ -79,7 +81,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 2ページ目になるViewController
         let scheduleVC = MainSB.instantiateViewController(withIdentifier: "ScheduleVC") as UIViewController
         
-        let scheduleIcon = UIImage(named: "images/schedule_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
+        let scheduleIcon = UIImage(named: "images/schedule_icon.png")?.ResizeUIImage(width: 45, height: 45)
         let scheduleSelectedIcon = UIImage(named: "images/schedule_selected_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
         
         // タブバーに表示するアイテムの設定
@@ -103,8 +105,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 3ページ目になるViewController
         let shopVC = MainSB.instantiateViewController(withIdentifier: "ShopVC") as UIViewController
         
-        let shopIcon = UIImage(named: "images/shop_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
-        let shopSelectedIcon = UIImage(named: "images/shop_selected_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
+        let shopIcon = UIImage(named: "images/shop_icon.png")?.ResizeUIImage(width: 45, height: 45)
+//        let shopSelectedIcon = UIImage(named: "images/shop_selected_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
         
         // タブバーに表示するアイテムの設定
         let shopTabBarItem = UITabBarItem()
@@ -125,8 +127,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 4ページ目になるViewController
         let mapVC = MainSB.instantiateViewController(withIdentifier: "MapVC") as UIViewController
         
-        let mapIcon = UIImage(named: "images/map_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
-        let mapSelectedIcon = UIImage(named: "images/map_selected_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
+        let mapIcon = UIImage(named: "images/map_icon.png")?.ResizeUIImage(width: 45, height: 45)
+//        let mapSelectedIcon = UIImage(named: "images/map_selected_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
         
         // タブバーに表示するアイテムの設定
         let mapTabBarItem = UITabBarItem()

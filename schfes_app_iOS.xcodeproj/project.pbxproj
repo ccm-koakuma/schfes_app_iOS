@@ -22,8 +22,6 @@
 		276C652B1F5820ED0018211F /* ShopDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276C652A1F5820ED0018211F /* ShopDetailVC.swift */; };
 		276C652D1F5822130018211F /* RootScheduleVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276C652C1F5822130018211F /* RootScheduleVC.swift */; };
 		276C652F1F5823080018211F /* NewsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276C652E1F5823080018211F /* NewsVC.swift */; };
-		27A309881F1CBD2E00291E5F /* Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A309871F1CBD2E00291E5F /* Feed.swift */; };
-		27BFF5691F2074EE00217397 /* HttpDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27BFF5681F2074EE00217397 /* HttpDelegate.swift */; };
 		2C2EBF1CEFEF80D390843E17 /* Pods_schfes_app_iOSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC963FEF1DF4D1A8F49A669 /* Pods_schfes_app_iOSUITests.framework */; };
 		5B9518C229C6C788333DCA87 /* Pods_schfes_app_iOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A3DE85772E8A770FD2EF6BB /* Pods_schfes_app_iOSTests.framework */; };
 		5D7F8CCD6D90C7332D397CA1 /* Pods_schfes_app_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADDED153FD161F47791A9726 /* Pods_schfes_app_iOS.framework */; };
@@ -69,8 +67,6 @@
 		276C652A1F5820ED0018211F /* ShopDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopDetailVC.swift; sourceTree = "<group>"; };
 		276C652C1F5822130018211F /* RootScheduleVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootScheduleVC.swift; sourceTree = "<group>"; };
 		276C652E1F5823080018211F /* NewsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsVC.swift; sourceTree = "<group>"; };
-		27A309871F1CBD2E00291E5F /* Feed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feed.swift; sourceTree = "<group>"; };
-		27BFF5681F2074EE00217397 /* HttpDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpDelegate.swift; sourceTree = "<group>"; };
 		6D8E08BC937573D382461C0F /* Pods-schfes_app_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schfes_app_iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-schfes_app_iOS/Pods-schfes_app_iOS.release.xcconfig"; sourceTree = "<group>"; };
 		7A3DE85772E8A770FD2EF6BB /* Pods_schfes_app_iOSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schfes_app_iOSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CC963FEF1DF4D1A8F49A669 /* Pods_schfes_app_iOSUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schfes_app_iOSUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -112,8 +108,6 @@
 		271B7B031EF4E68F0098BB11 = {
 			isa = PBXGroup;
 			children = (
-				27BFF5671F2074BB00217397 /* DelegateClass */,
-				27A309861F1CBD1700291E5F /* SubClass */,
 				271B7B0E1EF4E6900098BB11 /* schfes_app_iOS */,
 				271B7B231EF4E6900098BB11 /* schfes_app_iOSTests */,
 				271B7B2E1EF4E6900098BB11 /* schfes_app_iOSUITests */,
@@ -170,22 +164,6 @@
 				271B7B311EF4E6900098BB11 /* Info.plist */,
 			);
 			path = schfes_app_iOSUITests;
-			sourceTree = "<group>";
-		};
-		27A309861F1CBD1700291E5F /* SubClass */ = {
-			isa = PBXGroup;
-			children = (
-				27A309871F1CBD2E00291E5F /* Feed.swift */,
-			);
-			name = SubClass;
-			sourceTree = "<group>";
-		};
-		27BFF5671F2074BB00217397 /* DelegateClass */ = {
-			isa = PBXGroup;
-			children = (
-				27BFF5681F2074EE00217397 /* HttpDelegate.swift */,
-			);
-			name = DelegateClass;
 			sourceTree = "<group>";
 		};
 		32FF3841FB2DBE21D8999829 /* Frameworks */ = {
@@ -498,9 +476,7 @@
 			files = (
 				273FD4681F5411FF006FADF5 /* ShopVC.swift in Sources */,
 				275B4CC01F7604A700F0B1F7 /* FavoScheduleVC.swift in Sources */,
-				27BFF5691F2074EE00217397 /* HttpDelegate.swift in Sources */,
 				276C652B1F5820ED0018211F /* ShopDetailVC.swift in Sources */,
-				27A309881F1CBD2E00291E5F /* Feed.swift in Sources */,
 				271286ED1F760DD300E34C62 /* AllScheduleVC.swift in Sources */,
 				276C652D1F5822130018211F /* RootScheduleVC.swift in Sources */,
 				276C65291F581EF70018211F /* MapVC.swift in Sources */,
