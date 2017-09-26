@@ -7,9 +7,9 @@
 //
 
 import UIKit
+import TwitterKit
 
 class TopVC: UIViewController {
-    
     
     private var myButton: UIButton!
     
@@ -35,13 +35,6 @@ class TopVC: UIViewController {
         let posX: CGFloat = self.view.bounds.width/2 - bWidth/2
         let posY: CGFloat = self.view.bounds.height/2 - bHeight/2
         
-        
-        let myLabel: UILabel = UILabel(frame: CGRect(x: posX, y:posY, width: bWidth, height: bHeight))
-        
-        myLabel.text = "ここはトップだお"
-        
-        myLabel.textAlignment = NSTextAlignment.center
-        
         // Buttonを生成する.
         myButton = UIButton()
         
@@ -58,7 +51,7 @@ class TopVC: UIViewController {
         myButton.layer.cornerRadius = 20.0
         
         // タイトルを設定する(通常時).
-        myButton.setTitle("ボタン(通常)", for: .normal)
+        myButton.setTitle("ニュースはこちら", for: .normal)
         myButton.setTitleColor(UIColor.white, for: .normal)
         
         // ボタンにタグをつける.
@@ -70,7 +63,57 @@ class TopVC: UIViewController {
         // ボタンをViewに追加.
         self.view.addSubview(myButton)
         
+        var myLabel: UILabel = UILabel(frame: CGRect(x: 0, y:0, width: 300, height: 500))
+        
+        myLabel.text = "ここはショップの詳細だお"
+        
+        myLabel.textAlignment = NSTextAlignment.center
+        
         self.view.addSubview(myLabel)
+        
+        
+        
+        if let session = Twitter.sharedInstance().sessionStore.session() {
+            print(session.userID)
+            var clientError: NSError?
+            
+            // タイムライン取得
+            let apiClient = TWTRAPIClient(userID: session.userID)
+            let request = apiClient.urlRequest(
+                withMethod: "GET",
+                url: "https://api.twitter.com/1.1/search/tweets.json?q=%23MHW&lang=ja&result_type=mixed&count=4",
+                parameters: [
+                    "user_id": session.userID,
+                    "count": "10", // Intで10を渡すとエラーになる模様で、文字列にしてやる必要がある
+                ],
+                error: &clientError
+            )
+            
+            apiClient.sendTwitterRequest(request) { response, data, error in // NSURLResponse?, NSData?, NSError?
+                if let error = error {
+                    print(error.localizedDescription)
+                } else if let data = data, let json = String(data: data, encoding: .utf8) {
+                    print(json)
+                    print("hogeeeee")
+                }
+            }
+            
+        } else {
+            print("アカウントはありません")
+        }
+        
+//        Twitter.sharedInstance().logIn { session, error in
+//            guard let session = session else {
+//                if let error = error {
+//                    print("エラーが起きました => \(error.localizedDescription)")
+//                }
+//                return
+//            }
+//            print("@\(session.userName)でログインしました")
+//        }
+        
+        
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -88,5 +131,6 @@ class TopVC: UIViewController {
     func TapMenu() {
         print("メニューがタップされました")
     }
+
 }
 

@@ -8,6 +8,8 @@ target 'schfes_app_iOS' do
   pod "Alamofire", "~> 4.4"
   pod "AlamofireImage"
   pod "PagingMenuController"
+  pod "Fabric"
+  pod "TwitterKit"
 
   # Pods for schfes_app_iOS
 

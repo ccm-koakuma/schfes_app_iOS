@@ -67,6 +67,7 @@
 		276C652A1F5820ED0018211F /* ShopDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopDetailVC.swift; sourceTree = "<group>"; };
 		276C652C1F5822130018211F /* RootScheduleVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootScheduleVC.swift; sourceTree = "<group>"; };
 		276C652E1F5823080018211F /* NewsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsVC.swift; sourceTree = "<group>"; };
+		277537301F7A35FC00E71BFC /* schfes_app_iOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "schfes_app_iOS-Bridging-Header.h"; sourceTree = "<group>"; };
 		6D8E08BC937573D382461C0F /* Pods-schfes_app_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schfes_app_iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-schfes_app_iOS/Pods-schfes_app_iOS.release.xcconfig"; sourceTree = "<group>"; };
 		7A3DE85772E8A770FD2EF6BB /* Pods_schfes_app_iOSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schfes_app_iOSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CC963FEF1DF4D1A8F49A669 /* Pods_schfes_app_iOSUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schfes_app_iOSUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -114,6 +115,7 @@
 				271B7B0D1EF4E6900098BB11 /* Products */,
 				77176B0D6A720CD155680628 /* Pods */,
 				32FF3841FB2DBE21D8999829 /* Frameworks */,
+				277537301F7A35FC00E71BFC /* schfes_app_iOS-Bridging-Header.h */,
 			);
 			sourceTree = "<group>";
 		};
@@ -267,6 +269,7 @@
 					271B7B0B1EF4E6900098BB11 = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = 9JSE4KJ5DR;
+						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 					};
 					271B7B1F1EF4E6900098BB11 = {
@@ -637,12 +640,15 @@
 			baseConfigurationReference = EED20D5699A0303053E7A4D5 /* Pods-schfes_app_iOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 9JSE4KJ5DR;
 				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = schfes_app_iOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "js.gihyo.schfes-app-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "schfes_app_iOS-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -652,12 +658,14 @@
 			baseConfigurationReference = 6D8E08BC937573D382461C0F /* Pods-schfes_app_iOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 9JSE4KJ5DR;
 				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = schfes_app_iOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "js.gihyo.schfes-app-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "schfes_app_iOS-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
