@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		271286ED1F760DD300E34C62 /* AllScheduleVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271286EC1F760DD300E34C62 /* AllScheduleVC.swift */; };
-		2712870D1F781A5C00E34C62 /* images in Resources */ = {isa = PBXBuildFile; fileRef = 2712870C1F781A5C00E34C62 /* images */; };
 		271B7B101EF4E6900098BB11 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271B7B0F1EF4E6900098BB11 /* AppDelegate.swift */; };
 		271B7B151EF4E6900098BB11 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 271B7B131EF4E6900098BB11 /* Main.storyboard */; };
 		271B7B171EF4E6900098BB11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 271B7B161EF4E6900098BB11 /* Assets.xcassets */; };
@@ -16,6 +15,7 @@
 		271B7B251EF4E6900098BB11 /* schfes_app_iOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271B7B241EF4E6900098BB11 /* schfes_app_iOSTests.swift */; };
 		271B7B301EF4E6900098BB11 /* schfes_app_iOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271B7B2F1EF4E6900098BB11 /* schfes_app_iOSUITests.swift */; };
 		273FD4681F5411FF006FADF5 /* ShopVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273FD4671F5411FF006FADF5 /* ShopVC.swift */; };
+		2755D3E91F7BA62300E4D93C /* images in Resources */ = {isa = PBXBuildFile; fileRef = 2755D3E81F7BA62300E4D93C /* images */; };
 		275B4CC01F7604A700F0B1F7 /* FavoScheduleVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275B4CBF1F7604A700F0B1F7 /* FavoScheduleVC.swift */; };
 		276C65271F5810A80018211F /* TopVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276C65261F5810A80018211F /* TopVC.swift */; };
 		276C65291F581EF70018211F /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276C65281F581EF70018211F /* MapVC.swift */; };
@@ -47,7 +47,6 @@
 /* Begin PBXFileReference section */
 		25DE6256BE0FD94687CBF7E2 /* Pods-schfes_app_iOSUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schfes_app_iOSUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-schfes_app_iOSUITests/Pods-schfes_app_iOSUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		271286EC1F760DD300E34C62 /* AllScheduleVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AllScheduleVC.swift; sourceTree = "<group>"; };
-		2712870C1F781A5C00E34C62 /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; name = images; path = ../../Desktop/images; sourceTree = "<group>"; };
 		271B7B0C1EF4E6900098BB11 /* schfes_app_iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = schfes_app_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		271B7B0F1EF4E6900098BB11 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		271B7B141EF4E6900098BB11 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -61,6 +60,7 @@
 		271B7B2F1EF4E6900098BB11 /* schfes_app_iOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = schfes_app_iOSUITests.swift; sourceTree = "<group>"; };
 		271B7B311EF4E6900098BB11 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		273FD4671F5411FF006FADF5 /* ShopVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopVC.swift; sourceTree = "<group>"; };
+		2755D3E81F7BA62300E4D93C /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; name = images; path = ../../Desktop/images; sourceTree = "<group>"; };
 		275B4CBF1F7604A700F0B1F7 /* FavoScheduleVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoScheduleVC.swift; sourceTree = "<group>"; };
 		276C65261F5810A80018211F /* TopVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopVC.swift; sourceTree = "<group>"; };
 		276C65281F581EF70018211F /* MapVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
@@ -132,9 +132,9 @@
 		271B7B0E1EF4E6900098BB11 /* schfes_app_iOS */ = {
 			isa = PBXGroup;
 			children = (
+				2755D3E81F7BA62300E4D93C /* images */,
 				271B7B131EF4E6900098BB11 /* Main.storyboard */,
 				271B7B161EF4E6900098BB11 /* Assets.xcassets */,
-				2712870C1F781A5C00E34C62 /* images */,
 				271B7B181EF4E6900098BB11 /* LaunchScreen.storyboard */,
 				271B7B1B1EF4E6900098BB11 /* Info.plist */,
 				271B7B0F1EF4E6900098BB11 /* AppDelegate.swift */,
@@ -311,7 +311,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2712870D1F781A5C00E34C62 /* images in Resources */,
+				2755D3E91F7BA62300E4D93C /* images in Resources */,
 				271B7B1A1EF4E6900098BB11 /* LaunchScreen.storyboard in Resources */,
 				271B7B171EF4E6900098BB11 /* Assets.xcassets in Resources */,
 				271B7B151EF4E6900098BB11 /* Main.storyboard in Resources */,

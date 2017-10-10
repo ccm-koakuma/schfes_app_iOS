@@ -36,12 +36,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         Twitter.sharedInstance().start(withConsumerKey: "dBMG4VRZREdFdpTJl8gqD8gYA", consumerSecret: "7s1XATMuadE3UtZiWFgm1ogagxZWIlPkn6kOO6C3LrcRNHxATn")
         
-        let red = 235
-        let green = 97
-        let blue = 0
-        
-        let orangeColor = UIColor(red: CGFloat(red)/255.0, green: CGFloat(green)/255.0, blue: CGFloat(blue)/255.0, alpha: 1)
-        
+        let red: CGFloat = 235
+        let green: CGFloat = 97
+        let blue: CGFloat = 0
+
+        let orangeColor = UIColor(red: red/255.0, green: green/255.0, blue: blue/255.0, alpha: 1)
+
         // タブバー選択時の色の指定
         UITabBar.appearance().tintColor = orangeColor
         // ナビバー部分の色の変更

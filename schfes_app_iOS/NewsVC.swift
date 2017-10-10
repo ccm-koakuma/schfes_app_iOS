@@ -18,8 +18,6 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource  {
     var items: [JSON] = []
     var images: [UIImage] = []
     
-    let downloader = ImageDownloader()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
