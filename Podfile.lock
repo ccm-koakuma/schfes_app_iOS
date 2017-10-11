@@ -2,21 +2,30 @@ PODS:
   - Alamofire (4.5.0)
   - AlamofireImage (3.2.0):
     - Alamofire (~> 4.1)
+  - Fabric (1.6.11)
   - PagingMenuController (2.2.0)
   - SwiftyJSON (3.1.4)
+  - TwitterCore (3.0.0)
+  - TwitterKit (3.0.3):
+    - TwitterCore (>= 3.0.0)
 
 DEPENDENCIES:
   - Alamofire (~> 4.4)
   - AlamofireImage
+  - Fabric
   - PagingMenuController
   - SwiftyJSON
+  - TwitterKit
 
 SPEC CHECKSUMS:
   Alamofire: f28cdffd29de33a7bfa022cbd63ae95a27fae140
   AlamofireImage: 157ed682cc81d3b9db4fb90c1f12180ac552d93b
+  Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
   PagingMenuController: 6176618987bb170096664f2da097313e45ed9c31
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
+  TwitterCore: 8ce250be1eb34633a0e6acc89520d4165ec52c10
+  TwitterKit: 202404be71aadd81d19f677b34579fe77d9cb67e
 
-PODFILE CHECKSUM: cb4ebdc366a52a7ada43459db964999c743ab6d3
+PODFILE CHECKSUM: 70a7b34097dc6d3ba19dc4386760cf21ba3fcdd1
 
 COCOAPODS: 1.2.1

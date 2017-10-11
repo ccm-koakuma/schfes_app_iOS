@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import TwitterKit
 
 extension UIImage{
     // Resizeするクラスメソッド.
@@ -22,6 +23,40 @@ extension UIImage{
         
         return newImage
     }
+    
+    func cropImage(image :UIImage, w:Int, h:Int) ->UIImage
+    {
+        // リサイズ処理
+        let origRef    = image.cgImage
+        let origWidth  = Int(origRef!.width)
+        let origHeight = Int(origRef!.height)
+        var resizeWidth:Int = 0, resizeHeight:Int = 0
+        
+        if (origWidth < origHeight) {
+            resizeWidth = w
+            resizeHeight = origHeight * resizeWidth / origWidth
+        } else {
+            resizeHeight = h
+            resizeWidth = origWidth * resizeHeight / origHeight
+        }
+        
+        let resizeSize = CGSize.init(width: CGFloat(resizeWidth), height: CGFloat(resizeHeight))
+        
+        UIGraphicsBeginImageContext(resizeSize)
+        
+        image.draw(in: CGRect.init(x: 0, y: 0, width: CGFloat(resizeWidth), height: CGFloat(resizeHeight)))
+        
+        let resizeImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        // 切り抜き処理
+        
+        let cropRect  = CGRect.init(x: CGFloat((resizeWidth - w) / 2), y: CGFloat((resizeHeight - h) / 2), width: CGFloat(w), height: CGFloat(h))
+        let cropRef   = resizeImage!.cgImage!.cropping(to: cropRect)
+        let cropImage = UIImage(cgImage: cropRef!)
+        
+        return cropImage
+    }
 }
 
 @UIApplicationMain
@@ -33,12 +68,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        let red = 235
-        let green = 97
-        let blue = 0
+        Twitter.sharedInstance().start(withConsumerKey: "dBMG4VRZREdFdpTJl8gqD8gYA", consumerSecret: "7s1XATMuadE3UtZiWFgm1ogagxZWIlPkn6kOO6C3LrcRNHxATn")
         
-        let orangeColor = UIColor(red: CGFloat(red)/255.0, green: CGFloat(green)/255.0, blue: CGFloat(blue)/255.0, alpha: 1)
-        
+        let red: CGFloat = 235
+        let green: CGFloat = 97
+        let blue: CGFloat = 0
+
+        let orangeColor = UIColor(red: red/255.0, green: green/255.0, blue: blue/255.0, alpha: 1)
+
         // タブバー選択時の色の指定
         UITabBar.appearance().tintColor = orangeColor
         // ナビバー部分の色の変更
@@ -156,6 +193,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
         
         return true
+    }
+    
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        if Twitter.sharedInstance().application(app, open: url, options: options) {
+            return true
+        }
+        return false
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

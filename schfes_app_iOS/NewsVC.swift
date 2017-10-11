@@ -14,11 +14,9 @@ import SwiftyJSON
 
 class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource  {
     
-    // itemsをJSONの配列と定義
-    var items: [JSON] = []
-    var images: [UIImage] = []
-    
-    let downloader = ImageDownloader()
+    // newsItemsをJSONの配列と定義
+    var newsItems: [JSON] = []
+    var newsImages: [UIImage] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,14 +35,13 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource  {
         Alamofire.request(listUrl).responseJSON{ response in
             let json = JSON(response.result.value ?? "")
             json.forEach{(_, data) in
-                self.items.append(data)
+                self.newsItems.append(data)
                 // Set Image URL
                 let urlString = data["picture"].string
                 // 画像取得
                 Alamofire.request(urlString!).responseImage { response in
                     if let image = response.result.value {
-                        self.images.append(image)
-                        print(image)
+                        self.newsImages.append(image)
                     }
                     tableView.reloadData()
                 }
@@ -57,7 +54,7 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource  {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)
         
-        if let url = NSURL(string: items[indexPath.row]["link"].string!) {
+        if let url = NSURL(string: newsItems[indexPath.row]["link"].string!) {
             UIApplication.shared.openURL(url as URL)
         }
         
@@ -67,19 +64,19 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource  {
     // tableのcellにAPIから受け取ったデータを入れる
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "TableCell")
-        cell.textLabel?.text = items[indexPath.row]["title"].string
-//        cell.detailTextLabel?.text = "投稿日時 : \(items[indexPath.row]["date"].stringValue)"
+        cell.textLabel?.text = newsItems[indexPath.row]["title"].string
+//        cell.detailTextLabel?.text = "投稿日時 : \(newsItems[indexPath.row]["date"].stringValue)"
         cell.detailTextLabel?.text = "投稿日時 : 2017/09/24)"
         // 画像がダウンロードできていれば表示
-        if images.count-1 >= indexPath.row {
-            cell.imageView?.image = images[indexPath.row]
+        if newsImages.count-1 >= indexPath.row {
+            cell.imageView?.image = newsImages[indexPath.row]
         }
         return cell
     }
     
     // cellの数を設定
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items.count
+        return newsItems.count
     }
     
     // サイズの指定

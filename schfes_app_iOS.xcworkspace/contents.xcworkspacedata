@@ -2,9 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:../Desktop/images">
-   </FileRef>
-   <FileRef
       location = "group:schfes_app_iOS.xcodeproj">
    </FileRef>
    <FileRef
