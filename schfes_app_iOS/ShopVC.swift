@@ -16,18 +16,16 @@ class ShopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     // itemsをJSONの配列と定義
     var items: [JSON] = []
     
+    let shopTableView = UITableView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // TableViewを作成
-        let tableView = UITableView()
-        tableView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
-        tableView.delegate = self
-        tableView.dataSource = self
-        self.view.addSubview(tableView)
-        
-//        let toStall = UITapGestureRecognizer(target: self, action: #selector(self.toStall))
-//        tableView.addGestureRecognizer(toStall)
+        // TableViewの設定
+        self.shopTableView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+        self.shopTableView.delegate = self
+        self.shopTableView.dataSource = self
+        self.view.addSubview(self.shopTableView)
         
         // データを取得
         let listUrl = "http://ytrw3xix.0g0.jp/app2017/stall";
@@ -38,16 +36,13 @@ class ShopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 self.items.append(data)
                 
             }
-            tableView.reloadData()
+            self.shopTableView.reloadData()
         }
     }
     // Cellが選択された際に呼び出される
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath)
         
         self.performSegue(withIdentifier: "toShopDetail", sender: nil)
-        
-        cell?.isSelected = false
     }
     
     // tableのcellにAPIから受け取ったデータを入れる
@@ -76,6 +71,16 @@ class ShopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     //            stallVC.items = sender as! [JSON]
     //        }
     //    }
+    
+    // 戻ろボタンで戻ってきた時の処理
+    // これをつけることによってどこをタップしてきたのかわかりやすくする
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if let indexPathForSelectedRow = self.shopTableView.indexPathForSelectedRow {
+            self.shopTableView.deselectRow(at: indexPathForSelectedRow, animated: true)
+        }
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
