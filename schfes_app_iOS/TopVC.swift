@@ -65,7 +65,7 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         let posX: CGFloat = self.view.bounds.width/2 - bWidth/2
         let posY: CGFloat = self.view.bounds.height/2 - bHeight/2
         
-        let tweetImage = UIImage(named: "images/setting_icon.png")?.ResizeUIImage(width: 30, height: 30)
+        let tweetImage = UIImage(named: "images/twitter.png")?.ResizeUIImage(width: 30, height: 30)
         
         // ----------------------------------ニュースの画像-----------------------------------
         
@@ -138,7 +138,7 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 if let image = response.result.value {
                     let newsImage1 = image.cropImage(image: image, w: 300, h: 300)
                     news1.image = newsImage1
-                    newsTitle1.text = json[json.count-1]["id"].string
+                    newsTitle1.text = json[json.count-1]["title"].string
                     self.newsLink1 = json[json.count-1]["link"].string!
                 }
             }
@@ -146,7 +146,7 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 if let image = response.result.value {
                     let newsImage2 = image.cropImage(image: image, w: 300, h: 300)
                     news2.image = newsImage2
-                    newsTitle2.text = json[json.count-2]["id"].string
+                    newsTitle2.text = json[json.count-2]["title"].string
                     self.newsLink2 = json[json.count-2]["link"].string!
                 }
             }
@@ -154,7 +154,7 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 if let image = response.result.value {
                     let newsImage3 = image.cropImage(image: image, w: 300, h: 300)
                     news3.image = newsImage3
-                    newsTitle3.text = json[json.count-3]["id"].string
+                    newsTitle3.text = json[json.count-3]["title"].string
                     self.newsLink3 = json[json.count-3]["link"].string!
                 }
             }
@@ -216,7 +216,7 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         tableView.delegate = self
         tableView.dataSource = self
         
-        tableView.estimatedRowHeight = 90
+        tableView.estimatedRowHeight = 150
         tableView.rowHeight = UITableViewAutomaticDimension
         
         // テーブルビューの外枠の設定
@@ -266,7 +266,7 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             let apiClient = TWTRAPIClient(userID: session.userID)
             let request = apiClient.urlRequest(
                 withMethod: "GET",
-                url: "https://api.twitter.com/1.1/search/tweets.json?q=%23%e3%82%b5%e3%83%83%e3%82%ab%e3%83%bc%e6%97%a5%e6%9c%ac%e4%bb%a3%e8%a1%a8&lang=ja&result_type=mixed",
+                url: "https://api.twitter.com/1.1/search/tweets.json?q=%236hFuji&lang=ja&result_type=mixed",
                 parameters: [
                     "user_id": session.userID,
                     "count": "100", // Intで10を渡すとエラーになる模様で、文字列にしてやる必要がある
