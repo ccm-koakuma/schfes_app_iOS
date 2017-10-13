@@ -266,7 +266,7 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             let apiClient = TWTRAPIClient(userID: session.userID)
             let request = apiClient.urlRequest(
                 withMethod: "GET",
-                url: "https://api.twitter.com/1.1/search/tweets.json?q=%23%e7%9c%8c%e5%a4%a7%e7%a5%adtpu2017&lang=ja&result_type=mixed",
+                url: "https://api.twitter.com/1.1/search/tweets.json?q=%236hFuji&lang=ja&result_type=mixed",
                 parameters: [
                     "user_id": session.userID,
                     "count": "100", // Intで10を渡すとエラーになる模様で、文字列にしてやる必要がある
