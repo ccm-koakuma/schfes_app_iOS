@@ -14,9 +14,9 @@ import SwiftyJSON
 class AllScheduleVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     // お気に入り時の画像
-    let favoIcon = UIImage(named: "images/favo_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
+    let favoIcon = UIImage(named: "favo_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
     // 非お気に入り時の画像
-    let noFavoIcon = UIImage(named: "images/no_favo_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
+    let noFavoIcon = UIImage(named: "no_favo_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
     
     // お気に入り登録しているかどうかの値を保持する変数
     // アプリが落ちても値を保持できるUserDefaultsを使用
@@ -40,7 +40,8 @@ class AllScheduleVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         AllScheduleVC.allScheduleTableView.delegate = self
         AllScheduleVC.allScheduleTableView.dataSource = self
         // Cell名の登録をおこなう.
-         AllScheduleVC.allScheduleTableView.register(UITableViewCell.self, forCellReuseIdentifier: "eventCell")
+//        AllScheduleVC.allScheduleTableView.register(UITableViewCell.self, forCellReuseIdentifier: "eventCell")
+        AllScheduleVC.allScheduleTableView.tableFooterView = UIView(frame: .zero)
         self.view.addSubview(AllScheduleVC.allScheduleTableView)
         
         // データを取得
@@ -84,7 +85,7 @@ class AllScheduleVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         // セルの作成
-        let cell = tableView.dequeueReusableCell(withIdentifier: "eventCell", for: indexPath)
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "TableCell")
         
         
         var event:[JSON] = []

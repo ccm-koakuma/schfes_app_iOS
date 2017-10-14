@@ -8,6 +8,9 @@
 
 import UIKit
 import TwitterKit
+// 通知機能の実装
+import UserNotifications
+import NotificationCenter
 
 extension UIImage{
     // Resizeするクラスメソッド.
@@ -60,7 +63,7 @@ extension UIImage{
 }
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
 
@@ -68,13 +71,68 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+        // ツイッターのAPI使う時に必要なおまじない
         Twitter.sharedInstance().start(withConsumerKey: "dBMG4VRZREdFdpTJl8gqD8gYA", consumerSecret: "7s1XATMuadE3UtZiWFgm1ogagxZWIlPkn6kOO6C3LrcRNHxATn")
         
-        let red: CGFloat = 235
-        let green: CGFloat = 97
-        let blue: CGFloat = 0
+        
+        //-----------------------------------------------------------通知の設定-----------------------------------------------------------
+        // 通知の許可を得るコード
+        if #available(iOS 10.0, *) {
+            // iOS 10
+            let center = UNUserNotificationCenter.current()
+            center.requestAuthorization(options: [.badge, .sound, .alert], completionHandler: { (granted, error) in
+                if error != nil {
+                    return
+                }
+                
+                if granted {
+                    print("通知許可")
+                    
+                    let center = UNUserNotificationCenter.current()
+                    center.delegate = self
+                    
+                } else {
+                    print("通知拒否")
+                }
+            })
+            
+        } else {
+            // iOS 9以下
+            let settings = UIUserNotificationSettings(types: [.badge, .sound, .alert], categories: nil)
+            UIApplication.shared.registerUserNotificationSettings(settings)
+        }
+        var time = 30
+        for i in 0..<3 {
+            //　通知設定に必要なクラスをインスタンス化
+            let trigger: UNNotificationTrigger
+            let content = UNMutableNotificationContent()
+            var notificationTime = DateComponents()
+            
+            // トリガー設定(時間を指定したい場合これ)
+            //        notificationTime.hour = 12
+            //        notificationTime.minute = 0
+            //        trigger = UNCalendarNotificationTrigger(dateMatching: notificationTime, repeats: false)
+            // 設定したタイミングを起点として1分後に通知したい場合
+            
+            
 
-        let orangeColor = UIColor(red: red/255.0, green: green/255.0, blue: blue/255.0, alpha: 1)
+            trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(time), repeats: false)
+            
+            time += 5
+            // 通知内容の設定
+            content.title = "アプリ起動してから" + String(time) + "秒経ったお！！"
+            content.body = "☓☓時□□分から◯◯で△△が開催されます！"
+            content.sound = UNNotificationSound.default()
+        
+            // 通知スタイルを指定
+            let notifiId: String = "uuid" + String(time)
+            let request = UNNotificationRequest(identifier: notifiId, content: content, trigger: trigger)
+            // 通知をセット
+            UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+        }
+        // -----------------------------------------------------------タブバー、ナビバーの設定-----------------------------------------------------------
+        // オレンジカラー作成
+        let orangeColor = UIColor(red: 235/255.0, green: 97/255.0, blue: 0/255.0, alpha: 1)
 
         // タブバー選択時の色の指定
         UITabBar.appearance().tintColor = orangeColor
@@ -91,14 +149,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         let MainSB = UIStoryboard(name: "Main", bundle: nil)
-        // 1ページ目になるViewController
+        // -----------------------------------------------------------1ページ目になるViewController-----------------------------------------------------------
         let topVC = MainSB.instantiateViewController(withIdentifier: "TopVC") as UIViewController
-        let topIcon = UIImage(named: "images/top_icon.png")?.ResizeUIImage(width: 45, height: 45)
-        let topSelectedIcon = UIImage(named: "images/top_selected_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
+        // 画像のインスタンス生成
+        let topIcon = UIImage(named: "top_icon.png")?.ResizeUIImage(width: 45, height: 45)
+        let topSelectedIcon = UIImage(named: "top_selected_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
         
         // タブバーに表示するアイテムの設定
         let topTabBarItem = UITabBarItem()
+        // タグ設定
         topTabBarItem.tag = 1
+        // 画像を設定
         topTabBarItem.image = topIcon
         topTabBarItem.selectedImage = topSelectedIcon
         // 画像の位置を少し下に
@@ -114,16 +175,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         viewControllers.append(topNaviVC)
         
         
-        //--------------------------------------------------------------------------------------------------
-        // 2ページ目になるViewController
+        //-----------------------------------------------------------2ページ目になるViewController-----------------------------------------------------------
         let scheduleVC = MainSB.instantiateViewController(withIdentifier: "ScheduleVC") as UIViewController
         
-        let scheduleIcon = UIImage(named: "images/schedule_icon.png")?.ResizeUIImage(width: 45, height: 45)
-        let scheduleSelectedIcon = UIImage(named: "images/schedule_selected_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
+        // 画像のインスタンス生成
+        let scheduleIcon = UIImage(named: "schedule_icon.png")?.ResizeUIImage(width: 45, height: 45)
+        let scheduleSelectedIcon = UIImage(named: "schedule_selected_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
         
         // タブバーに表示するアイテムの設定
         let scheduleTabBarItem = UITabBarItem()
+        // タグ設定
         scheduleTabBarItem.tag = 2
+        // 画像を設定
         scheduleTabBarItem.image = scheduleIcon
         scheduleTabBarItem.selectedImage = scheduleSelectedIcon
         // 画像の位置を少し下に
@@ -138,17 +201,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         viewControllers.append(scheduleNaviVC)
         
         
-        //--------------------------------------------------------------------------------------------------
-        // 3ページ目になるViewController
+        //-----------------------------------------------------------3ページ目になるViewController-----------------------------------------------------------
         let shopVC = MainSB.instantiateViewController(withIdentifier: "ShopVC") as UIViewController
         
-        let shopIcon = UIImage(named: "images/shop_icon.png")?.ResizeUIImage(width: 45, height: 45)
-//        let shopSelectedIcon = UIImage(named: "images/shop_selected_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
+        // 画像のインスタンス生成
+        let shopIcon = UIImage(named: "shop_icon.png")?.ResizeUIImage(width: 45, height: 45)
+        let shopSelectedIcon = UIImage(named: "shop_selected_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
         
         // タブバーに表示するアイテムの設定
         let shopTabBarItem = UITabBarItem()
+        // タグ設定
         shopTabBarItem.tag = 3
+        // 画像を設定
         shopTabBarItem.image = shopIcon
+        shopTabBarItem.selectedImage = shopSelectedIcon
         // 画像の位置を少し下に
         shopTabBarItem.imageInsets = UIEdgeInsetsMake(5, 0, -5, 0)
         
@@ -159,18 +225,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let shopNaviVC: UINavigationController = UINavigationController(rootViewController: shopVC)
         viewControllers.append(shopNaviVC)
         
-        
-        //--------------------------------------------------------------------------------------------------
-        // 4ページ目になるViewController
+
+        // -----------------------------------------------------------4ページ目になるViewController-----------------------------------------------------------
         let mapVC = MainSB.instantiateViewController(withIdentifier: "MapVC") as UIViewController
         
-        let mapIcon = UIImage(named: "images/map_icon.png")?.ResizeUIImage(width: 45, height: 45)
-//        let mapSelectedIcon = UIImage(named: "images/map_selected_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
+        // 画像のインスタンス生成
+        let mapIcon = UIImage(named: "map_icon.png")?.ResizeUIImage(width: 45, height: 45)
+        let mapSelectedIcon = UIImage(named: "map_selected_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
         
         // タブバーに表示するアイテムの設定
         let mapTabBarItem = UITabBarItem()
+        //タグ設定
         mapTabBarItem.tag = 4
+        // 画像を設定
         mapTabBarItem.image = mapIcon
+        mapTabBarItem.selectedImage = mapSelectedIcon
         // 画像の位置を少し下に
         mapTabBarItem.imageInsets = UIEdgeInsetsMake(5, 0, -5, 0)
         
@@ -181,9 +250,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let mapNaviVC: UINavigationController = UINavigationController(rootViewController: mapVC)
         viewControllers.append(mapNaviVC)
         
-        
-        //--------------------------------------------------------------------------------------------------
-        // ViewControllerをセット
+
+        // -----------------------------------------------------------TabBarControllerをセット-----------------------------------------------------------
         let tabBarController = UITabBarController()
         tabBarController.setViewControllers(viewControllers, animated: false)
         
@@ -210,6 +278,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        print("DidEnterbackGround")
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -222,6 +291,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    }
+    
+    //上記のNotificatioを５秒後に受け取る関数
+    //ポップアップ表示のタイミングで呼ばれる関数
+    //（アプリがアクティブ、非アクテイブ、アプリ未起動,バックグラウンドでも呼ばれる）
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                willPresent notification: UNNotification,
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.alert,.sound])
+    }
+    
+    //ポップアップ押した後に呼ばれる関数(↑の関数が呼ばれた後に呼ばれる)
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                didReceive response: UNNotificationResponse,
+                                withCompletionHandler completionHandler: @escaping () -> Void) {
+        
+        //Alertダイアログでテスト表示
+        let contentBody = response.notification.request.content.body
+        let alert:UIAlertController = UIAlertController(title: "受け取りました", message: contentBody, preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {
+            (action:UIAlertAction!) -> Void in
+            print("Alert押されました")
+        }))
+        self.window?.rootViewController?.present(alert, animated: true, completion: nil)
+        
+        completionHandler()
     }
 
 
