@@ -14,9 +14,9 @@ import SwiftyJSON
 class FavoScheduleVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     // お気に入り時の画像
-    let favoIcon = UIImage(named: "images/favo_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
+    let favoIcon = UIImage(named: "favo_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
     // 非お気に入り時の画像
-    let noFavoIcon = UIImage(named: "images/no_favo_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
+    let noFavoIcon = UIImage(named: "no_favo_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
     
     // お気に入り登録しているかどうかの値を保持する変数
     // アプリが落ちても値を保持できるUserDefaultsを使用
@@ -39,6 +39,7 @@ class FavoScheduleVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         FavoScheduleVC.favoScheduleTableView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
         FavoScheduleVC.favoScheduleTableView.delegate = self
         FavoScheduleVC.favoScheduleTableView.dataSource = self
+        FavoScheduleVC.favoScheduleTableView.tableFooterView = UIView(frame: .zero)
         self.view.addSubview(FavoScheduleVC.favoScheduleTableView)
         
         // データを取得

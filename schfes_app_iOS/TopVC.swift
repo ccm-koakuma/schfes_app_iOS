@@ -80,7 +80,7 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         self.view.addSubview(newsLabel)
         
         // ツイッターのアイコンイメージ
-        let tweetImage = UIImage(named: "images/twitter.png")?.ResizeUIImage(width: 30, height: 30)
+        let tweetImage = UIImage(named: "twitter.png")?.ResizeUIImage(width: 30, height: 30)
         
         // ----------------------------------ニュースの画像-----------------------------------
         
@@ -157,7 +157,7 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
         // 設定ボタンの各種座標、大きさの設定
         let button = UIBarButtonItem()
-        button.image = UIImage(named: "images/setting_icon.png")?.ResizeUIImage(width: 30, height: 30)
+        button.image = UIImage(named: "setting_icon.png")?.ResizeUIImage(width: 30, height: 30)
         button.style = UIBarButtonItemStyle.plain
         button.action = #selector(self.TapMenu)
         button.target = self
@@ -176,7 +176,7 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         allNewsButton.frame = CGRect(x: allNewsButtonX, y: allNewsButtonY, width: allNewsButtonWidth, height: allNewsButtonHeight)
         
         // ボタンに画像を設定する
-        let seeAllImage = UIImage(named: "images/see_all.png")?.ResizeUIImage(width: 100, height: 33)
+        let seeAllImage = UIImage(named: "see_all.png")?.ResizeUIImage(width: 100, height: 33)
         allNewsButton.setImage(seeAllImage, for: .normal)
         // ボタンにタグをつける.
         allNewsButton.tag = 1
