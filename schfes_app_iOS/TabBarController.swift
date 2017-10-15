@@ -18,8 +18,12 @@ class TabBarController: UITabBarController {
         
         // タブバー選択時の色の指定
         UITabBar.appearance().tintColor = orangeColor
+        
         // ナビバー部分の色の変更
+        // これがないと色が薄くなってしまう
+        UINavigationBar.appearance().isTranslucent = false
         UINavigationBar.appearance().barTintColor = orangeColor
+
         // 戻るボタンや歯車アイコンの色変更
         UINavigationBar.appearance().tintColor = UIColor.white
         // タイトルの文字色変更
@@ -31,6 +35,7 @@ class TabBarController: UITabBarController {
         
         // main.storybordの変数
         let MainSB = UIStoryboard(name: "Main", bundle: nil)
+
         
         // -----------------------------------------------------------1ページ目になるViewController-----------------------------------------------------------
         let topVC = MainSB.instantiateViewController(withIdentifier: "TopVC")

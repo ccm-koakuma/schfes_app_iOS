@@ -135,15 +135,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // -----------------------------------------------------------TabBarControllerをセット-----------------------------------------------------------
         
         let MainSB = UIStoryboard(name: "Main", bundle: nil)
-        let tabbarController: TabBarController = TabBarController()
+//        let tabbarController: TabBarController = TabBarController()
+//
+//        let settingMenuVC = SettingMenuVC()
+//
+//        let slideMenuController = SlideMenuController(mainViewController: tabbarController, rightMenuViewController: settingMenuVC)
+//
+//        slideMenuController.changeRightViewWidth(250)
         
-        let settingMenuVC = SettingMenuVC()
+        let slideVC = MainSB.instantiateViewController(withIdentifier: "SlideVC")
         
-        let slideMenuController = SlideMenuController(mainViewController: tabbarController, rightMenuViewController: settingMenuVC)
         
         // rootViewControllerをUITabBarControllerにする
         window = UIWindow()
-        window?.rootViewController = slideMenuController
+        window?.rootViewController = slideVC
         window?.makeKeyAndVisible()
         
         return true
