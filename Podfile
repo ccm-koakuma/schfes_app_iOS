@@ -10,6 +10,7 @@ target 'schfes_app_iOS' do
   pod "PagingMenuController"
   pod "Fabric"
   pod "TwitterKit"
+  pod "SlideMenuControllerSwift"
 
   # Pods for schfes_app_iOS
 
