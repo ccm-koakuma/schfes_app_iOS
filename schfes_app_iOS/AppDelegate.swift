@@ -67,8 +67,18 @@ extension UIImage{
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
+    
+    // 通知が許可されているかどうかの値を保持する変数
+    // アプリが落ちても値を保持できるUserDefaultsを使用
+    let userDefaults = UserDefaults.standard
+    
+    // UserDefaultsに登録用の文字列、スペルミスしないようにね☆
+    let notificationStr = "notification"
+    let notificationEnabledStr = "notificationEnabled"
+    
+    let isNotFirst = "isFirst"
 
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
@@ -92,8 +102,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     let center = UNUserNotificationCenter.current()
                     center.delegate = self
                     
+                    // 通知機能を許可状態にする
+                    self.userDefaults.set(true, forKey: self.notificationEnabledStr)
+                    
+                    // もし初回起動の場合は通知ONにする
+                    if self.userDefaults.bool(forKey: self.isNotFirst) == false {
+                        self.userDefaults.set(true, forKey: self.notificationStr)
+                    }
+                    
                 } else {
                     print("通知拒否")
+                    
+                    // 通知機能を不許可状態にする
+                    self.userDefaults.set(false, forKey: self.notificationEnabledStr)
+                    self.userDefaults.set(false, forKey: self.notificationStr)
                 }
             })
             
@@ -102,46 +124,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             let settings = UIUserNotificationSettings(types: [.badge, .sound, .alert], categories: nil)
             UIApplication.shared.registerUserNotificationSettings(settings)
         }
-        var time = 30
-        for i in 0..<3 {
-            //　通知設定に必要なクラスをインスタンス化
-            let trigger: UNNotificationTrigger
-            let content = UNMutableNotificationContent()
-            var notificationTime = DateComponents()
-            
-            // トリガー設定(時間を指定したい場合これ)
-            //        notificationTime.hour = 12
-            //        notificationTime.minute = 0
-            //        trigger = UNCalendarNotificationTrigger(dateMatching: notificationTime, repeats: false)
-            // 設定したタイミングを起点として1分後に通知したい場合
-            
-            
-
-            trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(time), repeats: false)
-            
-            time += 5
-            // 通知内容の設定
-            content.title = "アプリ起動してから" + String(time) + "秒経ったお！！"
-            content.body = "☓☓時□□分から◯◯で△△が開催されます！"
-            content.sound = UNNotificationSound.default()
         
-            // 通知スタイルを指定
-            let notifiId: String = "uuid" +  String(time)
-            let request = UNNotificationRequest(identifier: notifiId, content: content, trigger: trigger)
+        if userDefaults.bool(forKey: notificationStr) == true {
             // 通知をセット
-            UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+            SettingMenuVC.setNotification()
         }
 
-        // -----------------------------------------------------------TabBarControllerをセット-----------------------------------------------------------
+        // -----------------------------------------------------------SlideVCをセット-----------------------------------------------------------
         
         let MainSB = UIStoryboard(name: "Main", bundle: nil)
-//        let tabbarController: TabBarController = TabBarController()
-//
-//        let settingMenuVC = SettingMenuVC()
-//
-//        let slideMenuController = SlideMenuController(mainViewController: tabbarController, rightMenuViewController: settingMenuVC)
-//
-//        slideMenuController.changeRightViewWidth(250)
         
         let slideVC = MainSB.instantiateViewController(withIdentifier: "SlideVC")
         
@@ -150,6 +141,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         window = UIWindow()
         window?.rootViewController = slideVC
         window?.makeKeyAndVisible()
+        
+        print(self.userDefaults.bool(forKey: self.isNotFirst))
+        self.userDefaults.set(true, forKey: self.isNotFirst)
+        print(self.userDefaults.bool(forKey: isNotFirst))
         
         return true
     }
@@ -209,7 +204,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         completionHandler()
     }
-
-
 }
 
