@@ -12,6 +12,10 @@ class MapVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // これがないと画面全体が下にずれてしまう
+        extendedLayoutIncludesOpaqueBars = true
+        
         // ボタンのサイズを定義.
         let bWidth: CGFloat = 200
         let bHeight: CGFloat = 50

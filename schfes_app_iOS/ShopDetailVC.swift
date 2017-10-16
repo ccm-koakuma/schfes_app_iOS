@@ -13,6 +13,9 @@ class ShopDetailVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // これがないと画面全体が下にずれてしまう
+        extendedLayoutIncludesOpaqueBars = true
+        
         self.title = "模擬店名"
         
         // ボタンのサイズを定義.
