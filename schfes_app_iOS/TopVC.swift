@@ -7,10 +7,11 @@
 //
 
 import UIKit
-import TwitterKit
-import SwiftyJSON
 import Alamofire
 import AlamofireImage
+import SlideMenuControllerSwift
+import SwiftyJSON
+import TwitterKit
 
 class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -54,7 +55,18 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // これがないと画面全体が下にずれてしまう
+        extendedLayoutIncludesOpaqueBars = true
+        
+        // -----------------------------------settingボタンの設定-----------------------------------
+        // 設定ボタンの各種座標、大きさの設定
+        let settingImage = UIImage(named: "setting_icon.png")?.ResizeUIImage(width: 30, height: 30)
+        
+        let settingIcon = UIBarButtonItem(image: settingImage, style: .plain, target: self, action: #selector(self.onMenu))
+        self.navigationItem.rightBarButtonItem = settingIcon
 
+        // 
         // ボタンのサイズを定義.
         let bWidth: CGFloat = 200
         let bHeight: CGFloat = 50
@@ -76,7 +88,8 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         let newsLabel: UILabel = UILabel(frame: CGRect(x: 10, y:newsLabelY, width: bWidth, height: bHeight))
         newsLabel.text = "New's"
         newsLabel.textAlignment = NSTextAlignment.left
-        newsLabel.font = UIFont.systemFont(ofSize: 20)
+        newsLabel.font = UIFont.systemFont(ofSize: 15)
+        newsLabel.numberOfLines = 0
         self.view.addSubview(newsLabel)
         
         // ツイッターのアイコンイメージ
@@ -153,15 +166,6 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         self.view.addSubview(newsTitle3)
         
 
-        // -----------------------------------設定ボタンの追加-----------------------------------
-        
-        // 設定ボタンの各種座標、大きさの設定
-        let button = UIBarButtonItem()
-        button.image = UIImage(named: "setting_icon.png")?.ResizeUIImage(width: 30, height: 30)
-        button.style = UIBarButtonItemStyle.plain
-        button.action = #selector(self.TapMenu)
-        button.target = self
-        self.navigationItem.rightBarButtonItem = button
         
         // -----------------------------------See allボタンの作成-----------------------------------
         
@@ -355,8 +359,8 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         print("tweetボタンが押されました")
     }
     
-    func TapMenu() {
-        print("メニューがタップされました")
+    func onMenu(sender: UIButton) {
+        self.slideMenuController()?.openRight()
     }
     
     // ニュース部分を設定するメソッド

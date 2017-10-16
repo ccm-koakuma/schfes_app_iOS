@@ -8,6 +8,7 @@
 
 import UIKit
 import TwitterKit
+import SlideMenuControllerSwift
 // 通知機能の実装
 import UserNotifications
 import NotificationCenter
@@ -66,8 +67,18 @@ extension UIImage{
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
+    
+    // 通知が許可されているかどうかの値を保持する変数
+    // アプリが落ちても値を保持できるUserDefaultsを使用
+    let userDefaults = UserDefaults.standard
+    
+    // UserDefaultsに登録用の文字列、スペルミスしないようにね☆
+    let notificationStr = "notification"
+    let notificationEnabledStr = "notificationEnabled"
+    
+    let isNotFirst = "isFirst"
 
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
@@ -91,8 +102,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     let center = UNUserNotificationCenter.current()
                     center.delegate = self
                     
+                    // 通知機能を許可状態にする
+                    self.userDefaults.set(true, forKey: self.notificationEnabledStr)
+                    
+                    // もし初回起動の場合は通知ONにする
+                    if self.userDefaults.bool(forKey: self.isNotFirst) == false {
+                        self.userDefaults.set(true, forKey: self.notificationStr)
+                    }
+                    
                 } else {
                     print("通知拒否")
+                    
+                    // 通知機能を不許可状態にする
+                    self.userDefaults.set(false, forKey: self.notificationEnabledStr)
+                    self.userDefaults.set(false, forKey: self.notificationStr)
                 }
             })
             
@@ -101,164 +124,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             let settings = UIUserNotificationSettings(types: [.badge, .sound, .alert], categories: nil)
             UIApplication.shared.registerUserNotificationSettings(settings)
         }
-        var time = 30
-        for i in 0..<3 {
-            //　通知設定に必要なクラスをインスタンス化
-            let trigger: UNNotificationTrigger
-            let content = UNMutableNotificationContent()
-            var notificationTime = DateComponents()
-            
-            // トリガー設定(時間を指定したい場合これ)
-            //        notificationTime.hour = 12
-            //        notificationTime.minute = 0
-            //        trigger = UNCalendarNotificationTrigger(dateMatching: notificationTime, repeats: false)
-            // 設定したタイミングを起点として1分後に通知したい場合
-            
-            
-
-            trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(time), repeats: false)
-            
-            time += 5
-            // 通知内容の設定
-            content.title = "アプリ起動してから" + String(time) + "秒経ったお！！"
-            content.body = "☓☓時□□分から◯◯で△△が開催されます！"
-            content.sound = UNNotificationSound.default()
         
-            // 通知スタイルを指定
-            let notifiId: String = "uuid" + String(time)
-            let request = UNNotificationRequest(identifier: notifiId, content: content, trigger: trigger)
+        if userDefaults.bool(forKey: notificationStr) == true {
             // 通知をセット
-            UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+            SettingMenuVC.setNotification()
         }
-        // -----------------------------------------------------------タブバー、ナビバーの設定-----------------------------------------------------------
-        // オレンジカラー作成
-        let orangeColor = UIColor(red: 235/255.0, green: 97/255.0, blue: 0/255.0, alpha: 1)
 
-        // タブバー選択時の色の指定
-        UITabBar.appearance().tintColor = orangeColor
-        // ナビバー部分の色の変更
-        UINavigationBar.appearance().barTintColor = orangeColor
-        // 戻るボタンや歯車アイコンの色変更
-        UINavigationBar.appearance().tintColor = UIColor.white
-        // タイトルの文字色変更
-        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
-        
-        
-        // ページを格納する配列
-        var viewControllers: [UIViewController] = []
-        
+        // -----------------------------------------------------------SlideVCをセット-----------------------------------------------------------
         
         let MainSB = UIStoryboard(name: "Main", bundle: nil)
-        // -----------------------------------------------------------1ページ目になるViewController-----------------------------------------------------------
-        let topVC = MainSB.instantiateViewController(withIdentifier: "TopVC") as UIViewController
-        // 画像のインスタンス生成
-        let topIcon = UIImage(named: "top_icon.png")?.ResizeUIImage(width: 45, height: 45)
-        let topSelectedIcon = UIImage(named: "top_selected_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
         
-        // タブバーに表示するアイテムの設定
-        let topTabBarItem = UITabBarItem()
-        // タグ設定
-        topTabBarItem.tag = 1
-        // 画像を設定
-        topTabBarItem.image = topIcon
-        topTabBarItem.selectedImage = topSelectedIcon
-        // 画像の位置を少し下に
-        topTabBarItem.imageInsets = UIEdgeInsetsMake(5, 0, -5, 0)
-    
-        topVC.tabBarItem = topTabBarItem
+        let slideVC = MainSB.instantiateViewController(withIdentifier: "SlideVC")
         
-        // .titleでタイトル指定するとタブバーにタイトルが表示されてしまうため、.navigationItem.titleに文字列を代入している
-        topVC.navigationItem.title = "県大祭2017"
-        
-        // Navication Controllerを生成する.
-        let topNaviVC: UINavigationController = UINavigationController(rootViewController: topVC)
-        viewControllers.append(topNaviVC)
-        
-        
-        //-----------------------------------------------------------2ページ目になるViewController-----------------------------------------------------------
-        let scheduleVC = MainSB.instantiateViewController(withIdentifier: "ScheduleVC") as UIViewController
-        
-        // 画像のインスタンス生成
-        let scheduleIcon = UIImage(named: "schedule_icon.png")?.ResizeUIImage(width: 45, height: 45)
-        let scheduleSelectedIcon = UIImage(named: "schedule_selected_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
-        
-        // タブバーに表示するアイテムの設定
-        let scheduleTabBarItem = UITabBarItem()
-        // タグ設定
-        scheduleTabBarItem.tag = 2
-        // 画像を設定
-        scheduleTabBarItem.image = scheduleIcon
-        scheduleTabBarItem.selectedImage = scheduleSelectedIcon
-        // 画像の位置を少し下に
-        scheduleTabBarItem.imageInsets = UIEdgeInsetsMake(5, 0, -5, 0)
-        
-        scheduleVC.tabBarItem = scheduleTabBarItem
-
-        // .titleでタイトル指定するとタブバーにタイトルが表示されてしまうため、.navigationItem.titleに文字列を代入している
-        scheduleVC.navigationItem.title = "スケジュール"
-        // Navication Controllerを生成する.
-        let scheduleNaviVC: UINavigationController = UINavigationController(rootViewController: scheduleVC)
-        viewControllers.append(scheduleNaviVC)
-        
-        
-        //-----------------------------------------------------------3ページ目になるViewController-----------------------------------------------------------
-        let shopVC = MainSB.instantiateViewController(withIdentifier: "ShopVC") as UIViewController
-        
-        // 画像のインスタンス生成
-        let shopIcon = UIImage(named: "shop_icon.png")?.ResizeUIImage(width: 45, height: 45)
-        let shopSelectedIcon = UIImage(named: "shop_selected_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
-        
-        // タブバーに表示するアイテムの設定
-        let shopTabBarItem = UITabBarItem()
-        // タグ設定
-        shopTabBarItem.tag = 3
-        // 画像を設定
-        shopTabBarItem.image = shopIcon
-        shopTabBarItem.selectedImage = shopSelectedIcon
-        // 画像の位置を少し下に
-        shopTabBarItem.imageInsets = UIEdgeInsetsMake(5, 0, -5, 0)
-        
-        shopVC.tabBarItem = shopTabBarItem
-        // .titleでタイトル指定するとタブバーにタイトルが表示されてしまうため、.navigationItem.titleに文字列を代入している
-        shopVC.navigationItem.title = "模擬店一覧"
-        // Navication Controllerを生成する.
-        let shopNaviVC: UINavigationController = UINavigationController(rootViewController: shopVC)
-        viewControllers.append(shopNaviVC)
-        
-
-        // -----------------------------------------------------------4ページ目になるViewController-----------------------------------------------------------
-        let mapVC = MainSB.instantiateViewController(withIdentifier: "MapVC") as UIViewController
-        
-        // 画像のインスタンス生成
-        let mapIcon = UIImage(named: "map_icon.png")?.ResizeUIImage(width: 45, height: 45)
-        let mapSelectedIcon = UIImage(named: "map_selected_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
-        
-        // タブバーに表示するアイテムの設定
-        let mapTabBarItem = UITabBarItem()
-        //タグ設定
-        mapTabBarItem.tag = 4
-        // 画像を設定
-        mapTabBarItem.image = mapIcon
-        mapTabBarItem.selectedImage = mapSelectedIcon
-        // 画像の位置を少し下に
-        mapTabBarItem.imageInsets = UIEdgeInsetsMake(5, 0, -5, 0)
-        
-        mapVC.tabBarItem = mapTabBarItem
-        // .titleでタイトル指定するとタブバーにタイトルが表示されてしまうため、.navigationItem.titleに文字列を代入している
-        mapVC.navigationItem.title = "学内マップ"
-        // Navication Controllerを生成する.
-        let mapNaviVC: UINavigationController = UINavigationController(rootViewController: mapVC)
-        viewControllers.append(mapNaviVC)
-        
-
-        // -----------------------------------------------------------TabBarControllerをセット-----------------------------------------------------------
-        let tabBarController = UITabBarController()
-        tabBarController.setViewControllers(viewControllers, animated: false)
         
         // rootViewControllerをUITabBarControllerにする
         window = UIWindow()
-        window?.rootViewController = tabBarController
+        window?.rootViewController = slideVC
         window?.makeKeyAndVisible()
+        
+        print(self.userDefaults.bool(forKey: self.isNotFirst))
+        self.userDefaults.set(true, forKey: self.isNotFirst)
+        print(self.userDefaults.bool(forKey: isNotFirst))
         
         return true
     }
@@ -318,7 +204,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         completionHandler()
     }
-
-
 }
 

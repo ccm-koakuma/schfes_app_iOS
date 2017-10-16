@@ -21,6 +21,9 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource  {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // これがないと画面全体が下にずれてしまう
+        extendedLayoutIncludesOpaqueBars = true
+        
         self.title = "News"
         
         // TableViewを作成

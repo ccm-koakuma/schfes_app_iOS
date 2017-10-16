@@ -21,6 +21,9 @@
 		276C652B1F5820ED0018211F /* ShopDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276C652A1F5820ED0018211F /* ShopDetailVC.swift */; };
 		276C652D1F5822130018211F /* RootScheduleVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276C652C1F5822130018211F /* RootScheduleVC.swift */; };
 		276C652F1F5823080018211F /* NewsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276C652E1F5823080018211F /* NewsVC.swift */; };
+		2773FACA1F9339A300AB2E60 /* SettingMenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2773FAC91F9339A300AB2E60 /* SettingMenuVC.swift */; };
+		2773FACE1F934DC800AB2E60 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2773FACD1F934DC800AB2E60 /* TabBarController.swift */; };
+		2773FAD21F937B4900AB2E60 /* SlideVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2773FAD11F937B4800AB2E60 /* SlideVC.swift */; };
 		278B4C941F927C03008458AB /* favo_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 278B4C851F927C03008458AB /* favo_icon.png */; };
 		278B4C951F927C03008458AB /* favo_icon2.png in Resources */ = {isa = PBXBuildFile; fileRef = 278B4C861F927C03008458AB /* favo_icon2.png */; };
 		278B4C961F927C03008458AB /* map_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 278B4C871F927C03008458AB /* map_icon.png */; };
@@ -80,6 +83,9 @@
 		276C652A1F5820ED0018211F /* ShopDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopDetailVC.swift; sourceTree = "<group>"; };
 		276C652C1F5822130018211F /* RootScheduleVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootScheduleVC.swift; sourceTree = "<group>"; };
 		276C652E1F5823080018211F /* NewsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsVC.swift; sourceTree = "<group>"; };
+		2773FAC91F9339A300AB2E60 /* SettingMenuVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingMenuVC.swift; sourceTree = "<group>"; };
+		2773FACD1F934DC800AB2E60 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		2773FAD11F937B4800AB2E60 /* SlideVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideVC.swift; sourceTree = "<group>"; };
 		277537301F7A35FC00E71BFC /* schfes_app_iOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "schfes_app_iOS-Bridging-Header.h"; sourceTree = "<group>"; };
 		278B4C851F927C03008458AB /* favo_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = favo_icon.png; sourceTree = "<group>"; };
 		278B4C861F927C03008458AB /* favo_icon2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = favo_icon2.png; sourceTree = "<group>"; };
@@ -166,7 +172,10 @@
 				271B7B181EF4E6900098BB11 /* LaunchScreen.storyboard */,
 				271B7B1B1EF4E6900098BB11 /* Info.plist */,
 				271B7B0F1EF4E6900098BB11 /* AppDelegate.swift */,
+				2773FACD1F934DC800AB2E60 /* TabBarController.swift */,
 				276C65261F5810A80018211F /* TopVC.swift */,
+				2773FAD11F937B4800AB2E60 /* SlideVC.swift */,
+				2773FAC91F9339A300AB2E60 /* SettingMenuVC.swift */,
 				276C652E1F5823080018211F /* NewsVC.swift */,
 				276C652C1F5822130018211F /* RootScheduleVC.swift */,
 				271286EC1F760DD300E34C62 /* AllScheduleVC.swift */,
@@ -547,7 +556,10 @@
 				271286ED1F760DD300E34C62 /* AllScheduleVC.swift in Sources */,
 				276C652D1F5822130018211F /* RootScheduleVC.swift in Sources */,
 				276C65291F581EF70018211F /* MapVC.swift in Sources */,
+				2773FAD21F937B4900AB2E60 /* SlideVC.swift in Sources */,
 				276C65271F5810A80018211F /* TopVC.swift in Sources */,
+				2773FACA1F9339A300AB2E60 /* SettingMenuVC.swift in Sources */,
+				2773FACE1F934DC800AB2E60 /* TabBarController.swift in Sources */,
 				271B7B101EF4E6900098BB11 /* AppDelegate.swift in Sources */,
 				276C652F1F5823080018211F /* NewsVC.swift in Sources */,
 			);

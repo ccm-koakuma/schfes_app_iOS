@@ -52,6 +52,10 @@ class RootScheduleVC: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // これがないと画面全体が下にずれてしまう
+        extendedLayoutIncludesOpaqueBars = true
+        
         // Do any additional setup after loading the view, typically from a nib.
         view.backgroundColor = UIColor.white
         
