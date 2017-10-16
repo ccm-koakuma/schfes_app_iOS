@@ -17,6 +17,11 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     // オレンジカラー作成
     let orangeColor = UIColor(red: 235/255.0, green: 97/255.0, blue: 0/255.0, alpha: 1)
+    let twitterColor = UIColor(red: 29/255.0, green: 161/255.0, blue: 242/255.0, alpha: 1)
+    
+    // ボタンのサイズを定義.
+    let bWidth: CGFloat = 200
+    let bHeight: CGFloat = 50
     
     // ツイッターのデータを入れておく配列
     var tweetItems: JSON = []
@@ -28,16 +33,27 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     // ニュースの画像を入れておく配列
     var newsImages: [UIImage] = []
     
-    // ツイートするボタン
-    private var tweetButton: UIButton!
+    var isTwitterAuthorization: Bool = false
     
     // 画面上部にあるニュースのリンク
     var newsLink1: String = ""
     var newsLink2: String = ""
     var newsLink3: String = ""
     
+    
+    // ツイッターのアイコンイメージ
+    let tweetImage = UIImage(named: "twitter.png")?.ResizeUIImage(width: 30, height: 30)
+    
     // ツイッターの検索結果を表示するテーブルビュー作成
-    let TweetTableView = UITableView()
+    let tweetTableView = UITableView()
+    
+    // ツイートするボタン
+    let tweetButton: UIButton = UIButton()
+    
+    let tweetLabel: UILabel = UILabel()
+    
+    // ツイッター認証するボタン
+    let twitterAuthorizationButton: UIButton = UIButton()
     
     // ニュース画像のインスタンス生成
     let news1: UIImageView = UIImageView()
@@ -49,7 +65,9 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     let newsTitle2: UILabel = UILabel()
     let newsTitle3:UILabel = UILabel()
     // ツイッターAPIで飛ばすURL
-    let tweetURL = "https://api.twitter.com/1.1/search/tweets.json?q=Lv100%20%e3%82%b8%e3%83%bb%e3%82%aa%e3%83%bc%e3%83%80%e3%83%bc%e3%83%bb%e3%82%b0%e3%83%a9%e3%83%b3%e3%83%87&lang=ja&result_type=mixed"
+    //    let searchWord: String = "Lv100%20%e3%82%b8%e3%83%bb%e3%82%aa%e3%83%bc%e3%83%80%e3%83%bc%e3%83%bb%e3%82%b0%e3%83%a9%e3%83%b3%e3%83%87"
+    let searchWord: String = "%23%e7%9c%8c%e5%a4%a7%e7%a5%adtpu2017"
+    var twitterApiUrl: String = String()
     
     private let refreshControl = UIRefreshControl()
     
@@ -59,29 +77,16 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         // これがないと画面全体が下にずれてしまう
         extendedLayoutIncludesOpaqueBars = true
         
+        // twitterのURL指定
+        twitterApiUrl = "https://api.twitter.com/1.1/search/tweets.json?q=" + self.searchWord + "&lang=ja&result_type=mixed"
+        
         // -----------------------------------settingボタンの設定-----------------------------------
         // 設定ボタンの各種座標、大きさの設定
         let settingImage = UIImage(named: "setting_icon.png")?.ResizeUIImage(width: 30, height: 30)
         
         let settingIcon = UIBarButtonItem(image: settingImage, style: .plain, target: self, action: #selector(self.onMenu))
         self.navigationItem.rightBarButtonItem = settingIcon
-
-        // 
-        // ボタンのサイズを定義.
-        let bWidth: CGFloat = 200
-        let bHeight: CGFloat = 50
         
-        // ツイッターのテーブルビューの位置や大きさ
-        let tableX: CGFloat = 0
-        let tableY: CGFloat = UIScreen.main.bounds.size.height*5/10
-        let tableWidth: CGFloat = self.view.frame.width
-        let tableHeight: CGFloat = UIScreen.main.bounds.size.height*3/10
-        
-        // ツイートボタンの高さ、幅等
-        let tButtonX: CGFloat = self.view.bounds.width/2 - bWidth/2
-        let tButtonY: CGFloat = tableY + tableHeight + 20
-        let tButtonWidth: CGFloat = 200
-        let tButtonHeight: CGFloat = 40
         
         // -----------------------------------New'sラベルの作成-----------------------------------
         let newsLabelY: CGFloat = 65
@@ -92,8 +97,6 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         newsLabel.numberOfLines = 0
         self.view.addSubview(newsLabel)
         
-        // ツイッターのアイコンイメージ
-        let tweetImage = UIImage(named: "twitter.png")?.ResizeUIImage(width: 30, height: 30)
         
         // ----------------------------------ニュースの画像-----------------------------------
         
@@ -165,7 +168,7 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         self.view.addSubview(newsTitle2)
         self.view.addSubview(newsTitle3)
         
-
+        
         
         // -----------------------------------See allボタンの作成-----------------------------------
         
@@ -189,30 +192,213 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         // ボタンをViewに追加.
         self.view.addSubview(allNewsButton)
         
+        
+        if let session = Twitter.sharedInstance().sessionStore.session() {
+            print(session.authToken)
+            // ツイートテーブル＆ツイートボタン作成
+            TweetTableCreation()
+            // ツイート取得
+            getTweet()
+        } else {
+            // -----------------------------------ツイッター認証するボタンの作成-----------------------------------
+            // ツイートボタンの高さ、幅等
+            let taButtonX: CGFloat = self.view.bounds.width/2 - bWidth/2
+            let taButtonY: CGFloat = allNewsButtonY + allNewsButtonHeight + UIScreen.main.bounds.size.width*2/10
+            let taButtonWidth: CGFloat = 200
+            let taButtonHeight: CGFloat = 40
+            // ボタンの設置座標とサイズを設定する.
+            twitterAuthorizationButton.frame = CGRect(x: taButtonX, y: taButtonY, width: taButtonWidth, height: taButtonHeight)
+            // ボタンの背景色を設定.
+            twitterAuthorizationButton.backgroundColor = self.twitterColor
+            // ボタンの枠を丸くする.
+            twitterAuthorizationButton.layer.masksToBounds = true
+            // コーナーの半径を設定する.
+            twitterAuthorizationButton.layer.cornerRadius = 20.0
+            
+            // タイトルを設定する(通常時).
+            twitterAuthorizationButton.setTitle("ツイッター認証する", for: .normal)
+            twitterAuthorizationButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+            twitterAuthorizationButton.setImage(tweetImage, for: .normal)
+            twitterAuthorizationButton.setTitleColor(UIColor.white, for: .normal)
+            // ボタンにタグをつける.
+            twitterAuthorizationButton.tag = 2
+            // イベントを追加する
+            twitterAuthorizationButton.addTarget(self, action: #selector(self.TwitterAuthorization), for: .touchUpInside)
+            // ボタンをViewに追加.
+            self.view.addSubview(twitterAuthorizationButton)
+        }
+        //        // Swift
+        //        let logInButton = TWTRLogInButton(logInCompletion: { session, error in
+        //            if (session != nil) {
+        //                print("signed in as \(session?.userName)");
+        //                self.TweetTableCreation()
+        //                self.getTweet()
+        //            } else {
+        //                print("error: \(error?.localizedDescription)");
+        //            }
+        //        })
+        //        logInButton.center = self.view.center
+        //        self.view.addSubview(logInButton)
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    // -----------------------------------ここからテーブルビュー設定用の関数-----------------------------------
+    
+    // Cellが選択された際に呼び出される
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)
+        
+        cell?.isSelected = false
+    }
+    
+    // tableのcellにAPIから受け取ったデータを入れる
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        //        print(indexPath.row)
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "TableCell")
+        cell.textLabel?.text = tweetItems["statuses"][indexPath.row]["text"].string
+        cell.textLabel?.numberOfLines = 0
+        if tweetImages.count-1 >= indexPath.row {
+            cell.imageView?.image = tweetImages[indexPath.row]
+        }
+        return cell
+    }
+    
+    // cellの数を設定
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        //        print("tweetItems : " + String(tweetItems["statuses"].count))
+        //        print("tweetImages : " + String(tweetImages.count))
+        return tweetItems["statuses"].count
+    }
+    
+    // サイズの指定
+    //    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    //        return 70
+    //    }
+    
+    
+    // ボタンのイベント
+    func onClickAllNewsButton() {
+        self.performSegue(withIdentifier: "toNews", sender: nil)
+    }
+    
+    // -----------------------------------TwitterAPIからツイートの検索結果を取得するメソッド-----------------------------------
+    func getTweet(){
+        let session = Twitter.sharedInstance().sessionStore.session()
+        
+        var clientError: NSError?
+        print(session)
+        // ハッシュタグで検索した結果を取得
+        let apiClient = TWTRAPIClient(userID: session!.userID)
+        let request = apiClient.urlRequest(
+            withMethod: "GET",
+            url: self.twitterApiUrl,
+            parameters: [
+                "user_id": session!.userID,
+                "count": "100", // Intで10を渡すとエラーになる模様で、文字列にしてやる必要がある
+            ],
+            error: &clientError
+        )
+        
+        // ここで通信を行いdataを取得する
+        apiClient.sendTwitterRequest(request) { response, data, error in // NSURLResponse?, NSData?, NSError?
+            self.tweetImages.removeAll()
+            if let error = error {
+                print(error.localizedDescription)
+                Twitter.sharedInstance().sessionStore.logOutUserID((session?.userID)!)
+                self.TwitterAuthorization()
+            } else if let data = data, let jsonString = String(data: data, encoding: .utf8) {
+                self.tweetItems = JSON(data: data)
+                //                    print(self.tweetItems)
+                
+                self.tweetItems["statuses"].forEach{(_, data) in
+                    //                        print(data)
+                    let urlString = data["user"]["profile_image_url"].string
+                    // 画像取得
+                    Alamofire.request(urlString!).responseImage { response in
+                        if let image = response.result.value {
+                            self.tweetImages.append(image)
+                        }
+                        self.tweetTableView.reloadData()
+                    }
+                }
+                self.tweetTableView.reloadData()
+            }
+        }
+    }
+    
+    func refresh() {
+        self.refreshControl.endRefreshing()
+        getTweet()
+    }
+    
+    func Tweet() {
+        let twitterUrlScheme = NSURL(string: "twitter://post?message=%23" + self.searchWord)!
+        let twitterUrl = NSURL(string: "https://twitter.com/intent/tweet?text=" + self.searchWord)
+        if (UIApplication.shared.canOpenURL(twitterUrlScheme as URL)) {
+            UIApplication.shared.openURL(twitterUrlScheme as URL)
+        } else {
+            UIApplication.shared.openURL(twitterUrl! as URL)
+        }
+    }
+    
+    // ツイッター認証するメソッド
+    func TwitterAuthorization() {
+        print("アカウント認証を開始します")
+        Twitter.sharedInstance().logIn { session, error in
+            guard let session = session else {
+                if let error = error {
+                    print("エラーが起きました => \(error.localizedDescription)")
+                }
+                return
+            }
+            
+            print("@\(session.userName)でログインしました")
+            self.loadView()
+            self.viewDidLoad()
+        }
+    }
+    
+    //------------------------------------------------ツイッター部分を作るメソッド------------------------------------------------
+    func TweetTableCreation() {
+        
+        // ツイッターのテーブルビューの位置や大きさ
+        let tableX: CGFloat = 0
+        let tableY: CGFloat = UIScreen.main.bounds.size.height*5/10
+        let tableWidth: CGFloat = self.view.frame.width
+        let tableHeight: CGFloat = UIScreen.main.bounds.size.height*3/10
+        
+        // ツイートボタンの高さ、幅等
+        let tButtonX: CGFloat = self.view.bounds.width/2 - bWidth/2
+        let tButtonY: CGFloat = tableY + tableHeight + 20
+        let tButtonWidth: CGFloat = 200
+        let tButtonHeight: CGFloat = 40
+        
         // -----------------------------------TableViewを作成-----------------------------------
         
         // テーブルビューの各種座標、大きさ設定
-        TweetTableView.frame = CGRect(x: tableX, y: tableY, width: tableWidth, height: tableHeight)
-        TweetTableView.delegate = self
-        TweetTableView.dataSource = self
+        tweetTableView.frame = CGRect(x: tableX, y: tableY, width: tableWidth, height: tableHeight)
+        tweetTableView.delegate = self
+        tweetTableView.dataSource = self
         
         // テーブルビューの高さが自動的に変更されるように設定
-        TweetTableView.estimatedRowHeight = 150
-        TweetTableView.rowHeight = UITableViewAutomaticDimension
+        tweetTableView.estimatedRowHeight = 150
+        tweetTableView.rowHeight = UITableViewAutomaticDimension
         
         // テーブルビューの外枠の設定
-        TweetTableView.layer.borderColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 1).cgColor
-        TweetTableView.layer.borderWidth = 1
+        tweetTableView.layer.borderColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 1).cgColor
+        tweetTableView.layer.borderWidth = 1
         
         // プルダウンしたら画面が更新するよう設定
-        TweetTableView.refreshControl = refreshControl
+        tweetTableView.refreshControl = refreshControl
         refreshControl.addTarget(self, action: #selector(self.refresh), for: .valueChanged)
         
         // ビューに貼り付け
-        self.view.addSubview(TweetTableView)
+        self.view.addSubview(tweetTableView)
         
         // -----------------------------------ツイートするボタンの作成-----------------------------------
-        let tweetButton = UIButton()
         // ボタンの設置座標とサイズを設定する.
         tweetButton.frame = CGRect(x: tButtonX, y: tButtonY, width: tButtonWidth, height: tButtonHeight)
         // ボタンの背景色を設定.
@@ -233,132 +419,15 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         tweetButton.addTarget(self, action: #selector(self.Tweet), for: .touchUpInside)
         // ボタンをViewに追加.
         self.view.addSubview(tweetButton)
-
-        
         // -----------------------------------みんなの反応ラベルの作成-----------------------------------
-        let tweetLabel: UILabel = UILabel(frame: CGRect(x: 10, y: tableY-bHeight, width: 200, height: bHeight))
+        tweetLabel.frame = CGRect(x: 10, y: tableY-bHeight, width: 200, height: bHeight)
         tweetLabel.text = "みんなの反応"
         tweetLabel.textAlignment = NSTextAlignment.left
         tweetLabel.font = UIFont.systemFont(ofSize: 20)
         self.view.addSubview(tweetLabel)
-
-        // ツイート取得
-        getTweet()
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    // -----------------------------------ここからテーブルビュー設定用の関数-----------------------------------
-    
-    // Cellが選択された際に呼び出される
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath)
-        
-        cell?.isSelected = false
-    }
-    
-    // tableのcellにAPIから受け取ったデータを入れる
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        print(indexPath.row)
-        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "TableCell")
-        cell.textLabel?.text = tweetItems["statuses"][indexPath.row]["text"].string
-        cell.textLabel?.numberOfLines = 0
-        if tweetImages.count-1 >= indexPath.row {
-            cell.imageView?.image = tweetImages[indexPath.row]
-        }
-//        print(self.tweetItems["statuses"][indexPath.row])
-//        print("indexPath.row : " + String(indexPath.row))
-//        print("text : " + (cell.textLabel?.text!)!)
-
-        return cell
-    }
-    
-    // cellの数を設定
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        print("tweetItems : " + String(tweetItems["statuses"].count))
-//        print("tweetImages : " + String(tweetImages.count))
-        return tweetItems["statuses"].count
-    }
-    
-    // サイズの指定
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return 70
-//    }
-    
-    
-    /*
-     ボタンのイベント.
-     */
-    func onClickAllNewsButton() {
-        self.performSegue(withIdentifier: "toNews", sender: nil)
-    }
-    
-    // -----------------------------------TwitterAPIからツイートの検索結果を取得するメソッド-----------------------------------
-    func getTweet(){
-        if let session = Twitter.sharedInstance().sessionStore.session() {
-            //            print(session.userID)
-            var clientError: NSError?
-            
-            // ハッシュタグで検索した結果を取得
-            let apiClient = TWTRAPIClient(userID: session.userID)
-            let request = apiClient.urlRequest(
-                withMethod: "GET",
-                url: self.tweetURL,
-                parameters: [
-                    "user_id": session.userID,
-                    "count": "100", // Intで10を渡すとエラーになる模様で、文字列にしてやる必要がある
-                ],
-                error: &clientError
-            )
-            
-            // ここで通信を行いdataを取得する
-            apiClient.sendTwitterRequest(request) { response, data, error in // NSURLResponse?, NSData?, NSError?
-                self.tweetImages.removeAll()
-                if let error = error {
-                    print(error.localizedDescription)
-                } else if let data = data, let jsonString = String(data: data, encoding: .utf8) {
-                    self.tweetItems = JSON(data: data)
-                    //                    print(self.tweetItems)
-                    
-                    self.tweetItems["statuses"].forEach{(_, data) in
-                        //                        print(data)
-                        let urlString = data["user"]["profile_image_url"].string
-                        // 画像取得
-                        Alamofire.request(urlString!).responseImage { response in
-                            if let image = response.result.value {
-                                self.tweetImages.append(image)
-                            }
-                            self.TweetTableView.reloadData()
-                        }
-                    }
-                    self.TweetTableView.reloadData()
-                }
-            }
-        } else {
-            print("アカウントはありません")
-            Twitter.sharedInstance().logIn { session, error in
-                guard let session = session else {
-                    if let error = error {
-                        print("エラーが起きました => \(error.localizedDescription)")
-                    }
-                    return
-                }
-                print("@\(session.userName)でログインしました")
-            }
-        }
-    }
-    
-    func refresh() {
-        self.refreshControl.endRefreshing()
-        getTweet()
-    }
-
-    func Tweet() {
-        print("tweetボタンが押されました")
-    }
-    
+    // 設定ボタンがタップされた時のメソッド
     func onMenu(sender: UIButton) {
         self.slideMenuController()?.openRight()
     }
@@ -418,3 +487,4 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         }
     }
 }
+
