@@ -65,8 +65,8 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     let newsTitle2: UILabel = UILabel()
     let newsTitle3:UILabel = UILabel()
     // ツイッターAPIで飛ばすURL
-    //    let searchWord: String = "Lv100%20%e3%82%b8%e3%83%bb%e3%82%aa%e3%83%bc%e3%83%80%e3%83%bc%e3%83%bb%e3%82%b0%e3%83%a9%e3%83%b3%e3%83%87"
-    let searchWord: String = "%23%e7%9c%8c%e5%a4%a7%e7%a5%adtpu2017"
+    //    let searchWord: String = ""hoge exclude:retweets""
+    let searchWord: String = "#県大祭tpu2017 exclude:retweets"
     var twitterApiUrl: String = String()
     
     private let refreshControl = UIRefreshControl()
@@ -78,7 +78,7 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         extendedLayoutIncludesOpaqueBars = true
         
         // twitterのURL指定
-        twitterApiUrl = "https://api.twitter.com/1.1/search/tweets.json?q=" + self.searchWord + "&lang=ja&result_type=mixed"
+        twitterApiUrl = "https://api.twitter.com/1.1/search/tweets.json"
         
         // -----------------------------------settingボタンの設定-----------------------------------
         // 設定ボタンの各種座標、大きさの設定
@@ -297,6 +297,7 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             url: self.twitterApiUrl,
             parameters: [
                 "user_id": session!.userID,
+                "q": searchWord,
                 "count": "100", // Intで10を渡すとエラーになる模様で、文字列にしてやる必要がある
             ],
             error: &clientError
@@ -311,6 +312,7 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 self.TwitterAuthorization()
             } else if let data = data, let jsonString = String(data: data, encoding: .utf8) {
                 self.tweetItems = JSON(data: data)
+                print(data)
                 //                    print(self.tweetItems)
                 
                 self.tweetItems["statuses"].forEach{(_, data) in
