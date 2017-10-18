@@ -16,7 +16,12 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource  {
     
     // newsItemsをJSONの配列と定義
     var newsItems: [JSON] = []
-    var newsImages: [UIImage] = []
+    var newsImages: [Int: UIImage] = [:]
+    
+    // TableViewを作成
+    let tableView = UITableView()
+    
+    private let refreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,31 +31,19 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource  {
         
         self.title = "News"
         
-        // TableViewを作成
-        let tableView = UITableView()
         tableView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
         tableView.delegate = self
         tableView.dataSource = self
+        
+        // プルダウンしたら画面が更新するよう設定
+        tableView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(self.refresh), for: .valueChanged)
+        
         self.view.addSubview(tableView)
         
-        // JSON取得
-        let listUrl = "http://150.95.142.204/app2017/feed";
-        Alamofire.request(listUrl).responseJSON{ response in
-            let json = JSON(response.result.value ?? "")
-            json.forEach{(_, data) in
-                self.newsItems.append(data)
-                // Set Image URL
-                let urlString = data["picture"].string
-                // 画像取得
-                Alamofire.request(urlString!).responseImage { response in
-                    if let image = response.result.value {
-                        self.newsImages.append(image)
-                    }
-                    tableView.reloadData()
-                }
-            }
-            tableView.reloadData()
-        }
+        getNews()
+        
+
 
     }
     // Cellが選択された際に呼び出される
@@ -70,11 +63,11 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource  {
         cell.textLabel?.text = newsItems[indexPath.row]["title"].string
 //        cell.detailTextLabel?.text = "投稿日時 : \(newsItems[indexPath.row]["date"].stringValue)"
         cell.detailTextLabel?.text = "投稿日時 : 2017/09/24)"
-        // 画像がダウンロードできていれば表示
-        if newsImages.count-1 >= indexPath.row {
-            cell.imageView?.image = newsImages[indexPath.row]
-        }
+        
+        cell.imageView?.image = newsImages[indexPath.row]
+    
         return cell
+        
     }
     
     // cellの数を設定
@@ -90,5 +83,40 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource  {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func getNews() {
+        // 配列を一旦空に
+        self.newsItems = []
+        self.newsImages = [:]
+        // JSON取得
+        let listUrl = "http://150.95.142.204/app2017/feed";
+        Alamofire.request(listUrl).responseJSON{ response in
+            let json = JSON(response.result.value ?? "")
+            json.forEach{(_, data) in
+                self.newsItems.append(data)
+            }
+            self.tableView.reloadData()
+            
+            var count = 0
+            
+            for newsItem in self.newsItems {
+                // Set Image URL
+                let urlString = newsItem["picture"].string
+                // 画像取得
+                Alamofire.request(urlString!).responseImage { response in
+                    if let image = response.result.value {
+                        self.newsImages[count] = image
+                        count += 1
+                    }
+                    self.tableView.reloadData()
+                }
+            }
+        }
+    }
+    
+    func refresh() {
+        self.refreshControl.endRefreshing()
+        self.getNews()
     }
 }
