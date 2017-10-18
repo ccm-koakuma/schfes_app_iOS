@@ -14,8 +14,10 @@ class SlideVC: SlideMenuController {
     static let menuWidth: CGFloat = 250
     
     override func awakeFromNib() {
+        let MainSB = UIStoryboard(name: "Main", bundle: nil)
         let tabBarController: TabBarController = TabBarController()
-        let settingMenuVC = SettingMenuVC()
+        let settingMenuVC = MainSB.instantiateViewController(withIdentifier: "SettingMenuVC")
+//        let settingMenuNaviVC: UINavigationController = UINavigationController(rootViewController: settingMenuVC)
         
         //ライブラリ特有のプロパティにセット
         mainViewController = tabBarController
