@@ -15,17 +15,19 @@ import NotificationCenter
 
 extension UIImage{
     // Resizeするクラスメソッド.
-    func ResizeUIImage(width : CGFloat, height : CGFloat)-> UIImage!{
-        // 指定された画像の大きさのコンテキストを用意.
-        UIGraphicsBeginImageContext(CGSize(width: width, height: height))
-        // コンテキストに自身に設定された画像を描画する.
-        self.draw(in: CGRect(x: 0, y: 0, width: width, height: height))
-        // コンテキストからUIImageを作る.
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        // コンテキストを閉じる.
+    func ResizeUIImage(size _size: CGSize)-> UIImage!{
+        let widthRatio = _size.width / size.width
+        let heightRatio = _size.height / size.height
+        let ratio = widthRatio < heightRatio ? widthRatio : heightRatio
+
+        let resizedSize = CGSize(width: size.width * ratio, height: size.height * ratio)
+
+        UIGraphicsBeginImageContextWithOptions(resizedSize, false, 0.0) // 変更
+        draw(in: CGRect(origin: .zero, size: resizedSize))
+        let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        
-        return newImage
+
+        return resizedImage
     }
     
     func cropImage(image :UIImage, w:Int, h:Int) ->UIImage

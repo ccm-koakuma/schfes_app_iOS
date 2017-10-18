@@ -11,6 +11,7 @@ target 'schfes_app_iOS' do
   pod "Fabric"
   pod "TwitterKit"
   pod "SlideMenuControllerSwift"
+  pod "ImageViewer"
 
   # Pods for schfes_app_iOS
 

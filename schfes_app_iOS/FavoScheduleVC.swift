@@ -12,11 +12,11 @@ import Alamofire
 import SwiftyJSON
 
 class FavoScheduleVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    
+    let size45 = CGSize(width: 45, height: 45)
     // お気に入り時の画像
-    let favoIcon = UIImage(named: "favo_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
+    var favoIcon = UIImage()
     // 非お気に入り時の画像
-    let noFavoIcon = UIImage(named: "no_favo_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
+    var noFavoIcon = UIImage()
     
     // お気に入り登録しているかどうかの値を保持する変数
     // アプリが落ちても値を保持できるUserDefaultsを使用
@@ -46,6 +46,11 @@ class FavoScheduleVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         FavoScheduleVC.favoScheduleTableView.dataSource = self
         FavoScheduleVC.favoScheduleTableView.tableFooterView = UIView(frame: .zero)
         self.view.addSubview(FavoScheduleVC.favoScheduleTableView)
+        
+        // お気に入り時の画像
+        favoIcon = (UIImage(named: "favo_icon.png")?.ResizeUIImage(size: size45).withRenderingMode(.alwaysOriginal))!
+        // 非お気に入り時の画像
+        noFavoIcon = (UIImage(named: "no_favo_icon.png")?.ResizeUIImage(size: size45).withRenderingMode(.alwaysOriginal))!
         
         // データを取得
         let listUrl = "http://150.95.142.204/app2017/schedule";
