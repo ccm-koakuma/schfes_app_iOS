@@ -15,6 +15,8 @@ import TwitterKit
 
 class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    let size30 = CGSize(width: 30, height: 30)
+
     // オレンジカラー作成
     let orangeColor = UIColor(red: 235/255.0, green: 97/255.0, blue: 0/255.0, alpha: 1)
     let twitterColor = UIColor(red: 29/255.0, green: 161/255.0, blue: 242/255.0, alpha: 1)
@@ -28,6 +30,9 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     // ツイッターの画像を入れておく配列
     var tweetImages: [UIImage] = []
     
+    // ツイッターのアイコンイメージ
+    let tweetImage = (UIImage(named: "twitter.png")?.ResizeUIImage(size: CGSize(width: 30, height: 30)))!
+    
     // ニュースのデータを入れておく配列
     var newsItems: [JSON] = []
     // ニュースの画像を入れておく配列
@@ -40,9 +45,6 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var newsLink2: String = ""
     var newsLink3: String = ""
     
-    
-    // ツイッターのアイコンイメージ
-    let tweetImage = UIImage(named: "twitter.png")?.ResizeUIImage(width: 30, height: 30)
     
     // ツイッターの検索結果を表示するテーブルビュー作成
     let tweetTableView = UITableView()
@@ -77,10 +79,9 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         // これがないと画面全体が下にずれてしまう
         extendedLayoutIncludesOpaqueBars = true
 
-        
         // -----------------------------------settingボタンの設定-----------------------------------
         // 設定ボタンの各種座標、大きさの設定
-        let settingImage = UIImage(named: "setting_icon.png")?.ResizeUIImage(width: 30, height: 30)
+        let settingImage = UIImage(named: "setting_icon.png")?.ResizeUIImage(size: size30)
         
         let settingIcon = UIBarButtonItem(image: settingImage, style: .plain, target: self, action: #selector(self.onMenu))
         self.navigationItem.rightBarButtonItem = settingIcon
@@ -181,7 +182,7 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         allNewsButton.frame = CGRect(x: allNewsButtonX, y: allNewsButtonY, width: allNewsButtonWidth, height: allNewsButtonHeight)
         
         // ボタンに画像を設定する
-        let seeAllImage = UIImage(named: "see_all.png")?.ResizeUIImage(width: 100, height: 33)
+        let seeAllImage = UIImage(named: "see_all.png")?.ResizeUIImage(size: CGSize(width: 100, height: 33))
         allNewsButton.setImage(seeAllImage, for: .normal)
         // ボタンにタグをつける.
         allNewsButton.tag = 1

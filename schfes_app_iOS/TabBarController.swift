@@ -40,8 +40,9 @@ class TabBarController: UITabBarController {
         // -----------------------------------------------------------1ページ目になるViewController-----------------------------------------------------------
         let topVC = MainSB.instantiateViewController(withIdentifier: "TopVC")
         // 画像のインスタンス生成
-        let topIcon = UIImage(named: "top_icon.png")?.ResizeUIImage(width: 45, height: 45)
-        let topSelectedIcon = UIImage(named: "top_selected_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
+        let size45 = CGSize(width: 45, height: 45)
+        let topIcon = UIImage(named: "top_icon.png")?.ResizeUIImage(size: size45)
+        let topSelectedIcon = UIImage(named: "top_selected_icon.png")?.ResizeUIImage(size: size45).withRenderingMode(.alwaysOriginal)
         
         // タブバーに表示するアイテムの設定
         let topTabBarItem = UITabBarItem()
@@ -67,8 +68,8 @@ class TabBarController: UITabBarController {
         let scheduleVC = MainSB.instantiateViewController(withIdentifier: "ScheduleVC") as UIViewController
         
         // 画像のインスタンス生成
-        let scheduleIcon = UIImage(named: "schedule_icon.png")?.ResizeUIImage(width: 45, height: 45)
-        let scheduleSelectedIcon = UIImage(named: "schedule_selected_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
+        let scheduleIcon = UIImage(named: "schedule_icon.png")?.ResizeUIImage(size: size45)
+        let scheduleSelectedIcon = UIImage(named: "schedule_selected_icon.png")?.ResizeUIImage(size: size45).withRenderingMode(.alwaysOriginal)
         
         // タブバーに表示するアイテムの設定
         let scheduleTabBarItem = UITabBarItem()
@@ -93,8 +94,8 @@ class TabBarController: UITabBarController {
         let shopVC = MainSB.instantiateViewController(withIdentifier: "ShopVC") as UIViewController
         
         // 画像のインスタンス生成
-        let shopIcon = UIImage(named: "shop_icon.png")?.ResizeUIImage(width: 45, height: 45)
-        let shopSelectedIcon = UIImage(named: "shop_selected_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
+        let shopIcon = UIImage(named: "shop_icon.png")?.ResizeUIImage(size: size45)
+        let shopSelectedIcon = UIImage(named: "shop_selected_icon.png")?.ResizeUIImage(size: size45).withRenderingMode(.alwaysOriginal)
         
         // タブバーに表示するアイテムの設定
         let shopTabBarItem = UITabBarItem()
@@ -118,8 +119,8 @@ class TabBarController: UITabBarController {
         let mapVC = MainSB.instantiateViewController(withIdentifier: "MapVC") as UIViewController
         
         // 画像のインスタンス生成
-        let mapIcon = UIImage(named: "map_icon.png")?.ResizeUIImage(width: 45, height: 45)
-        let mapSelectedIcon = UIImage(named: "map_selected_icon.png")?.ResizeUIImage(width: 45, height: 45).withRenderingMode(.alwaysOriginal)
+        let mapIcon = UIImage(named: "map_icon.png")?.ResizeUIImage(size: size45)
+        let mapSelectedIcon = UIImage(named: "map_selected_icon.png")?.ResizeUIImage(size: size45).withRenderingMode(.alwaysOriginal)
         
         // タブバーに表示するアイテムの設定
         let mapTabBarItem = UITabBarItem()
