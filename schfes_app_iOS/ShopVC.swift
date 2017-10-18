@@ -28,10 +28,12 @@ class ShopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         self.shopTableView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
         self.shopTableView.delegate = self
         self.shopTableView.dataSource = self
+        
+        self.shopTableView.tableFooterView = UIView(frame: .zero)
         self.view.addSubview(self.shopTableView)
         
         // データを取得
-        let listUrl = "http://ytrw3xix.0g0.jp/app2017/stall";
+        let listUrl = "http://150.95.142.204/app2017/stall";
         Alamofire.request(listUrl).responseJSON{ response in
             let json = JSON(response.result.value ?? "")
             json.forEach{(_, data) in
@@ -44,7 +46,6 @@ class ShopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     // Cellが選択された際に呼び出される
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         self.performSegue(withIdentifier: "toShopDetail", sender: nil)
     }
     
@@ -63,19 +64,8 @@ class ShopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         return items.count
     }
     
-    func toStall(){
-        self.performSegue(withIdentifier: "toShopDetail", sender: nil)
-//        print("hoge")
-    }
     
-    //    override func prepare(for segue: UIStoryboardSegue, sender: Any?){
-    //        if segue.identifier == "toStall" {
-    //            let stallVC = segue.destination as! StallVC
-    //            stallVC.items = sender as! [JSON]
-    //        }
-    //    }
-    
-    // 戻ろボタンで戻ってきた時の処理
+    // 戻るボタンで戻ってきた時の処理
     // これをつけることによってどこをタップしてきたのかわかりやすくする
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

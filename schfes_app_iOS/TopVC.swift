@@ -65,9 +65,9 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     let newsTitle2: UILabel = UILabel()
     let newsTitle3:UILabel = UILabel()
     // ツイッターAPIで飛ばすURL
-    //    let searchWord: String = ""hoge exclude:retweets""
-    let searchWord: String = "#県大祭tpu2017 exclude:retweets"
-    var twitterApiUrl: String = String()
+    let searchWord: String = "%23%e7%9c%8c%e5%a4%a7%e7%a5%adtpu2017"
+    var twitterApiUrl: String = "https://api.twitter.com/1.1/search/tweets.json"
+    let searchQuery: String = "#県大祭tpu2017  exclude:retweets"
     
     private let refreshControl = UIRefreshControl()
     
@@ -76,9 +76,7 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
         // これがないと画面全体が下にずれてしまう
         extendedLayoutIncludesOpaqueBars = true
-        
-        // twitterのURL指定
-        twitterApiUrl = "https://api.twitter.com/1.1/search/tweets.json"
+
         
         // -----------------------------------settingボタンの設定-----------------------------------
         // 設定ボタンの各種座標、大きさの設定
@@ -157,7 +155,7 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         newsTitle3.textAlignment = NSTextAlignment.center
         
         // JSON取得
-        let listUrl = "http://ytrw3xix.0g0.jp/app2017/feed";
+        let listUrl = "http://150.95.142.204/app2017/feed";
         Alamofire.request(listUrl).responseJSON(completionHandler: setNews)
         
         // ビューに貼り付け
@@ -188,7 +186,7 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         // ボタンにタグをつける.
         allNewsButton.tag = 1
         // イベントを追加する
-        allNewsButton.addTarget(self, action: #selector(self.onClickAllNewsButton), for: .touchUpInside)
+        allNewsButton.addTarget(self, action: #selector(self.toNewsList), for: .touchUpInside)
         // ボタンをViewに追加.
         self.view.addSubview(allNewsButton)
         
@@ -245,43 +243,16 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    // -----------------------------------ここからテーブルビュー設定用の関数-----------------------------------
     
-    // Cellが選択された際に呼び出される
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath)
-        
-        cell?.isSelected = false
-    }
-    
-    // tableのcellにAPIから受け取ったデータを入れる
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //        print(indexPath.row)
-        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "TableCell")
-        cell.textLabel?.text = tweetItems["statuses"][indexPath.row]["text"].string
-        cell.textLabel?.numberOfLines = 0
-        if tweetImages.count-1 >= indexPath.row {
-            cell.imageView?.image = tweetImages[indexPath.row]
+    // -----------------------------------ツイートするメソッド-----------------------------------
+    func Tweet() {
+        let twitterUrlScheme = NSURL(string: "twitter://post?message=" + self.searchWord)!
+        let twitterUrl = NSURL(string: "https://twitter.com/intent/tweet?text=" + self.searchWord)!
+        if (UIApplication.shared.canOpenURL(twitterUrlScheme as URL)) {
+            UIApplication.shared.openURL(twitterUrlScheme as URL)
+        } else {
+            UIApplication.shared.openURL(twitterUrl as URL)
         }
-        return cell
-    }
-    
-    // cellの数を設定
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //        print("tweetItems : " + String(tweetItems["statuses"].count))
-        //        print("tweetImages : " + String(tweetImages.count))
-        return tweetItems["statuses"].count
-    }
-    
-    // サイズの指定
-    //    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    //        return 70
-    //    }
-    
-    
-    // ボタンのイベント
-    func onClickAllNewsButton() {
-        self.performSegue(withIdentifier: "toNews", sender: nil)
     }
     
     // -----------------------------------TwitterAPIからツイートの検索結果を取得するメソッド-----------------------------------
@@ -297,7 +268,7 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             url: self.twitterApiUrl,
             parameters: [
                 "user_id": session!.userID,
-                "q": searchWord,
+                "q": searchQuery,
                 "count": "100", // Intで10を渡すとエラーになる模様で、文字列にしてやる必要がある
             ],
             error: &clientError
@@ -328,21 +299,6 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 }
                 self.tweetTableView.reloadData()
             }
-        }
-    }
-    
-    func refresh() {
-        self.refreshControl.endRefreshing()
-        getTweet()
-    }
-    
-    func Tweet() {
-        let twitterUrlScheme = NSURL(string: "twitter://post?message=%23" + self.searchWord)!
-        let twitterUrl = NSURL(string: "https://twitter.com/intent/tweet?text=" + self.searchWord)
-        if (UIApplication.shared.canOpenURL(twitterUrlScheme as URL)) {
-            UIApplication.shared.openURL(twitterUrlScheme as URL)
-        } else {
-            UIApplication.shared.openURL(twitterUrl! as URL)
         }
     }
     
@@ -386,12 +342,16 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         tweetTableView.dataSource = self
         
         // テーブルビューの高さが自動的に変更されるように設定
-        tweetTableView.estimatedRowHeight = 150
+        tweetTableView.estimatedRowHeight = 10
         tweetTableView.rowHeight = UITableViewAutomaticDimension
         
         // テーブルビューの外枠の設定
         tweetTableView.layer.borderColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 1).cgColor
         tweetTableView.layer.borderWidth = 1
+        
+        tweetTableView.tableFooterView = UIView(frame: .zero)
+        
+        tweetTableView.register(UITableViewCell.self, forCellReuseIdentifier: "TweetCell")
         
         // プルダウンしたら画面が更新するよう設定
         tweetTableView.refreshControl = refreshControl
@@ -419,6 +379,8 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         tweetButton.tag = 2
         // イベントを追加する
         tweetButton.addTarget(self, action: #selector(self.Tweet), for: .touchUpInside)
+        
+        
         // ボタンをViewに追加.
         self.view.addSubview(tweetButton)
         // -----------------------------------みんなの反応ラベルの作成-----------------------------------
@@ -487,6 +449,57 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         if let url = NSURL(string: newsLink3) {
             UIApplication.shared.openURL(url as URL)
         }
+    }
+    
+    // -----------------------------------ここからテーブルビュー設定用の関数-----------------------------------
+    
+    // Cellが選択された際に呼び出される
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)
+        
+        cell?.isSelected = false
+    }
+    
+    // tableのcellにAPIから受け取ったデータを入れる
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        //        print(indexPath.row)
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "TweetCell")
+        cell.textLabel?.text = tweetItems["statuses"][indexPath.row]["text"].string
+        cell.textLabel?.numberOfLines = 0
+        if tweetImages.count-1 >= indexPath.row {
+            //            cell.imageView?.image = tweetImages[indexPath.row]
+        }
+        return cell
+    }
+    
+    // cellの数を設定
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        //        print("tweetItems : " + String(tweetItems["statuses"].count))
+        //        print("tweetImages : " + String(tweetImages.count))
+        return tweetItems["statuses"].count
+    }
+    
+    // サイズの指定
+    //        func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    //            return  10
+    //        }
+    
+    // See All ボタンを押した時のイベント
+    func toNewsList() {
+        self.performSegue(withIdentifier: "toNews", sender: nil)
+    }
+    
+    func toAboutCCM() {
+        self.performSegue(withIdentifier: "toAboutCCM", sender: nil)
+    }
+    
+    func toHowToUse() {
+        self.performSegue(withIdentifier: "toHowToUse", sender: nil)
+    }
+
+    func refresh() {
+        self.refreshControl.endRefreshing()
+        getTweet()
     }
 }
 

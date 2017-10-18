@@ -14,6 +14,9 @@ import NotificationCenter
 
 class SettingMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    var topVC: UIViewController = UIViewController()
+
+    
     // Tableで使用する配列を設定する
     private let settingItems: NSArray = ["設定", "通知機能", "アプリの使い方", "CCMとは？"]
     private var settingTableView: UITableView!
@@ -35,6 +38,11 @@ class SettingMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.title = "設定"
+        
+        let MainSB = UIStoryboard(name: "Main", bundle: nil)
+        
+        topVC = MainSB.instantiateViewController(withIdentifier: "TopVC")
         
         // Viewの高さと幅を取得する.
         let displayWidth: CGFloat = SlideVC.menuWidth
@@ -81,13 +89,11 @@ class SettingMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
      Cellが選択された際に呼び出される
      */
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("Num: \(indexPath.row)")
-        print("Value: \(settingItems[indexPath.row])")
-        if let cell = tableView.cellForRow(at: indexPath) {
-            // cellの選択を解除する
-            // これがないとセルを選択した時グレーになり続ける
-            cell.isSelected = false
-        }
+//        if indexPath.row == 2 {
+            self.toHowToUse()
+//        } else if indexPath.row == 3 {
+//            self.toAboutCCM()
+//        }
     }
     
     /*
@@ -108,15 +114,23 @@ class SettingMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         cell.textLabel!.text = "\(settingItems[indexPath.row])"
         
         if indexPath.row == 0 {
+            // 選択できないようにする
             cell.selectionStyle = UITableViewCellSelectionStyle.none
+            // フォントの設定
             cell.textLabel?.font = UIFont(name: "HelveticaNeue-Bold", size: 20.0)
+            // テキストを中心に
             cell.textLabel?.textAlignment = .center
+            // 文字色と背景色の設定
             cell.textLabel?.textColor = UIColor.white
             cell.backgroundColor = orangeColor
         } else if indexPath.row == 1 {
+            // 選択できないようにする
+            cell.selectionStyle = UITableViewCellSelectionStyle.none
+            // 右側にスイッチを配置
             cell.accessoryView = notificationSwitch
             
         } else {
+            // 右側に「>」を設定
             cell.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
         }
 
@@ -176,6 +190,26 @@ class SettingMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
             let request = UNNotificationRequest(identifier: notifiId, content: content, trigger: trigger)
             // 通知をセット
             UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+        }
+    }
+    
+    func toHowToUse() {
+        print("hoge")
+        print("hogehoge")
+//        topVC.performSegue(withIdentifier: "toHowToUse", sender: nil)
+        let storyboard: UIStoryboard = self.storyboard!
+        let howToUseVC = storyboard.instantiateViewController(withIdentifier: "HowToUseVC")
+        let howToUseNavi = UINavigationController(rootViewController: howToUseVC)
+        present(howToUseNavi, animated: true, completion: nil)
+    }
+    
+    // 戻るボタンで戻ってきた時の処理
+    // これをつけることによってどこをタップしてきたのかわかりやすくする
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if let indexPathForSelectedRow = self.settingTableView.indexPathForSelectedRow {
+            self.settingTableView.deselectRow(at: indexPathForSelectedRow, animated: true)
         }
     }
 }

@@ -26,11 +26,13 @@ class FavoScheduleVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     static let favoScheduleTableView: UITableView = UITableView()
     
     // 1日目と２日目の企画の配列の作成
-    var day_one_event: [JSON] = []
-    var day_two_event: [JSON] = []
+    var dayOneEvent: [JSON] = []
+    var dayTwoEvent: [JSON] = []
+    // 前夜祭用
+    var eveEvent: [JSON] = []
     
     // Sectionで使用する配列を定義する.
-    private let mySections: NSArray = ["10月28日", "10月29日"]
+    private let mySections: NSArray = ["前夜祭", "10月28日", "10月29日"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,15 +48,17 @@ class FavoScheduleVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.view.addSubview(FavoScheduleVC.favoScheduleTableView)
         
         // データを取得
-        let listUrl = "http://ytrw3xix.0g0.jp/app2017/timetable";
+        let listUrl = "http://150.95.142.204/app2017/schedule";
         Alamofire.request(listUrl).responseJSON{ response in
             let json = JSON(response.result.value ?? "")
             json.forEach{(_, data) in
                 // それぞれの日の企画の配列にデータを追加
-                if data["time"] == "301430"{
-                    self.day_one_event.append(data)
-                } else {
-                    self.day_two_event.append(data)
+                if data["date"] == "28"{
+                    self.dayOneEvent.append(data)
+                } else if data["date"] == "29" {
+                    self.dayTwoEvent.append(data)
+                } else if data["date"] == "27" {
+                    self.eveEvent.append(data)
                 }
             }
             // テーブルビューのリロード
@@ -87,22 +91,28 @@ class FavoScheduleVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "TableCell")
         
         var event:[JSON] = []
-        if indexPath.section == 0{
-            event = day_one_event
+        if indexPath.section == 1{
+            event = dayOneEvent
             // セルのイメージにタグを設定
             let tagstr: String = "1" + String(indexPath.row)
             cell.imageView?.tag = Int(tagstr)!
-        } else {
-            event = day_two_event
+        } else if indexPath.section == 2 {
+            event = dayTwoEvent
             // セルのイメージにタグを設定
             let tagstr: String = "2" + String(indexPath.row)
+            cell.imageView?.tag = Int(tagstr)!
+        } else if indexPath.section == 0 {
+            event = dayTwoEvent
+            // セルのイメージにタグを設定
+            let tagstr: String = "3" + String(indexPath.row)
             cell.imageView?.tag = Int(tagstr)!
         }
     
         // お気に入りされている場合のみ、テキストを設定し、お気に入りイメージを追加する
         if userDefaults.bool(forKey: event[indexPath.row]["id"].string!) == true {
             cell.textLabel?.text = event[indexPath.row]["title"].string
-            cell.detailTextLabel?.text = "開催時刻 : \(event[indexPath.row]["time"].stringValue)"
+            cell.detailTextLabel?.text = "開催時刻 : \(event[indexPath.row]["time"].stringValue) \n hogehoge"
+            
             cell.imageView?.image = favoIcon
         }
         
@@ -116,10 +126,12 @@ class FavoScheduleVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     // cellの数を設定
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-            return day_one_event.count
-        } else if section == 1 {
-            return day_two_event.count
+        if section == 1 {
+            return dayOneEvent.count
+        } else if section == 2 {
+            return dayTwoEvent.count
+        } else if section == 0 {
+            return eveEvent.count
         } else {
             return 0
         }
@@ -128,10 +140,14 @@ class FavoScheduleVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         var event:[JSON] = []
         
-        if indexPath.section == 0{
-            event = day_one_event
+        if indexPath.section == 1 {
+            event = dayOneEvent
+        } else if indexPath.section == 2 {
+            event = dayTwoEvent
+        } else if indexPath.section == 0 {
+            event = eveEvent
         } else {
-            event = day_two_event
+            event = []
         }
         
         if userDefaults.bool(forKey: event[indexPath.row]["id"].string!) == true {
@@ -149,10 +165,14 @@ class FavoScheduleVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         var event: [JSON] = []
 
-        if Int(tagStr.substring(to: tagStr.index(after: tagStr.startIndex))) == 1{
-            event = day_one_event
+        if Int(tagStr.substring(to: tagStr.index(after: tagStr.startIndex))) == 1 {
+            event = dayOneEvent
+        } else if Int(tagStr.substring(to: tagStr.index(after: tagStr.startIndex))) == 2 {
+            event = dayTwoEvent
+        } else if Int(tagStr.substring(to: tagStr.index(after: tagStr.startIndex))) == 3 {
+            event = eveEvent
         } else {
-            event = day_two_event
+            event = []
         }
         // お気に入り登録されていればそれを解除、されてなければ登録
         if userDefaults.bool(forKey: event[rowNum!]["id"].string!) == true {

@@ -34,7 +34,7 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource  {
         self.view.addSubview(tableView)
         
         // JSON取得
-        let listUrl = "http://ytrw3xix.0g0.jp/app2017/feed";
+        let listUrl = "http://150.95.142.204/app2017/feed";
         Alamofire.request(listUrl).responseJSON{ response in
             let json = JSON(response.result.value ?? "")
             json.forEach{(_, data) in
