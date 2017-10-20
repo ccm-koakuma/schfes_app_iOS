@@ -107,7 +107,7 @@ class FavoScheduleVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             let tagstr: String = "2" + String(indexPath.row)
             cell.imageView?.tag = Int(tagstr)!
         } else if indexPath.section == 0 {
-            event = dayTwoEvent
+            event = eveEvent
             // セルのイメージにタグを設定
             let tagstr: String = "3" + String(indexPath.row)
             cell.imageView?.tag = Int(tagstr)!

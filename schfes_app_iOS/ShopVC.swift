@@ -12,7 +12,6 @@ import SwiftyJSON
 
 class ShopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    
     // itemsをJSONの配列と定義
     var items: [JSON] = []
     
@@ -46,7 +45,7 @@ class ShopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     // Cellが選択された際に呼び出される
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.performSegue(withIdentifier: "toShopDetail", sender: nil)
+        self.performSegue(withIdentifier: "toShopDetail", sender: indexPath.row)
     }
     
     // tableのcellにAPIから受け取ったデータを入れる
@@ -77,5 +76,10 @@ class ShopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let shopDetailVC = segue.destination as! ShopDetailVC
+        shopDetailVC.item = self.items[sender as! Int]
     }
 }

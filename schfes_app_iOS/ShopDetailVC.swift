@@ -7,8 +7,19 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 class ShopDetailVC: UIViewController {
+    
+    var item: JSON = []
+    
+    var shopImage: UIImage = UIImage()
+    let shopImageView: UIImageView = UIImageView()
+    
+    
+    let shopName: UILabel = UILabel()
+    
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -16,25 +27,32 @@ class ShopDetailVC: UIViewController {
         // これがないと画面全体が下にずれてしまう
         extendedLayoutIncludesOpaqueBars = true
         
-        self.title = "模擬店名"
+        self.title = item["slname"].string
         
-        // ボタンのサイズを定義.
-        let bWidth: CGFloat = 200
-        let bHeight: CGFloat = 50
+        // 画像の座標、大きさの指定
+        let imageWidth: CGFloat = UIScreen.main.bounds.width
+        let imageHeight: CGFloat = imageWidth*640/2100
+        let imageX: CGFloat = UIScreen.main.bounds.width/2-imageWidth/2
+        let imageY: CGFloat = UIScreen.main.bounds.height*3/10-imageHeight/2
         
+        let imageSize: CGSize = CGSize(width: imageWidth, height: imageHeight)
         
-        // 配置する座標を定義(画面の中心).
-        let posX: CGFloat = self.view.bounds.width/2 - bWidth/2
-        let posY: CGFloat = self.view.bounds.height/2 - bHeight/2
+        shopImage = (UIImage(named: "手羽民（バド部）.png")?.ResizeUIImage(size: imageSize))!
         
+        shopImageView.image = shopImage
+        shopImageView.frame = CGRect(x: imageX, y: imageHeight/2, width: imageWidth, height: imageHeight)
         
-        let myLabel: UILabel = UILabel(frame: CGRect(x: posX, y:posY, width: bWidth, height: bHeight))
+        self.view.addSubview(shopImageView)
         
-        myLabel.text = "ここはショップの詳細だお"
+        let shopNameX: CGFloat = 0
+        let shopNameY: CGFloat = imageY+imageWidth
+        let shopNameWidth: CGFloat = UIScreen.main.bounds.height
+        let shopNameHeight: CGFloat = 200
         
-        myLabel.textAlignment = NSTextAlignment.center
+        shopName.text = item["slname"].string
+        shopName.frame = CGRect(x: shopNameX, y: shopNameY, width: shopNameWidth, height: shopNameHeight)
+        shopName.font = UIFont.systemFont(ofSize: 15.0)
         
-        self.view.addSubview(myLabel)
     }
     
     override func didReceiveMemoryWarning() {

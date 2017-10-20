@@ -91,6 +91,7 @@ class AllScheduleVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
             // これがないとセルを選択した時グレーになり続ける
             cell.isSelected = false
         }
+        
     }
     
     // tableのcellにAPIから受け取ったデータを入れる

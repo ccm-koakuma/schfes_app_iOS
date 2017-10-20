@@ -162,36 +162,40 @@ class SettingMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     
     
     static func setNotification() {
-        var time = 5
+//        var time = 5
         print("setNotification")
-        for i in 0..<3 {
+//        for i in 0..<3 {
             //　通知設定に必要なクラスをインスタンス化
-            let trigger: UNNotificationTrigger
+            var trigger: UNNotificationTrigger
             let content = UNMutableNotificationContent()
             var notificationTime = DateComponents()
             
             // トリガー設定(時間を指定したい場合これ)
-            //        notificationTime.hour = 12
-            //        notificationTime.minute = 0
-            //        trigger = UNCalendarNotificationTrigger(dateMatching: notificationTime, repeats: false)
+                    notificationTime.hour = 12
+                    notificationTime.minute = 0
+                    trigger = UNCalendarNotificationTrigger(dateMatching: notificationTime, repeats: false)
             // 設定したタイミングを起点として1分後に通知したい場合
             
-            time += 5
+//            time += 5
+//
+//            trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(time), repeats: false)
+            trigger = UNCalendarNotificationTrigger(dateMatching: notificationTime, repeats: false)
             
-            trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(time), repeats: false)
+            
         
             // 通知内容の設定
-            content.title = "アプリ起動してから" + String(time) + "秒経ったお！！"
-            content.body = "☓☓時□□分から◯◯で△△が開催されます！"
+            content.title = "おやつの時間です"
+            content.body = "アルフォートがおすすめ"
             content.sound = UNNotificationSound.default()
             
             // 通知スタイルを指定
-            let notifiId: String = "uuid" +  String(time)
+//            let notifiId: String = "uuid" +  String(time)
+            let notifiId: String = "uuid"
             let request = UNNotificationRequest(identifier: notifiId, content: content, trigger: trigger)
             // 通知をセット
             UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
         }
-    }
+//    }
     
     func toHowToUse() {
         print("hoge")

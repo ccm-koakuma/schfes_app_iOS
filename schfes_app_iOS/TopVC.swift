@@ -71,6 +71,7 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var twitterApiUrl: String = "https://api.twitter.com/1.1/search/tweets.json"
     let searchQuery: String = "#県大祭tpu2017  exclude:retweets"
     
+    // リフレッシュコントロールの変数
     private let refreshControl = UIRefreshControl()
     
     override func viewDidLoad() {

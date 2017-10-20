@@ -61,8 +61,6 @@
                     </view>
                     <connections>
                         <segue destination="jXe-7r-emk" kind="show" identifier="toNews" id="2Dr-Dd-iyG"/>
-                        <segue destination="CMr-Y2-kpZ" kind="show" identifier="toHowToUse" id="Mhz-Rb-bla"/>
-                        <segue destination="l7F-xw-YU8" kind="show" identifier="toAboutCCM" id="akG-BF-xE6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -172,9 +170,6 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <connections>
-                        <segue destination="1Ov-pQ-4qe" kind="show" identifier="toScheduleDetail" id="kwZ-VC-07S"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bfq-2c-haC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -197,24 +192,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AHN-4I-rCN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1630" y="2262"/>
-        </scene>
-        <!--Schedule DetailVC-->
-        <scene sceneID="8he-IN-P0p">
-            <objects>
-                <viewController storyboardIdentifier="ScheduleDetailVC" id="1Ov-pQ-4qe" customClass="ScheduleDetailVC" customModule="schfes_app_iOS" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="qqF-gs-Lyo"/>
-                        <viewControllerLayoutGuide type="bottom" id="Tux-Xj-Jlv"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="XkY-5c-S0Z">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="W4W-1i-5wF" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2554" y="1834"/>
         </scene>
         <!--ShopVC-->
         <scene sceneID="pGU-Fp-Ish">
