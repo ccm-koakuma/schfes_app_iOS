@@ -12,27 +12,27 @@ import SwiftyJSON
 
 class ShopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    
     // itemsをJSONの配列と定義
     var items: [JSON] = []
+    
+    let shopTableView = UITableView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // TableViewを作成
-        let tableView = UITableView()
-        tableView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
-        tableView.delegate = self
-        tableView.dataSource = self
-        self.view.addSubview(tableView)
+        // これがないと画面全体が下にずれてしまう
+        extendedLayoutIncludesOpaqueBars = true
         
-        let toStall = UITapGestureRecognizer(target: self, action: #selector(self.toStall))
-        tableView.addGestureRecognizer(toStall)
+        // TableViewの設定
+        self.shopTableView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+        self.shopTableView.delegate = self
+        self.shopTableView.dataSource = self
         
-        // QiitaのAPIからデータを取得
-        //        let listUrl = "http://qiita-stock.info/api.json";
-        let listUrl = "http://ytrw3xix.0g0.jp/app2017/timetable";
-        //        let listUrl = "http://133.55.75.10/timetable.json";
+        self.shopTableView.tableFooterView = UIView(frame: .zero)
+        self.view.addSubview(self.shopTableView)
+        
+        // データを取得
+        let listUrl = "http://150.95.142.204/app2017/stall";
         Alamofire.request(listUrl).responseJSON{ response in
             let json = JSON(response.result.value ?? "")
             json.forEach{(_, data) in
@@ -40,19 +40,19 @@ class ShopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 self.items.append(data)
                 
             }
-            tableView.reloadData()        }
+            self.shopTableView.reloadData()
+        }
     }
     // Cellが選択された際に呼び出される
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("Num: \(indexPath.row)")
-        print("Value: \(items[indexPath.row])")
+        self.performSegue(withIdentifier: "toShopDetail", sender: indexPath.row)
     }
     
     // tableのcellにAPIから受け取ったデータを入れる
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "TableCell")
-        cell.textLabel?.text = items[indexPath.row]["title"].string
-        cell.detailTextLabel?.text = "投稿日 : \(items[indexPath.row]["time"].stringValue)"
+        cell.textLabel?.text = items[indexPath.row]["slname"].string
+        cell.detailTextLabel?.text = items[indexPath.row]["stname"].stringValue
         //        cell.textLabel?.text = items["timetable"][indexPath.row]["title"].string
         //        cell.detailTextLabel?.text = "投稿日 : \(items[indexPath.row].stringValue)"
         return cell
@@ -63,19 +63,23 @@ class ShopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         return items.count
     }
     
-    func toStall(){
-        self.performSegue(withIdentifier: "toShopDetail", sender: nil)
-//        print("hoge")
-    }
     
-    //    override func prepare(for segue: UIStoryboardSegue, sender: Any?){
-    //        if segue.identifier == "toStall" {
-    //            let stallVC = segue.destination as! StallVC
-    //            stallVC.items = sender as! [JSON]
-    //        }
-    //    }
+    // 戻るボタンで戻ってきた時の処理
+    // これをつけることによってどこをタップしてきたのかわかりやすくする
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if let indexPathForSelectedRow = self.shopTableView.indexPathForSelectedRow {
+            self.shopTableView.deselectRow(at: indexPathForSelectedRow, animated: true)
+        }
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let shopDetailVC = segue.destination as! ShopDetailVC
+        shopDetailVC.item = self.items[sender as! Int]
     }
 }
