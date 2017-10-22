@@ -5,7 +5,7 @@
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -170,6 +170,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <segue destination="fGA-t7-0cZ" kind="show" identifier="allToBingo" id="5DX-As-tBM"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bfq-2c-haC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -188,10 +191,31 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <segue destination="fGA-t7-0cZ" kind="show" identifier="favoToBingo" id="5Fr-pF-br5"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AHN-4I-rCN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1630" y="2262"/>
+        </scene>
+        <!--BingoVC-->
+        <scene sceneID="RFa-Uo-noP">
+            <objects>
+                <viewController storyboardIdentifier="BingoVC" id="fGA-t7-0cZ" customClass="BingoVC" customModule="schfes_app_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Dgj-5b-Ymd"/>
+                        <viewControllerLayoutGuide type="bottom" id="U1e-cB-uYN"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="TVK-DF-Rof">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="p1V-yz-82y" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2772" y="1936"/>
         </scene>
         <!--ShopVC-->
         <scene sceneID="pGU-Fp-Ish">
@@ -206,31 +230,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <connections>
-                        <segue destination="xgH-xM-SQQ" kind="show" identifier="toShopDetail" id="hwr-td-31N"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8zu-QJ-FrX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="846" y="-693"/>
         </scene>
-        <!--Shop DetailVC-->
-        <scene sceneID="NCN-ZE-YN3">
-            <objects>
-                <viewController id="xgH-xM-SQQ" customClass="ShopDetailVC" customModule="schfes_app_iOS" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="eoa-pO-9Jg"/>
-                        <viewControllerLayoutGuide type="bottom" id="Yrb-nc-ad3"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="5WI-Lu-9hb">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="n6s-qd-NYx" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1630" y="-693"/>
-        </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="5Fr-pF-br5"/>
+    </inferredMetricsTieBreakers>
 </document>

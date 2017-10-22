@@ -41,7 +41,6 @@
 		2768A1301F956B3F00493ACE /* AboutCCMVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2768A12F1F956B3F00493ACE /* AboutCCMVC.swift */; };
 		276C65271F5810A80018211F /* TopVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276C65261F5810A80018211F /* TopVC.swift */; };
 		276C65291F581EF70018211F /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276C65281F581EF70018211F /* MapVC.swift */; };
-		276C652B1F5820ED0018211F /* ShopDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276C652A1F5820ED0018211F /* ShopDetailVC.swift */; };
 		276C652D1F5822130018211F /* RootScheduleVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276C652C1F5822130018211F /* RootScheduleVC.swift */; };
 		276C652F1F5823080018211F /* NewsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276C652E1F5823080018211F /* NewsVC.swift */; };
 		2773FACA1F9339A300AB2E60 /* SettingMenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2773FAC91F9339A300AB2E60 /* SettingMenuVC.swift */; };
@@ -62,6 +61,7 @@
 		278B4CA01F927C03008458AB /* top_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 278B4C911F927C03008458AB /* top_icon.png */; };
 		278B4CA11F927C03008458AB /* top_selected_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 278B4C921F927C03008458AB /* top_selected_icon.png */; };
 		278B4CA21F927C03008458AB /* twitter.png in Resources */ = {isa = PBXBuildFile; fileRef = 278B4C931F927C03008458AB /* twitter.png */; };
+		27F1C07F1F9CADFC00960D4B /* BingoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F1C07E1F9CADFC00960D4B /* BingoVC.swift */; };
 		27F99B3C1F97C0E40045CF9B /* ピロティクルー（スケボーサークル）.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F99B2A1F97C0DF0045CF9B /* ピロティクルー（スケボーサークル）.png */; };
 		27F99B3D1F97C0E40045CF9B /* アメリカンドック売りのハンジ（学生会）.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F99B2B1F97C0DF0045CF9B /* アメリカンドック売りのハンジ（学生会）.png */; };
 		27F99B3E1F97C0E40045CF9B /* やきゅうどん（軟式野球部）.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F99B2C1F97C0DF0045CF9B /* やきゅうどん（軟式野球部）.png */; };
@@ -144,9 +144,8 @@
 		2768A12F1F956B3F00493ACE /* AboutCCMVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutCCMVC.swift; sourceTree = "<group>"; };
 		276C65261F5810A80018211F /* TopVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopVC.swift; sourceTree = "<group>"; };
 		276C65281F581EF70018211F /* MapVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
-		276C652A1F5820ED0018211F /* ShopDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopDetailVC.swift; sourceTree = "<group>"; };
 		276C652C1F5822130018211F /* RootScheduleVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootScheduleVC.swift; sourceTree = "<group>"; };
-		276C652E1F5823080018211F /* NewsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsVC.swift; sourceTree = "<group>"; };
+		276C652E1F5823080018211F /* NewsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = NewsVC.swift; sourceTree = "<group>"; };
 		2773FAC91F9339A300AB2E60 /* SettingMenuVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingMenuVC.swift; sourceTree = "<group>"; };
 		2773FACD1F934DC800AB2E60 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		2773FAD11F937B4800AB2E60 /* SlideVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideVC.swift; sourceTree = "<group>"; };
@@ -166,6 +165,7 @@
 		278B4C911F927C03008458AB /* top_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = top_icon.png; sourceTree = "<group>"; };
 		278B4C921F927C03008458AB /* top_selected_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = top_selected_icon.png; sourceTree = "<group>"; };
 		278B4C931F927C03008458AB /* twitter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = twitter.png; sourceTree = "<group>"; };
+		27F1C07E1F9CADFC00960D4B /* BingoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BingoVC.swift; sourceTree = "<group>"; };
 		27F99B2A1F97C0DF0045CF9B /* ピロティクルー（スケボーサークル）.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ピロティクルー（スケボーサークル）.png"; sourceTree = "<group>"; };
 		27F99B2B1F97C0DF0045CF9B /* アメリカンドック売りのハンジ（学生会）.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "アメリカンドック売りのハンジ（学生会）.png"; sourceTree = "<group>"; };
 		27F99B2C1F97C0DF0045CF9B /* やきゅうどん（軟式野球部）.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "やきゅうどん（軟式野球部）.png"; sourceTree = "<group>"; };
@@ -490,8 +490,8 @@
 				276C652C1F5822130018211F /* RootScheduleVC.swift */,
 				271286EC1F760DD300E34C62 /* AllScheduleVC.swift */,
 				275B4CBF1F7604A700F0B1F7 /* FavoScheduleVC.swift */,
+				27F1C07E1F9CADFC00960D4B /* BingoVC.swift */,
 				273FD4671F5411FF006FADF5 /* ShopVC.swift */,
-				276C652A1F5820ED0018211F /* ShopDetailVC.swift */,
 				276C65281F581EF70018211F /* MapVC.swift */,
 			);
 			path = schfes_app_iOS;
@@ -932,11 +932,11 @@
 				2768A1301F956B3F00493ACE /* AboutCCMVC.swift in Sources */,
 				275B4CC01F7604A700F0B1F7 /* FavoScheduleVC.swift in Sources */,
 				2768A12C1F95480100493ACE /* HowToUseVC.swift in Sources */,
-				276C652B1F5820ED0018211F /* ShopDetailVC.swift in Sources */,
 				271286ED1F760DD300E34C62 /* AllScheduleVC.swift in Sources */,
 				276C652D1F5822130018211F /* RootScheduleVC.swift in Sources */,
 				276C65291F581EF70018211F /* MapVC.swift in Sources */,
 				2773FAD21F937B4900AB2E60 /* SlideVC.swift in Sources */,
+				27F1C07F1F9CADFC00960D4B /* BingoVC.swift in Sources */,
 				276C65271F5810A80018211F /* TopVC.swift in Sources */,
 				2773FACA1F9339A300AB2E60 /* SettingMenuVC.swift in Sources */,
 				2773FACE1F934DC800AB2E60 /* TabBarController.swift in Sources */,
@@ -1109,7 +1109,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "schfes_app_iOS-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -1130,7 +1130,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "schfes_app_iOS-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

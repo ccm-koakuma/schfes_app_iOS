@@ -12,7 +12,7 @@ import Alamofire
 import SwiftyJSON
 
 class AllScheduleVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    let size45 = CGSize(width: 45, height: 45)
+    let size40 = CGSize(width: 40, height: 40)
     // お気に入り時の画像
     var favoIcon = UIImage()
     // 非お気に入り時の画像
@@ -38,10 +38,10 @@ class AllScheduleVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         super.viewDidLoad()
         
         // これがないと画面全体が下にずれてしまう
-        extendedLayoutIncludesOpaqueBars = true
+//        extendedLayoutIncludesOpaqueBars = true
         
-        // TableViewの設定
-        AllScheduleVC.allScheduleTableView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+        AllScheduleVC.allScheduleTableView.translatesAutoresizingMaskIntoConstraints = false
+        
         AllScheduleVC.allScheduleTableView.delegate = self
         AllScheduleVC.allScheduleTableView.dataSource = self
         // Cell名の登録をおこなう.
@@ -49,10 +49,19 @@ class AllScheduleVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         AllScheduleVC.allScheduleTableView.tableFooterView = UIView(frame: .zero)
         self.view.addSubview(AllScheduleVC.allScheduleTableView)
         
+        // 青のビューの左端は、親ビューの左端から30ptの位置
+        AllScheduleVC.allScheduleTableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 0).isActive = true
+        
+        AllScheduleVC.allScheduleTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
+        // 青のビューの幅は、親ビューの幅の1/4
+        AllScheduleVC.allScheduleTableView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 1).isActive = true
+        
+        AllScheduleVC.allScheduleTableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -50).isActive = true
+        
         // お気に入り時の画像
-        favoIcon = (UIImage(named: "favo_icon.png")?.ResizeUIImage(size: size45).withRenderingMode(.alwaysOriginal))!
+        favoIcon = (UIImage(named: "favo_icon.png")?.ResizeUIImage(size: size40).withRenderingMode(.alwaysOriginal))!
         // 非お気に入り時の画像
-        noFavoIcon = (UIImage(named: "no_favo_icon.png")?.ResizeUIImage(size: size45).withRenderingMode(.alwaysOriginal))!
+        noFavoIcon = (UIImage(named: "no_favo_icon.png")?.ResizeUIImage(size: size40).withRenderingMode(.alwaysOriginal))!
         
         // データを取得
         let listUrl = "http://150.95.142.204/app2017/schedule";
@@ -87,11 +96,10 @@ class AllScheduleVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     // Cellが選択された際に呼び出される
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath) {
-            // cellの選択を解除する
-            // これがないとセルを選択した時グレーになり続ける
-            cell.isSelected = false
+            if cell.textLabel?.text == "クイズ&ビンゴ" {
+                self.performSegue(withIdentifier: "allToBingo", sender: indexPath.row)
+            }
         }
-        
     }
     
     // tableのcellにAPIから受け取ったデータを入れる
@@ -124,7 +132,9 @@ class AllScheduleVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         
         // セルのテキストの設定
         cell.textLabel?.text = event[indexPath.row]["title"].string
-        cell.detailTextLabel?.text = "開催時刻 : \(event[indexPath.row]["time"].stringValue)"
+        cell.detailTextLabel?.text = "開催時刻 : \(event[indexPath.row]["time"].stringValue)\n場所 : \(event[indexPath.row]["location"].stringValue)"
+        // detaliTextLabelの行数を自動調整するように
+        cell.detailTextLabel?.numberOfLines = 0
         
         // セルの画像設定
         if userDefaults.bool(forKey: event[indexPath.row]["id"].string!) == true {
@@ -137,7 +147,10 @@ class AllScheduleVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         let tapFavoIcon = UITapGestureRecognizer(target: self, action: #selector(self.tapFavoIcon))
         cell.imageView?.isUserInteractionEnabled = true
         cell.imageView?.addGestureRecognizer(tapFavoIcon)
-        
+        // ビンゴ以外選択できないようにする
+        if cell.textLabel?.text != "クイズ&ビンゴ" {
+            cell.selectionStyle = UITableViewCellSelectionStyle.none
+        }
         return cell
     }
     
@@ -156,7 +169,7 @@ class AllScheduleVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     
     // セルの高さの設定
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 70
+        return 80
     }
     
     func tapFavoIcon(gestureRecognizer: UITapGestureRecognizer) {
@@ -185,9 +198,20 @@ class AllScheduleVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         // 各テーブルビューをリロード
         AllScheduleVC.allScheduleTableView.reloadData()
         FavoScheduleVC.favoScheduleTableView.reloadData()
+        SettingMenuVC.setNotification()
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    // 戻るボタンで戻ってきた時の処理
+    // これをつけることによってどこをタップしてきたのかわかりやすくする
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if let indexPathForSelectedRow = AllScheduleVC.allScheduleTableView.indexPathForSelectedRow {
+            AllScheduleVC.allScheduleTableView.deselectRow(at: indexPathForSelectedRow, animated: true)
+        }
     }
 }

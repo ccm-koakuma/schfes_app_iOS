@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Alamofire
+import SwiftyJSON
 
 // 通知機能の実装
 import UserNotifications
@@ -15,8 +17,9 @@ import NotificationCenter
 class SettingMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var topVC: UIViewController = UIViewController()
-
     
+    var items: [JSON] = []
+
     // Tableで使用する配列を設定する
     private let settingItems: NSArray = ["設定", "通知機能", "アプリの使い方", "CCMとは？"]
     private var settingTableView: UITableView!
@@ -65,7 +68,7 @@ class SettingMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         // Viewに追加する.
         self.view.addSubview(settingTableView)
         
-        if userDefaults.bool(forKey: self.notificationEnabledStr) == true{
+     if userDefaults.bool(forKey: self.notificationEnabledStr) == true {
             if userDefaults.bool(forKey: self.notificationStr) == true {
                 notificationSwitch.isOn = true
             } else {
@@ -89,11 +92,11 @@ class SettingMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
      Cellが選択された際に呼び出される
      */
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        if indexPath.row == 2 {
+        if indexPath.row == 2 {
             self.toHowToUse()
-//        } else if indexPath.row == 3 {
-//            self.toAboutCCM()
-//        }
+        } else if indexPath.row == 3 {
+            self.toAboutCCM()
+        }
     }
     
     /*
@@ -162,51 +165,64 @@ class SettingMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     
     
     static func setNotification() {
-//        var time = 5
-        print("setNotification")
-//        for i in 0..<3 {
-            //　通知設定に必要なクラスをインスタンス化
-            var trigger: UNNotificationTrigger
-            let content = UNMutableNotificationContent()
-            var notificationTime = DateComponents()
-            
-            // トリガー設定(時間を指定したい場合これ)
-                    notificationTime.hour = 12
-                    notificationTime.minute = 0
-                    trigger = UNCalendarNotificationTrigger(dateMatching: notificationTime, repeats: false)
-            // 設定したタイミングを起点として1分後に通知したい場合
-            
-//            time += 5
-//
-//            trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(time), repeats: false)
-            trigger = UNCalendarNotificationTrigger(dateMatching: notificationTime, repeats: false)
-            
-            
+        // とりあえず一回全削除
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
         
-            // 通知内容の設定
-            content.title = "おやつの時間です"
-            content.body = "アルフォートがおすすめ"
-            content.sound = UNNotificationSound.default()
-            
-            // 通知スタイルを指定
-//            let notifiId: String = "uuid" +  String(time)
-            let notifiId: String = "uuid"
-            let request = UNNotificationRequest(identifier: notifiId, content: content, trigger: trigger)
-            // 通知をセット
-            UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+        let content = UNMutableNotificationContent()
+        var notificationTime = DateComponents()
+        
+        // JSON取得
+        let listUrl = "http://150.95.142.204/app2017/schedule";
+        Alamofire.request(listUrl).responseJSON{ response in
+            let json = JSON(response.result.value ?? "")
+            json.forEach{(arg) in
+                
+                let (_, data) = arg
+                let userDefaults = UserDefaults.standard
+                if userDefaults.bool(forKey: data["id"].string!) == true {
+                    // トリガー設定(時間を指定したい場合これ)
+                    notificationTime.month = 10
+                    notificationTime.day = Int(String(describing: data["date"]))
+                    notificationTime.hour = Int(String(describing: data["time"]).components(separatedBy: ":")[0])
+                    notificationTime.minute = Int(String(describing: data["time"]).components(separatedBy: ":")[1])
+                    let trigger = UNCalendarNotificationTrigger(dateMatching: notificationTime, repeats: false)
+                    
+                    let notifiId: String = String(describing: data["id"])
+                    
+                    content.title = "イベントの時間が近づいてきました！"
+                    content.body = "\(data["time"])から\(data["location"])で\(data["title"])が開始されます！"
+                    content.sound = UNNotificationSound.default()
+                    print("\(data["time"])から\(data["location"])で\(data["title"])が開始されます！")
+                    
+                    let request = UNNotificationRequest(identifier: notifiId, content: content, trigger: trigger)
+                    
+                    // 通知をセット
+                    UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+                    print("hoge" + String(describing: data))
+                    print(notificationTime)
+                }
+            }
+        }
+        
+        
+        print("setNotification")
         }
 //    }
     
     func toHowToUse() {
-        print("hoge")
-        print("hogehoge")
 //        topVC.performSegue(withIdentifier: "toHowToUse", sender: nil)
         let storyboard: UIStoryboard = self.storyboard!
         let howToUseVC = storyboard.instantiateViewController(withIdentifier: "HowToUseVC")
         let howToUseNavi = UINavigationController(rootViewController: howToUseVC)
         present(howToUseNavi, animated: true, completion: nil)
     }
-    
+    func toAboutCCM() {
+        //        topVC.performSegue(withIdentifier: "toHowToUse", sender: nil)
+        let storyboard: UIStoryboard = self.storyboard!
+        let aboutCCMVC = storyboard.instantiateViewController(withIdentifier: "AboutCCMVC")
+        let aboutCCMNavi = UINavigationController(rootViewController: aboutCCMVC)
+        present(aboutCCMNavi, animated: true, completion: nil)
+    }
     // 戻るボタンで戻ってきた時の処理
     // これをつけることによってどこをタップしてきたのかわかりやすくする
     override func viewWillAppear(_ animated: Bool) {

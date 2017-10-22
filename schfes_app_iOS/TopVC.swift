@@ -67,7 +67,7 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     let newsTitle2: UILabel = UILabel()
     let newsTitle3:UILabel = UILabel()
     // ツイッターAPIで飛ばすURL
-    let searchWord: String = "%23%e7%9c%8c%e5%a4%a7%e7%a5%adtpu2017"
+    let searchWord: String = "%0a%23%e7%9c%8c%e5%a4%a7%e7%a5%adtpu2017"
     var twitterApiUrl: String = "https://api.twitter.com/1.1/search/tweets.json"
     let searchQuery: String = "#県大祭tpu2017  exclude:retweets"
     
@@ -156,6 +156,16 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         newsTitle2.textAlignment = NSTextAlignment.center
         newsTitle3.textAlignment = NSTextAlignment.center
         
+//        //表示可能最大行数を指定
+        newsTitle1.numberOfLines = 2
+        newsTitle2.numberOfLines = 2
+        newsTitle3.numberOfLines = 2
+        //contentsのサイズに合わせてobujectのサイズを変える
+        //単語の途中で改行されないようにする
+        newsTitle1.lineBreakMode = .byWordWrapping
+        newsTitle2.lineBreakMode = .byWordWrapping
+        newsTitle3.lineBreakMode = .byWordWrapping
+        
         // JSON取得
         let listUrl = "http://150.95.142.204/app2017/feed";
         Alamofire.request(listUrl).responseJSON(completionHandler: setNews)
@@ -227,18 +237,6 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             // ボタンをViewに追加.
             self.view.addSubview(twitterAuthorizationButton)
         }
-        //        // Swift
-        //        let logInButton = TWTRLogInButton(logInCompletion: { session, error in
-        //            if (session != nil) {
-        //                print("signed in as \(session?.userName)");
-        //                self.TweetTableCreation()
-        //                self.getTweet()
-        //            } else {
-        //                print("error: \(error?.localizedDescription)");
-        //            }
-        //        })
-        //        logInButton.center = self.view.center
-        //        self.view.addSubview(logInButton)
     }
     
     override func didReceiveMemoryWarning() {
@@ -412,6 +410,7 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 let newsImage1 = image.cropImage(image: image, w: 300, h: 300)
                 self.news1.image = newsImage1
                 self.newsTitle1.text = json[json.count-1]["title"].string
+                self.newsTitle1.sizeToFit()
                 self.newsLink1 = json[json.count-1]["link"].string!
             }
         }
@@ -420,6 +419,7 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 let newsImage2 = image.cropImage(image: image, w: 300, h: 300)
                 self.news2.image = newsImage2
                 self.newsTitle2.text = json[json.count-2]["title"].string
+                self.newsTitle2.sizeToFit()
                 self.newsLink2 = json[json.count-2]["link"].string!
             }
         }
@@ -428,6 +428,7 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 let newsImage3 = image.cropImage(image: image, w: 300, h: 300)
                 self.news3.image = newsImage3
                 self.newsTitle3.text = json[json.count-3]["title"].string
+                self.newsTitle3.sizeToFit()
                 self.newsLink3 = json[json.count-3]["link"].string!
             }
         }

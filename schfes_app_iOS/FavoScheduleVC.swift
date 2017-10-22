@@ -40,12 +40,24 @@ class FavoScheduleVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         // これがないと画面全体が下にずれてしまう
         extendedLayoutIncludesOpaqueBars = true
         
+        FavoScheduleVC.favoScheduleTableView.translatesAutoresizingMaskIntoConstraints = false
         // TableViewの設定
         FavoScheduleVC.favoScheduleTableView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
         FavoScheduleVC.favoScheduleTableView.delegate = self
         FavoScheduleVC.favoScheduleTableView.dataSource = self
         FavoScheduleVC.favoScheduleTableView.tableFooterView = UIView(frame: .zero)
         self.view.addSubview(FavoScheduleVC.favoScheduleTableView)
+        
+        
+        // ---------------------------　ここからAutoLayoutの設定　---------------------------
+        // 青のビューの左端は、親ビューの左端から30ptの位置
+        FavoScheduleVC.favoScheduleTableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 0).isActive = true
+        
+        FavoScheduleVC.favoScheduleTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
+        // 青のビューの幅は、親ビューの幅の1/4
+        FavoScheduleVC.favoScheduleTableView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 1).isActive = true
+        
+        FavoScheduleVC.favoScheduleTableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -50).isActive = true
         
         // お気に入り時の画像
         favoIcon = (UIImage(named: "favo_icon.png")?.ResizeUIImage(size: size45).withRenderingMode(.alwaysOriginal))!
@@ -85,9 +97,9 @@ class FavoScheduleVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     // Cellが選択された際に呼び出される
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath) {
-            // cellの選択を解除する
-            // これがないとセルを選択した時グレーになり続ける
-            cell.isSelected = false
+            if cell.textLabel?.text == "クイズ&ビンゴ" {
+                self.performSegue(withIdentifier: "favoToBingo", sender: indexPath.row)
+            }
         }
     }
     
@@ -116,7 +128,9 @@ class FavoScheduleVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         // お気に入りされている場合のみ、テキストを設定し、お気に入りイメージを追加する
         if userDefaults.bool(forKey: event[indexPath.row]["id"].string!) == true {
             cell.textLabel?.text = event[indexPath.row]["title"].string
-            cell.detailTextLabel?.text = "開催時刻 : \(event[indexPath.row]["time"].stringValue) \n hogehoge"
+            cell.detailTextLabel?.text = "開催時刻 : \(event[indexPath.row]["time"].stringValue)\n場所 : \(event[indexPath.row]["location"].stringValue)"
+            // detaliTextLabelの行数を自動調整するように
+            cell.detailTextLabel?.numberOfLines = 0
             
             cell.imageView?.image = favoIcon
         }
@@ -125,6 +139,11 @@ class FavoScheduleVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         let tapFavoIcon = UITapGestureRecognizer(target: self, action: #selector(self.tapFavoIcon))
         cell.imageView?.isUserInteractionEnabled = true
         cell.imageView?.addGestureRecognizer(tapFavoIcon)
+        
+        // ビンゴ以外選択できないようにする
+        if cell.textLabel?.text != "クイズ&ビンゴ" {
+            cell.selectionStyle = UITableViewCellSelectionStyle.none
+        }
         
         return cell
     }
@@ -188,10 +207,21 @@ class FavoScheduleVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         // 各テーブルビューをリロード
         AllScheduleVC.allScheduleTableView.reloadData()
         FavoScheduleVC.favoScheduleTableView.reloadData()
+        SettingMenuVC.setNotification()
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    // 戻るボタンで戻ってきた時の処理
+    // これをつけることによってどこをタップしてきたのかわかりやすくする
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if let indexPathForSelectedRow = FavoScheduleVC.favoScheduleTableView.indexPathForSelectedRow {
+            FavoScheduleVC.favoScheduleTableView.deselectRow(at: indexPathForSelectedRow, animated: true)
+        }
     }
     
 }

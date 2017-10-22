@@ -19,7 +19,7 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource  {
     var newsImages: [Int: UIImage] = [:]
     
     // TableViewを作成
-    let tableView = UITableView()
+    let newsTableView = UITableView()
     
     private let refreshControl = UIRefreshControl()
     
@@ -31,20 +31,19 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource  {
         
         self.title = "News"
         
-        tableView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
-        tableView.delegate = self
-        tableView.dataSource = self
+        newsTableView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+        newsTableView.delegate = self
+        newsTableView.dataSource = self
+        
+        newsTableView.tableFooterView = UIView(frame: .zero)
         
         // プルダウンしたら画面が更新するよう設定
-        tableView.refreshControl = refreshControl
+        newsTableView.refreshControl = refreshControl
         refreshControl.addTarget(self, action: #selector(self.refresh), for: .valueChanged)
         
-        self.view.addSubview(tableView)
+        self.view.addSubview(newsTableView)
         
         getNews()
-        
-
-
     }
     // Cellが選択された際に呼び出される
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -62,7 +61,7 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource  {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "TableCell")
         cell.textLabel?.text = newsItems[indexPath.row]["title"].string
 //        cell.detailTextLabel?.text = "投稿日時 : \(newsItems[indexPath.row]["date"].stringValue)"
-        cell.detailTextLabel?.text = "投稿日時 : 2017/09/24)"
+        cell.detailTextLabel?.text = "投稿日時 : 2017/09/24"
         
         cell.imageView?.image = newsImages[indexPath.row]
     
@@ -96,7 +95,7 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource  {
             json.forEach{(_, data) in
                 self.newsItems.append(data)
             }
-            self.tableView.reloadData()
+            self.newsTableView.reloadData()
             
             var count = 0
             
@@ -109,7 +108,7 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource  {
                         self.newsImages[count] = image
                         count += 1
                     }
-                    self.tableView.reloadData()
+                    self.newsTableView.reloadData()
                 }
             }
         }

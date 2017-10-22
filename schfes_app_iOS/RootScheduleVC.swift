@@ -11,15 +11,15 @@ import PagingMenuController
 
 private struct PagingMenuOptions: PagingMenuControllerCustomizable {
     
-    private let viewController1 = AllScheduleVC()
-    private let viewController2 = FavoScheduleVC()
+    private let allScheduleVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AllScheduleVC")
+    private let favoScheduleVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "FavoScheduleVC")
     
     fileprivate var componentType: ComponentType {
         return .all(menuOptions: MenuOptions(), pagingControllers: pagingControllers)
     }
     
     fileprivate var pagingControllers: [UIViewController] {
-        return [viewController1, viewController2]
+        return [allScheduleVC, favoScheduleVC]
     }
     
     fileprivate struct MenuOptions: MenuViewCustomizable {
