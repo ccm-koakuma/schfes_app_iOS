@@ -66,7 +66,6 @@ class MapVC: UIViewController {
     }
     
     func showGalleryImageViewer(_ sender: UITapGestureRecognizer) {
-        print("hoge")
         guard let displacedView = sender.view as? UIImageView else { return }
         
         guard let displacedViewIndex = items.index(where: { $0.imageView == displacedView }) else { return }

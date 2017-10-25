@@ -16,7 +16,7 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource  {
     
     // newsItemsをJSONの配列と定義
     var newsItems: [JSON] = []
-    var newsImages: [Int: UIImage] = [:]
+    var newsImages: [String: UIImage] = [:]
     
     // TableViewを作成
     let newsTableView = UITableView()
@@ -59,12 +59,10 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource  {
     // tableのcellにAPIから受け取ったデータを入れる
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "TableCell")
-        cell.textLabel?.text = newsItems[indexPath.row]["title"].string
-//        cell.detailTextLabel?.text = "投稿日時 : \(newsItems[indexPath.row]["date"].stringValue)"
-        cell.detailTextLabel?.text = "投稿日時 : 2017/09/24"
-        
-        cell.imageView?.image = newsImages[indexPath.row]
-    
+        if indexPath.row < newsItems.count {
+            cell.textLabel?.text = newsItems[indexPath.row]["title"].string
+            cell.imageView?.image = newsImages[newsItems[indexPath.row]["id"].string!]?.cropImage(image: newsImages[newsItems[indexPath.row]["id"].string!]!, w: 400, h: 400)
+        }
         return cell
         
     }
@@ -85,6 +83,8 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource  {
     }
     
     func getNews() {
+        // URLキャッシュを削除
+        URLCache.shared.removeAllCachedResponses()
         // 配列を一旦空に
         self.newsItems = []
         self.newsImages = [:]
@@ -105,7 +105,7 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource  {
                 // 画像取得
                 Alamofire.request(urlString!).responseImage { response in
                     if let image = response.result.value {
-                        self.newsImages[count] = image
+                        self.newsImages[newsItem["id"].string!] = image
                         count += 1
                     }
                     self.newsTableView.reloadData()
@@ -115,7 +115,8 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource  {
     }
     
     func refresh() {
+        getNews()
         self.refreshControl.endRefreshing()
-        self.getNews()
+        
     }
 }

@@ -41,18 +41,6 @@ class ShopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
         self.shopTableView.tableFooterView = UIView(frame: .zero)
         self.view.addSubview(self.shopTableView)
-        
-//        // データを取得
-//        let listUrl = "http://150.95.142.204/app2017/stall";
-//        Alamofire.request(listUrl).responseJSON{ response in
-//            let json = JSON(response.result.value ?? "")
-//            json.forEach{(_, data) in
-//                print(data)
-//                self.items.append(data)
-//
-//            }
-//            self.shopTableView.reloadData()
-//        }
     }
     
     // セルの高さの設定

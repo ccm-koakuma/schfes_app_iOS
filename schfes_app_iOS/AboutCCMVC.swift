@@ -59,7 +59,7 @@ class AboutCCMVC: UIViewController {
         let contentLabel2Y: CGFloat = 270
         
         let contentLabel2: UILabel = UILabel(frame: CGRect(x: 15, y: contentLabel2Y, width: self.view.frame.width-30, height: 100))
-        contentLabel2.text = " ・Webサイト「TPU marker」の開発、運営\n ・キャリアセンターのWeb開発\n ・掲示板の電子化\n 学内アンケートのWeb化\n ・学祭アプリ開発"
+        contentLabel2.text = " ・Webサイト「TPU marker」の開発、運営\n ・キャリアセンターのWeb開発\n ・掲示板の電子化\n ・学内アンケートのWeb化\n ・学祭アプリ開発"
         contentLabel2.numberOfLines = 0
         contentLabel2.lineBreakMode = .byWordWrapping
         contentLabel2.sizeToFit()

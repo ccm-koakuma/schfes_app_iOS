@@ -167,6 +167,7 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         newsTitle3.lineBreakMode = .byWordWrapping
         
         // JSON取得
+        URLCache.shared.removeAllCachedResponses()
         let listUrl = "http://150.95.142.204/app2017/feed";
         Alamofire.request(listUrl).responseJSON(completionHandler: setNews)
         
@@ -210,32 +211,7 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             // ツイート取得
             getTweet()
         } else {
-            // -----------------------------------ツイッター認証するボタンの作成-----------------------------------
-            // ツイートボタンの高さ、幅等
-            let taButtonX: CGFloat = self.view.bounds.width/2 - bWidth/2
-            let taButtonY: CGFloat = allNewsButtonY + allNewsButtonHeight + UIScreen.main.bounds.size.width*2/10
-            let taButtonWidth: CGFloat = 200
-            let taButtonHeight: CGFloat = 40
-            // ボタンの設置座標とサイズを設定する.
-            twitterAuthorizationButton.frame = CGRect(x: taButtonX, y: taButtonY, width: taButtonWidth, height: taButtonHeight)
-            // ボタンの背景色を設定.
-            twitterAuthorizationButton.backgroundColor = self.twitterColor
-            // ボタンの枠を丸くする.
-            twitterAuthorizationButton.layer.masksToBounds = true
-            // コーナーの半径を設定する.
-            twitterAuthorizationButton.layer.cornerRadius = 20.0
-            
-            // タイトルを設定する(通常時).
-            twitterAuthorizationButton.setTitle("ツイッター認証する", for: .normal)
-            twitterAuthorizationButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
-            twitterAuthorizationButton.setImage(tweetImage, for: .normal)
-            twitterAuthorizationButton.setTitleColor(UIColor.white, for: .normal)
-            // ボタンにタグをつける.
-            twitterAuthorizationButton.tag = 2
-            // イベントを追加する
-            twitterAuthorizationButton.addTarget(self, action: #selector(self.TwitterAuthorization), for: .touchUpInside)
-            // ボタンをViewに追加.
-            self.view.addSubview(twitterAuthorizationButton)
+            self.TaButtonCreate()
         }
     }
     
@@ -257,6 +233,7 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     // -----------------------------------TwitterAPIからツイートの検索結果を取得するメソッド-----------------------------------
     func getTweet(){
+        URLCache.shared.removeAllCachedResponses()
         let session = Twitter.sharedInstance().sessionStore.session()
         
         var clientError: NSError?
@@ -279,8 +256,12 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             self.tweetImages.removeAll()
             if let error = error {
                 print(error.localizedDescription)
+                self.tweetTableView.removeFromSuperview()
+                self.tweetButton.removeFromSuperview()
+                
                 Twitter.sharedInstance().sessionStore.logOutUserID((session?.userID)!)
-                self.TwitterAuthorization()
+                self.TaButtonCreate()
+
             } else if let data = data, let jsonString = String(data: data, encoding: .utf8) {
                 self.tweetItems = JSON(data: data)
                 print(data)
@@ -390,6 +371,34 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         tweetLabel.font = UIFont.systemFont(ofSize: 20)
         self.view.addSubview(tweetLabel)
     }
+    // -----------------------------------ツイッター認証するボタンの作成-----------------------------------
+    func TaButtonCreate() {
+        // ツイートボタンの高さ、幅等
+        let taButtonX: CGFloat = self.view.bounds.width/2 - self.self.bWidth/2
+        let taButtonY: CGFloat = UIScreen.main.bounds.size.height*7/10
+        let taButtonWidth: CGFloat = 200
+        let taButtonHeight: CGFloat = 40
+        // ボタンの設置座標とサイズを設定する.
+        self.twitterAuthorizationButton.frame = CGRect(x: taButtonX, y: taButtonY, width: taButtonWidth, height: taButtonHeight)
+        // ボタンの背景色を設定.
+        self.twitterAuthorizationButton.backgroundColor = self.twitterColor
+        // ボタンの枠を丸くする.
+        self.twitterAuthorizationButton.layer.masksToBounds = true
+        // コーナーの半径を設定する.
+        self.twitterAuthorizationButton.layer.cornerRadius = 20.0
+        
+        // タイトルを設定する(通常時).
+        self.twitterAuthorizationButton.setTitle("ツイッター認証する", for: .normal)
+        self.twitterAuthorizationButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        self.twitterAuthorizationButton.setImage(self.tweetImage, for: .normal)
+        self.twitterAuthorizationButton.setTitleColor(UIColor.white, for: .normal)
+        // ボタンにタグをつける.
+        self.twitterAuthorizationButton.tag = 2
+        // イベントを追加する
+        self.twitterAuthorizationButton.addTarget(self, action: #selector(self.TwitterAuthorization), for: .touchUpInside)
+        // ボタンをViewに追加.
+        self.view.addSubview(self.twitterAuthorizationButton)
+    }
     
     // 設定ボタンがタップされた時のメソッド
     func onMenu(sender: UIButton) {
@@ -400,36 +409,43 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     func setNews(response: DataResponse<Any>) ->Void {
         let json = JSON(response.result.value ?? "")
         // ニュース画像のリンク
-        let newsImageURL1 = json[json.count-1]["picture"].string
-        let newsImageURL2 = json[json.count-2]["picture"].string
-        let newsImageURL3 = json[json.count-3]["picture"].string
+        let newsImageURL1 = json[0]["picture"].string
+        let newsImageURL2 = json[1]["picture"].string
+        let newsImageURL3 = json[2]["picture"].string
         
-        // 通信して画像持ってきてセット
-        Alamofire.request(newsImageURL1!).responseImage { response in
-            if let image = response.result.value {
-                let newsImage1 = image.cropImage(image: image, w: 300, h: 300)
-                self.news1.image = newsImage1
-                self.newsTitle1.text = json[json.count-1]["title"].string
-                self.newsTitle1.sizeToFit()
-                self.newsLink1 = json[json.count-1]["link"].string!
+        if json[0]["title"].string != nil {
+            // 通信して画像持ってきてセット
+            Alamofire.request(newsImageURL1!).responseImage { response in
+                if let image = response.result.value {
+                    let newsImage1 = image.cropImage(image: image, w: 300, h: 300)
+                    self.news1.image = newsImage1
+                    self.newsTitle1.text = json[0]["title"].string
+                    self.newsTitle1.sizeToFit()
+                    self.newsLink1 = json[0]["link"].string!
+                }
             }
         }
-        Alamofire.request(newsImageURL2!).responseImage { response in
-            if let image = response.result.value {
-                let newsImage2 = image.cropImage(image: image, w: 300, h: 300)
-                self.news2.image = newsImage2
-                self.newsTitle2.text = json[json.count-2]["title"].string
-                self.newsTitle2.sizeToFit()
-                self.newsLink2 = json[json.count-2]["link"].string!
+        if json[2]["title"].string != nil {
+            Alamofire.request(newsImageURL2!).responseImage { response in
+                if let image = response.result.value {
+                    let newsImage2 = image.cropImage(image: image, w: 300, h: 300)
+                    self.news2.image = newsImage2
+                    self.newsTitle2.text = json[1]["title"].string
+                    self.newsTitle2.sizeToFit()
+                    self.newsLink2 = json[1]["link"].string!
+                }
             }
         }
-        Alamofire.request(newsImageURL3!).responseImage { response in
-            if let image = response.result.value {
-                let newsImage3 = image.cropImage(image: image, w: 300, h: 300)
-                self.news3.image = newsImage3
-                self.newsTitle3.text = json[json.count-3]["title"].string
-                self.newsTitle3.sizeToFit()
-                self.newsLink3 = json[json.count-3]["link"].string!
+        
+        if json[2]["title"].string != nil {
+            Alamofire.request(newsImageURL3!).responseImage { response in
+                if let image = response.result.value {
+                    let newsImage3 = image.cropImage(image: image, w: 300, h: 300)
+                    self.news3.image = newsImage3
+                    self.newsTitle3.text = json[2]["title"].string
+                    self.newsTitle3.sizeToFit()
+                    self.newsLink3 = json[2]["link"].string!
+                }
             }
         }
     }
@@ -482,11 +498,6 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         return tweetItems["statuses"].count
     }
     
-    // サイズの指定
-    //        func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    //            return  10
-    //        }
-    
     // See All ボタンを押した時のイベント
     func toNewsList() {
         self.performSegue(withIdentifier: "toNews", sender: nil)
@@ -501,8 +512,9 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
 
     func refresh() {
-        self.refreshControl.endRefreshing()
         getTweet()
+
+        self.refreshControl.endRefreshing()
     }
 }
 

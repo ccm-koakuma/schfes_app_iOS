@@ -70,6 +70,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     var window: UIWindow?
     
+    
     // 通知が許可されているかどうかの値を保持する変数
     // アプリが落ちても値を保持できるUserDefaultsを使用
     let userDefaults = UserDefaults.standard
@@ -86,6 +87,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         // ツイッターのAPI使う時に必要なおまじない
         Twitter.sharedInstance().start(withConsumerKey: "dBMG4VRZREdFdpTJl8gqD8gYA", consumerSecret: "7s1XATMuadE3UtZiWFgm1ogagxZWIlPkn6kOO6C3LrcRNHxATn")
+        
+        URLCache.shared.removeAllCachedResponses()
         
         
         //-----------------------------------------------------------通知の設定-----------------------------------------------------------

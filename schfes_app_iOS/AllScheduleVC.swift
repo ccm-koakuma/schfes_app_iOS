@@ -49,11 +49,12 @@ class AllScheduleVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         AllScheduleVC.allScheduleTableView.tableFooterView = UIView(frame: .zero)
         self.view.addSubview(AllScheduleVC.allScheduleTableView)
         
-        // 青のビューの左端は、親ビューの左端から30ptの位置
+        
+        // AutoLayoutの設定
         AllScheduleVC.allScheduleTableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 0).isActive = true
         
         AllScheduleVC.allScheduleTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
-        // 青のビューの幅は、親ビューの幅の1/4
+        
         AllScheduleVC.allScheduleTableView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 1).isActive = true
         
         AllScheduleVC.allScheduleTableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -50).isActive = true
@@ -64,8 +65,7 @@ class AllScheduleVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         noFavoIcon = (UIImage(named: "no_favo_icon.png")?.ResizeUIImage(size: size40).withRenderingMode(.alwaysOriginal))!
         
         // データを取得
-        let listUrl = "http://150.95.142.204/app2017/schedule";
-        Alamofire.request(listUrl).responseJSON{ response in
+        Alamofire.request("http://150.95.142.204/app2017/schedule").responseJSON{ response in
             let json = JSON(response.result.value ?? "")
             json.forEach{(_, data) in
                 // それぞれの日の企画の配列にデータを追加
@@ -150,6 +150,9 @@ class AllScheduleVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         // ビンゴ以外選択できないようにする
         if cell.textLabel?.text != "クイズ&ビンゴ" {
             cell.selectionStyle = UITableViewCellSelectionStyle.none
+        } else {
+            cell.accessoryType = .detailDisclosureButton
+            cell.tintColor = UIColor.orange
         }
         return cell
     }

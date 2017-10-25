@@ -12,7 +12,7 @@ import Alamofire
 import SwiftyJSON
 
 class FavoScheduleVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    let size45 = CGSize(width: 45, height: 45)
+    let size40 = CGSize(width: 40, height: 40)
     // お気に入り時の画像
     var favoIcon = UIImage()
     // 非お気に入り時の画像
@@ -60,9 +60,9 @@ class FavoScheduleVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         FavoScheduleVC.favoScheduleTableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -50).isActive = true
         
         // お気に入り時の画像
-        favoIcon = (UIImage(named: "favo_icon.png")?.ResizeUIImage(size: size45).withRenderingMode(.alwaysOriginal))!
+        favoIcon = (UIImage(named: "favo_icon.png")?.ResizeUIImage(size: size40).withRenderingMode(.alwaysOriginal))!
         // 非お気に入り時の画像
-        noFavoIcon = (UIImage(named: "no_favo_icon.png")?.ResizeUIImage(size: size45).withRenderingMode(.alwaysOriginal))!
+        noFavoIcon = (UIImage(named: "no_favo_icon.png")?.ResizeUIImage(size: size40).withRenderingMode(.alwaysOriginal))!
         
         // データを取得
         let listUrl = "http://150.95.142.204/app2017/schedule";
@@ -143,6 +143,9 @@ class FavoScheduleVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         // ビンゴ以外選択できないようにする
         if cell.textLabel?.text != "クイズ&ビンゴ" {
             cell.selectionStyle = UITableViewCellSelectionStyle.none
+        } else {
+            cell.accessoryType = .detailDisclosureButton
+            cell.tintColor = UIColor.orange
         }
         
         return cell
