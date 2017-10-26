@@ -79,7 +79,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     let notificationStr = "notification"
     let notificationEnabledStr = "notificationEnabled"
     
-    let isNotFirst = "isFirst"
+    let isNotFirst = "isFirst2"
 
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -90,54 +90,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         URLCache.shared.removeAllCachedResponses()
         
-        
-        //-----------------------------------------------------------通知の設定-----------------------------------------------------------
-        // 通知の許可を得るコード
-        if #available(iOS 10.0, *) {
-            // iOS 10
-            let center = UNUserNotificationCenter.current()
-            center.requestAuthorization(options: [.badge, .sound, .alert], completionHandler: { (granted, error) in
-                if error != nil {
-                    return
-                }
-                
-                if granted {
-                    print("通知許可")
-                    
-                    let center = UNUserNotificationCenter.current()
-                    center.delegate = self
-                    
-                    // 通知機能を許可状態にする
-                    self.userDefaults.set(true, forKey: self.notificationEnabledStr)
-                    
-                    // もし初回起動の場合は通知ONにする
-                    if self.userDefaults.bool(forKey: self.isNotFirst) == false {
-                        self.userDefaults.set(true, forKey: self.notificationStr)
-                    }
-                    
-                } else {
-                    print("通知拒否")
-                    
-                    // 通知機能を不許可状態にする
-                    self.userDefaults.set(false, forKey: self.notificationEnabledStr)
-                    self.userDefaults.set(false, forKey: self.notificationStr)
-                }
-            })
-            
-        } else {
-            // iOS 9以下
-            let settings = UIUserNotificationSettings(types: [.badge, .sound, .alert], categories: nil)
-            UIApplication.shared.registerUserNotificationSettings(settings)
-        }
-        
-        if userDefaults.bool(forKey: notificationStr) == true {
-            // 通知をセット
-            SettingMenuVC.setNotification()
-        }
+        let MainSB = UIStoryboard(name: "Main", bundle: nil)
+
 
         // -----------------------------------------------------------SlideVCをセット-----------------------------------------------------------
         
-        let MainSB = UIStoryboard(name: "Main", bundle: nil)
+        
         
         let slideVC = MainSB.instantiateViewController(withIdentifier: "SlideVC")
         
@@ -146,10 +104,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         window = UIWindow()
         window?.rootViewController = slideVC
         window?.makeKeyAndVisible()
-        
-        print(self.userDefaults.bool(forKey: self.isNotFirst))
-        self.userDefaults.set(true, forKey: self.isNotFirst)
-        print(self.userDefaults.bool(forKey: isNotFirst))
         
         return true
     }
@@ -198,14 +152,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
         
-        //Alertダイアログでテスト表示
-        let contentBody = response.notification.request.content.body
-        let alert:UIAlertController = UIAlertController(title: "受け取りました", message: contentBody, preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {
-            (action:UIAlertAction!) -> Void in
-            print("Alert押されました")
-        }))
-        self.window?.rootViewController?.present(alert, animated: true, completion: nil)
+//        //Alertダイアログでテスト表示
+//        let contentBody = response.notification.request.content.body
+//        let alert:UIAlertController = UIAlertController(title: "受け取りました", message: contentBody, preferredStyle: UIAlertControllerStyle.alert)
+//        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {
+//            (action:UIAlertAction!) -> Void in
+//            print("Alert押されました")
+//        }))
+//        self.window?.rootViewController?.present(alert, animated: true, completion: nil)
         
         completionHandler()
     }

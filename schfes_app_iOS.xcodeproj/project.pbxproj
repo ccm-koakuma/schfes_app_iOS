@@ -1102,6 +1102,7 @@
 				DEVELOPMENT_TEAM = 45X9LM46DN;
 				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = schfes_app_iOS/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ccm.schfes-app-iOS2017";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1124,6 +1125,7 @@
 				DEVELOPMENT_TEAM = 45X9LM46DN;
 				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = schfes_app_iOS/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ccm.schfes-app-iOS2017";
 				PRODUCT_NAME = "$(TARGET_NAME)";

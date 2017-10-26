@@ -14,22 +14,16 @@ import SwiftyJSON
 import UserNotifications
 import NotificationCenter
 
-class SettingMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    
-    var topVC: UIViewController = UIViewController()
+class SettingMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UNUserNotificationCenterDelegate {
     
     var items: [JSON] = []
-
+    
     // Tableで使用する配列を設定する
     private let settingItems: NSArray = ["設定", "通知機能", "アプリの使い方", "CCMとは？"]
     private var settingTableView: UITableView!
     
     // オレンジカラー作成
     let orangeColor = UIColor(red: 235/255.0, green: 97/255.0, blue: 0/255.0, alpha: 1)
-    
-    // 通知が許可されているかどうかの値を保持する変数
-    // アプリが落ちても値を保持できるUserDefaultsを使用
-    let userDefaults = UserDefaults.standard
     
     // UserDefaultsに登録用の文字列、スペルミスしないようにね☆
     let notificationStr = "notification"
@@ -38,49 +32,58 @@ class SettingMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     // 通知機能の許可、不許可を切り替えるスイッチ
     let notificationSwitch = UISwitch()
     
+    // 通知が許可されているかどうかの値を保持する変数
+    // アプリが落ちても値を保持できるUserDefaultsを使用
+    let userDefaults = UserDefaults.standard
+    
+    
+    let isNotFirst = "isFirst2"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.title = "設定"
         
-        let MainSB = UIStoryboard(name: "Main", bundle: nil)
         
-        topVC = MainSB.instantiateViewController(withIdentifier: "TopVC")
-        
-        // Viewの高さと幅を取得する.
-        let displayWidth: CGFloat = SlideVC.menuWidth
-        let displayHeight: CGFloat = self.view.frame.height
-    
-        // TableViewの生成(Status barの高さをずらして表示).
-        settingTableView = UITableView(frame: CGRect(x: 0, y: 0, width: displayWidth, height: displayHeight))
-        
-        // Cell名の登録をおこなう.
-        settingTableView.register(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
-        // DataSourceを自身に設定する.
-        settingTableView.dataSource = self
-        // Delegateを自身に設定する.
-        settingTableView.delegate = self
-        // 下部の何も無いセルを表示しない
-        settingTableView.tableFooterView = UIView(frame: .zero)
-        // スクロールを禁止する
-        settingTableView.isScrollEnabled = false
-        
-        // Viewに追加する.
-        self.view.addSubview(settingTableView)
-        
-     if userDefaults.bool(forKey: self.notificationEnabledStr) == true {
-            if userDefaults.bool(forKey: self.notificationStr) == true {
-                notificationSwitch.isOn = true
-            } else {
-                notificationSwitch.isOn = false
-            }
-            notificationSwitch.isEnabled = true
-        } else{
-            notificationSwitch.isOn = false
-            notificationSwitch.isEnabled = false
+        //-----------------------------------------------------------通知の設定-----------------------------------------------------------
+        // 通知の許可を得るコード
+        if #available(iOS 10.0, *) {
+            // iOS 10
+            let center = UNUserNotificationCenter.current()
+            center.requestAuthorization(options: [.badge, .sound, .alert], completionHandler: { (granted, error) in
+                if error != nil {
+                    return
+                }
+                
+                if granted {
+                    print("通知許可")
+                    
+                    let center = UNUserNotificationCenter.current()
+                    center.delegate = self
+                    
+                    // 通知機能を許可状態にする
+                    self.userDefaults.set(true, forKey: self.notificationEnabledStr)
+                    
+                    self.setNotificationSwitch()
+                    
+                } else {
+                    print("通知拒否")
+                    
+                    // 通知機能を不許可状態にする
+                    self.userDefaults.set(false, forKey: self.notificationEnabledStr)
+                    self.userDefaults.set(false, forKey: self.notificationStr)
+                    
+                    self.setNotificationSwitch()
+                }
+            })
+            
+        } else {
+            // iOS 9以下
+            let settings = UIUserNotificationSettings(types: [.badge, .sound, .alert], categories: nil)
+            UIApplication.shared.registerUserNotificationSettings(settings)
         }
         
-        notificationSwitch.addTarget(self, action: #selector(self.tapNotificationSettings), for: UIControlEvents.valueChanged)
+        tableCreate()
     }
     
     override func didReceiveMemoryWarning() {
@@ -130,17 +133,17 @@ class SettingMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
             // 選択できないようにする
             cell.selectionStyle = UITableViewCellSelectionStyle.none
             // 右側にスイッチを配置
-            cell.accessoryView = notificationSwitch
+            cell.accessoryView = self.notificationSwitch
             
         } else {
-            // 右側に「>」を設定
+            // 右側のアクセサリを設定
             cell.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
         }
-
+        
         
         return cell
     }
-
+    
     // セルの高さの設定
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 0{
@@ -152,7 +155,11 @@ class SettingMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     
     // 通知機能の切り替えスイッチが押された時のメソッド
     func tapNotificationSettings() {
-        if notificationSwitch.isOn == true {
+        // 通知が許可されているかどうかの値を保持する変数
+        // アプリが落ちても値を保持できるUserDefaultsを使用
+        let userDefaults = UserDefaults.standard
+        
+        if self.notificationSwitch.isOn == true {
             userDefaults.set(true, forKey: self.notificationStr)
             SettingMenuVC.setNotification()
             print("通知がセットされたよ！")
@@ -184,7 +191,13 @@ class SettingMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
                     notificationTime.month = 10
                     notificationTime.day = Int(String(describing: data["date"]))
                     notificationTime.hour = Int(String(describing: data["time"]).components(separatedBy: ":")[0])
-                    notificationTime.minute = Int(String(describing: data["time"]).components(separatedBy: ":")[1])
+                    if Int(String(describing: data["time"]).components(separatedBy: ":")[1])! == 0 {
+                        notificationTime.minute = 50
+                        notificationTime.hour = notificationTime.hour!-1
+                    } else {
+                        notificationTime.minute = Int(String(describing: data["time"]).components(separatedBy: ":")[1])!-10
+                    }
+                    
                     let trigger = UNCalendarNotificationTrigger(dateMatching: notificationTime, repeats: false)
                     
                     let notifiId: String = String(describing: data["id"])
@@ -206,18 +219,36 @@ class SettingMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         
         
         print("setNotification")
+    }
+    
+    func setNotificationSwitch() {
+        
+        print("setNotification")
+        print(userDefaults.bool(forKey: "notificationEnabled"))
+        print(userDefaults.bool(forKey: "notification"))
+        
+        if userDefaults.bool(forKey: "notificationEnabled") == true {
+            self.notificationSwitch.isEnabled = true
+            if userDefaults.bool(forKey: "notification") == true {
+                print("switch ON")
+                self.notificationSwitch.isOn = true
+            } else {
+                self.notificationSwitch.isOn = false
+            }
+        } else{
+            self.notificationSwitch.isOn = false
+            self.notificationSwitch.isEnabled = false
         }
-//    }
+    }
+    
     
     func toHowToUse() {
-//        topVC.performSegue(withIdentifier: "toHowToUse", sender: nil)
         let storyboard: UIStoryboard = self.storyboard!
         let howToUseVC = storyboard.instantiateViewController(withIdentifier: "HowToUseVC")
         let howToUseNavi = UINavigationController(rootViewController: howToUseVC)
         present(howToUseNavi, animated: true, completion: nil)
     }
     func toAboutCCM() {
-        //        topVC.performSegue(withIdentifier: "toHowToUse", sender: nil)
         let storyboard: UIStoryboard = self.storyboard!
         let aboutCCMVC = storyboard.instantiateViewController(withIdentifier: "AboutCCMVC")
         let aboutCCMNavi = UINavigationController(rootViewController: aboutCCMVC)
@@ -227,9 +258,52 @@ class SettingMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     // これをつけることによってどこをタップしてきたのかわかりやすくする
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         if let indexPathForSelectedRow = self.settingTableView.indexPathForSelectedRow {
             self.settingTableView.deselectRow(at: indexPathForSelectedRow, animated: true)
         }
+    }
+    
+    func tableCreate() {
+        if userDefaults.bool(forKey: notificationStr) == true {
+            // 通知をセット
+            SettingMenuVC.setNotification()
+        }
+        
+        // Viewの高さと幅を取得する.
+        let displayWidth: CGFloat = SlideVC.menuWidth
+        let displayHeight: CGFloat = self.view.frame.height
+        
+        // TableViewの生成(Status barの高さをずらして表示).
+        settingTableView = UITableView(frame: CGRect(x: 0, y: 0, width: displayWidth, height: displayHeight))
+        
+        // Cell名の登録をおこなう.
+        settingTableView.register(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
+        // DataSourceを自身に設定する.
+        settingTableView.dataSource = self
+        // Delegateを自身に設定する.
+        settingTableView.delegate = self
+        // 下部の何も無いセルを表示しない
+        settingTableView.tableFooterView = UIView(frame: .zero)
+        // スクロールを禁止する
+        settingTableView.isScrollEnabled = false
+        
+        // Viewに追加する.
+        self.view.addSubview(settingTableView)
+        
+        if self.userDefaults.bool(forKey: self.isNotFirst) == true {
+            setNotificationSwitch()
+        }
+        
+        self.notificationSwitch.addTarget(self, action: #selector(self.tapNotificationSettings), for: UIControlEvents.valueChanged)
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        print("viewWillLayoutSubviews")
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        print("viewDidLayoutSubviews")
     }
 }

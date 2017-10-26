@@ -210,7 +210,10 @@ class FavoScheduleVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         // 各テーブルビューをリロード
         AllScheduleVC.allScheduleTableView.reloadData()
         FavoScheduleVC.favoScheduleTableView.reloadData()
-        SettingMenuVC.setNotification()
+        
+        if userDefaults.bool(forKey: "notification") == true {
+            SettingMenuVC.setNotification()
+        }
     }
     
     override func didReceiveMemoryWarning() {

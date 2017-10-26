@@ -488,6 +488,10 @@ class TopVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         if tweetImages.count-1 >= indexPath.row {
             //            cell.imageView?.image = tweetImages[indexPath.row]
         }
+        
+        // 選択できないようにする
+        cell.selectionStyle = UITableViewCellSelectionStyle.none
+        
         return cell
     }
     
